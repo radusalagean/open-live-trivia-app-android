@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.busytrack.openlivetrivia">
+
+    <application
+            tools:replace="android:name"
+            tools:ignore="GoogleAppIndexingWarning"
+            android:name=".OpenLiveTriviaDebugApp">
+
+        <!--Don't report crashes in debug builds-->
+        <meta-data
+                android:name="firebase_crashlytics_collection_enabled"
+                android:value="false" />
+
+    </application>
+
+</manifest>
