@@ -23,8 +23,9 @@ android:
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_e39381c06947_key -iv $encrypted_e39381c06947_iv
-      -in ./app/google-services.json.enc -out ./app/google-services.json -d
+  - cd app
+  - openssl aes-256-cbc -K $encrypted_e39381c06947_key -iv $encrypted_e39381c06947_iv -in google-services.json.enc -out .\\google-services.json -d
+  - cd ..
   - yes | sdkmanager "platforms;android-$ANDROID_API_LEVEL"
 
 before_script:
