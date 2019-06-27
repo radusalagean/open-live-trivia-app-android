@@ -24,7 +24,7 @@ android:
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_e39381c06947_key -iv $encrypted_e39381c06947_iv
-      -in google-services.json.enc -out .\\google-services.json -d
+      -in ./app/google-services.json.enc -out ./app/google-services.json -d
   - yes | sdkmanager "platforms;android-$ANDROID_API_LEVEL"
 
 before_script:
@@ -35,4 +35,4 @@ script:
   - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m clean build
 
 after_script:
-  - rm -vf ~/.gradle/gradle.properties
+  - rm -vf ./app/google-services.json
