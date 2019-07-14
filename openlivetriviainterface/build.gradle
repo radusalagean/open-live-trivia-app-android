@@ -1,46 +1,42 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+
+
     defaultConfig {
-        applicationId "com.busytrack.openlivetrivia"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        // Private Keys
-        buildConfigField("String", "FIREBASE_SERVER_CLIENT_ID",
-                "\"" + openLiveTriviaFirebaseServerClientId + "\"")
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
-    implementation project(':openlivetriviainterface')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$coreKtxVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"
-    implementation "com.facebook.stetho:stetho:$stethoVersion"
-    implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
-    implementation "com.google.firebase:firebase-core:$firebasecoreVersion"
-    implementation "com.google.firebase:firebase-auth:$firebaseauthVersion"
-    implementation "com.google.android.gms:play-services-auth:$playservicesauthVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation ("io.socket:socket.io-client:$socketioVersion") {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+}
+repositories {
+    mavenCentral()
 }

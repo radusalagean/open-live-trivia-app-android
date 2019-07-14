@@ -3,6 +3,8 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.busytrack.openlivetrivia">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         tools:ignore="GoogleAppIndexingWarning"
         android:name=".OpenLiveTriviaApp"
