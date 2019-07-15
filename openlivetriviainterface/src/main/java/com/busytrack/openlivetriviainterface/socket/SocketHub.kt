@@ -24,7 +24,7 @@ class SocketHub {
         // Register socket events
         SocketIncomingEvent.values().forEach { event ->
             socket.on(event.eventName) { args ->
-                Timber.d("Received ${event.eventName}")
+                Timber.d("[SOCKET event received] ${event.eventName}")
                 if (registeredSocketListeners.isEmpty()) {
                     return@on
                 }
@@ -83,7 +83,6 @@ class SocketHub {
     }
 
     fun authenticate(idToken: String) {
-        Timber.d("authenticate w/ ${SocketOutgoingEvent.AUTHENTICATION.eventName}")
         val model = OutgoingAuthenticationModel(idToken)
         socket.emit(SocketOutgoingEvent.AUTHENTICATION.eventName, gson.toJsonObject(model))
     }

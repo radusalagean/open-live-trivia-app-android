@@ -5,39 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <com.google.android.gms.common.SignInButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sign_in_button"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign out"
-        android:id="@+id/sign_out"
-        app:layout_constraintTop_toBottomOf="@id/sign_in_button"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/socket_connect"
-        android:text="socket.io connect"
-        app:layout_constraintTop_toBottomOf="@id/sign_out" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/socket_disconnect"
-        android:text="socket.io disconnect"
-        app:layout_constraintTop_toBottomOf="@id/socket_connect"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/attempt"
-        android:text="Attempt"
-        app:layout_constraintTop_toBottomOf="@id/socket_disconnect"/>
+    tools:context=".activity.MainActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

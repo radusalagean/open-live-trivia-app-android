@@ -5,7 +5,7 @@
     <application
             tools:replace="android:name"
             tools:ignore="GoogleAppIndexingWarning"
-            android:name=".OpenLiveTriviaDebugApp">
+            android:name=".application.OpenLiveTriviaDebugApp">
 
         <!--Don't report crashes in debug builds-->
         <meta-data

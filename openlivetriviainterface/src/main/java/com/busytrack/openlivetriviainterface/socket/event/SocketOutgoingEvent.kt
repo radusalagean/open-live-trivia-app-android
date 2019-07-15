@@ -3,6 +3,7 @@ package com.busytrack.openlivetriviainterface.socket.event
 internal enum class SocketOutgoingEvent(
     val lowerCaseEvent: Boolean = false
 ) {
+
     AUTHENTICATION(true),
     ATTEMPT,
     REACTION,

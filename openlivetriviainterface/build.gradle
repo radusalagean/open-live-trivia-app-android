@@ -20,7 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -28,6 +31,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
     implementation "com.google.code.gson:gson:$gsonVersion"
     implementation ("io.socket:socket.io-client:$socketioVersion") {
         // excluding org.json which is provided by Android

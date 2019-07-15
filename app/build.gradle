@@ -1,9 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
@@ -25,6 +23,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -33,13 +35,22 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$coreKtxVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     implementation "com.facebook.stetho:stetho:$stethoVersion"
     implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
     implementation "com.google.firebase:firebase-core:$firebasecoreVersion"
     implementation "com.google.firebase:firebase-auth:$firebaseauthVersion"
     implementation "com.google.android.gms:play-services-auth:$playservicesauthVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
