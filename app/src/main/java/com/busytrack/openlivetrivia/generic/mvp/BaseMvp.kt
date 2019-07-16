@@ -1,11 +1,11 @@
 package com.busytrack.openlivetrivia.generic.mvp
 
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
+import com.busytrack.openlivetrivia.generic.viewmodel.BaseViewModel
 
 interface BaseMvp {
 
-    interface Model<T : ViewModel> {
+    interface Model<T : BaseViewModel> {
         fun initViewModel(fragment: Fragment, viewModelClass: Class<T>)
     }
 
@@ -15,10 +15,9 @@ interface BaseMvp {
     }
 
     interface Presenter<T : View> {
+        val refreshing: Boolean
         fun takeView(view: T)
         fun dropView()
         fun clearCompositeDisposable()
-        fun setRefreshing(refreshing: Boolean)
-        fun isRefreshing()
     }
 }

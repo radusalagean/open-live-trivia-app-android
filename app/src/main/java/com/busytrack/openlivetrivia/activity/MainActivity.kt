@@ -6,10 +6,10 @@ import android.os.Bundle
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
+import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
-
     @Inject
     lateinit var authenticationManager: AuthenticationManager
 
@@ -17,7 +17,12 @@ class MainActivity : BaseActivity() {
         activityComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        addDefaultFragmentIfNecessary()
     }
+
+    // Activity contract implementation
+
+    override fun getFragmentContainerId() = R.id.fragment_container
 
     // BaseActivity implementation
 
@@ -28,4 +33,6 @@ class MainActivity : BaseActivity() {
             authenticationManager.handleGoogleSignInFailure(resultCode)
         }
     }
+
+    override fun getDefaultFragment() = AuthenticationFragment.newInstance()
 }
