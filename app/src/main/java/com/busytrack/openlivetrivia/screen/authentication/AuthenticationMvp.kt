@@ -12,6 +12,7 @@ interface AuthenticationMvp {
     }
 
     interface Presenter : BaseMvp.Presenter<View> {
-
+        fun signIn()
+        fun signOut()
     }
 }

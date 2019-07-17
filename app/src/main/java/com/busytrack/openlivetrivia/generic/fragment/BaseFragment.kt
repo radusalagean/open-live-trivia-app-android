@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
 import com.busytrack.openlivetrivia.di.activity.ActivityModule
@@ -44,7 +45,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         registerListeners()
-        getPresenter<BaseFragment>().takeView(this)
+        getPresenter<BaseFragment>().view = this
         loadData()
         savedInstanceState?.let { restoreInstanceState(it) }
     }
@@ -62,7 +63,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
     override fun onResume() {
         Timber.tag(logTag).d("-F-> onResume()")
         super.onResume()
-        // TODO Set refresh indicator state from the presenter
+        setRefreshingIndicator(getPresenter<BaseFragment>().refreshing)
     }
 
     override fun onPause() {
@@ -83,7 +84,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
 
     override fun onDestroyView() {
         Timber.tag(logTag).d("-F-> onDestroyView()")
-        getPresenter<BaseFragment>().dropView()
+        getPresenter<BaseFragment>().view = null
         unregisterListeners()
         disposeViews()
         super.onDestroyView()
@@ -102,7 +103,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
     // Mvp Implementation
 
     override fun setRefreshingIndicator(refreshing: Boolean) {
-        // TODO
+        getProgressBar()?.visibility = if (refreshing) View.VISIBLE else View.GONE
     }
 
     override fun popFragment() {
@@ -148,6 +149,25 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
     protected fun restoreInstanceState(savedInstanceState: Bundle) {
         // empty implementation
     }
+
+    /**
+     * Override to handle the event in specific fragments
+     */
+    open fun handleSuccessfulFirebaseSignIn() {
+        // empty implementation
+    }
+
+    /**
+     * Override to handle the event in specific fragments
+     */
+    open fun handleFailedFirebaseSignIn(t: Throwable?) {
+        // empty implementation
+    }
+
+    /**
+     * Override to return the main progress indicator of the fragment
+     */
+    open fun getProgressBar(): ProgressBar? = null
 
     /**
      * Override to return the presenter

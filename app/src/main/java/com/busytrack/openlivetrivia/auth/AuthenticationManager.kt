@@ -24,6 +24,7 @@ class AuthenticationManager(
         firebaseAuth.signOut()
         googleSignInClient.signOut()
         googleSignInClient.revokeAccess()
+        activityContract.handleSignOut()
     }
 
     fun handleGoogleSignInSuccess(data: Intent?) {
@@ -37,7 +38,7 @@ class AuthenticationManager(
     }
 
     fun handleGoogleSignInFailure(resultCode: Int) {
-        activityContract.showErrorMessage("Failed to sign in with Google(result code = $resultCode)")
+        activityContract.handleFailedFirebaseSignIn(Exception("Result code: $resultCode"))
     }
 
     private fun authenticateWithFirebase(account: GoogleSignInAccount?) {
@@ -45,9 +46,9 @@ class AuthenticationManager(
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    activityContract.showInfoMessage("Signed in successfully")
+                    activityContract.handleSuccessfulFirebaseSignIn()
                 } else {
-                    activityContract.showErrorMessage("Failed to sign in: ${it.exception?.message}")
+                    activityContract.handleFailedFirebaseSignIn(it.exception)
                 }
             }
     }

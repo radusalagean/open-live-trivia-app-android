@@ -1,5 +1,6 @@
 package com.busytrack.openlivetrivia.di.activity.mvp
 
+import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.network.NetworkRepository
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationModel
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationMvp
@@ -17,6 +18,9 @@ class MvpModule {
         AuthenticationModel(networkRepository)
 
     @Provides
-    fun provideAuthenticationPresenter(model: AuthenticationMvp.Model): AuthenticationMvp.Presenter =
-        AuthenticationPresenter(model)
+    fun provideAuthenticationPresenter(
+        model: AuthenticationMvp.Model,
+        authenticationManager: AuthenticationManager
+    ): AuthenticationMvp.Presenter =
+        AuthenticationPresenter(model, authenticationManager)
 }

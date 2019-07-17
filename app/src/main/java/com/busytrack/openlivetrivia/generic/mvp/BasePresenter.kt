@@ -6,17 +6,15 @@ abstract class BasePresenter<T : BaseMvp.View, S : BaseMvp.Model<*>>(
     protected val model: S
 ) : BaseMvp.Presenter<T> {
 
-    protected var view: T? = null
+    override var view: T? = null
+    override var refreshing: Boolean = false
+        set(value) {
+            field = value
+            // Update the main progress indicator from the view
+            view?.apply { setRefreshingIndicator(value) }
+        }
+
     protected val compositeDisposable = CompositeDisposable()
-    override val refreshing: Boolean = false
-
-    override fun takeView(view: T) {
-        this.view = view
-    }
-
-    override fun dropView() {
-        this.view = null
-    }
 
     override fun clearCompositeDisposable() {
         compositeDisposable.clear()

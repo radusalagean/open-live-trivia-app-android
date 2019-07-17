@@ -84,13 +84,16 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
      * Adds a default fragment if no fragment is present for the specified container
      */
     protected fun addDefaultFragmentIfNecessary() {
-        val currentFragment = supportFragmentManager.findFragmentById(getFragmentContainerId())
+        val currentFragment = getCurrentFragment()
         if (currentFragment == null) {
             val defaultFragment = getDefaultFragment()
             Timber.d("No fragment was previously attached, attaching %s as starting point", defaultFragment)
             showFragment(defaultFragment, false, null)
         }
     }
+
+    fun getCurrentFragment() =
+        supportFragmentManager.findFragmentById(getFragmentContainerId()) as BaseFragment?
 
     /**
      * Show a fragment
@@ -101,7 +104,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
         backStackStateName: String? = null
     ) {
         // Make sure we don't open unnecessary fragments
-        with(supportFragmentManager.findFragmentById(getFragmentContainerId()) as BaseFragment?) {
+        with(getCurrentFragment()) {
             if (this != null && javaClass == fragment.javaClass) {
                 Timber.d("Attempting to open an unnecessary fragment, skipping request!")
                 return
@@ -136,6 +139,22 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
 
     override fun popAllFragments() {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    override fun handleSuccessfulFirebaseSignIn() {
+        showInfoMessage("Signed in successfully")
+        // Pass the event to the current fragment
+        getCurrentFragment()?.handleSuccessfulFirebaseSignIn()
+    }
+
+    override fun handleFailedFirebaseSignIn(t: Throwable?) {
+        showErrorMessage("Failed to sign in: ${t?.message}")
+        // Pass the event to the current fragment
+        getCurrentFragment()?.handleFailedFirebaseSignIn(t)
+    }
+
+    override fun handleSignOut() {
+        showInfoMessage("Signed out")
     }
 
     // Abstract methods

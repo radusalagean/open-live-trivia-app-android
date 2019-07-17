@@ -15,9 +15,8 @@ interface BaseMvp {
     }
 
     interface Presenter<T : View> {
-        val refreshing: Boolean
-        fun takeView(view: T)
-        fun dropView()
+        var view: T?
+        var refreshing: Boolean
         fun clearCompositeDisposable()
     }
 }
