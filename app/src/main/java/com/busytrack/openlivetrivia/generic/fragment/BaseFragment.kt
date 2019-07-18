@@ -103,7 +103,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
     // Mvp Implementation
 
     override fun setRefreshingIndicator(refreshing: Boolean) {
-        getProgressBar()?.visibility = if (refreshing) View.VISIBLE else View.GONE
+        // Empty implementation
     }
 
     override fun popFragment() {
@@ -165,11 +165,6 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
     }
 
     /**
-     * Override to return the main progress indicator of the fragment
-     */
-    open fun getProgressBar(): ProgressBar? = null
-
-    /**
      * Override to return the presenter
      */
     protected abstract fun <T : BaseMvp.View> getPresenter(): Presenter<T>
@@ -179,5 +174,5 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
      *
      * @return true if the event was consumed, false otherwise
      */
-    fun onBackPressed() = false
+    open fun onBackPressed() = false
 }

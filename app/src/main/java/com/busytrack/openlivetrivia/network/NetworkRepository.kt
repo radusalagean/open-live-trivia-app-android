@@ -10,8 +10,8 @@ class NetworkRepository(private val openLiveTriviaApiService: OpenLiveTriviaApiS
 
     // Users
 
-    fun registerUser(authenticationModel: OutgoingAuthenticationModel): Observable<UserModel> =
-        openLiveTriviaApiService.registerUser(authenticationModel)
+    fun registerUser(registerModel: OutgoingRegisterModel): Observable<UserModel> =
+        openLiveTriviaApiService.registerUser(registerModel)
 
     fun login(): Observable<UserModel> = openLiveTriviaApiService.login()
 

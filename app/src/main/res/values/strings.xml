@@ -2,5 +2,10 @@
     <string name="app_name">Open Live Trivia</string>
 
     <!--Authentication-->
-    <string name="sign_in">Sign in</string>
+    <string name="log_in">Log in</string>
+    <string name="log_in_hint">Your personal Google account information won\'t be accessed by the app. You will be able to customize your in-game identity with a display name of your choice, when registering a new account.</string>
+    <string name="register">Register</string>
+    <string name="username_hint">Username</string>
+    <string name="username_available">Username available</string>
+    <string name="username_unavailable">Username unavailable</string>
 </resources>

@@ -24,11 +24,11 @@ class AuthenticationManager(
         firebaseAuth.signOut()
         googleSignInClient.signOut()
         googleSignInClient.revokeAccess()
-        activityContract.handleSignOut()
+        activityContract.handleLogOut()
     }
 
     fun handleGoogleSignInSuccess(data: Intent?) {
-        // Google sign in was successful, authenticate with Firebase
+        // Google log in was successful, authenticate with Firebase
         try {
             val accountTask = GoogleSignIn.getSignedInAccountFromIntent(data)
             authenticateWithFirebase(accountTask.result)
@@ -38,7 +38,7 @@ class AuthenticationManager(
     }
 
     fun handleGoogleSignInFailure(resultCode: Int) {
-        activityContract.handleFailedFirebaseSignIn(Exception("Result code: $resultCode"))
+        activityContract.handleFailedFirebaseLogIn(Exception("Result code: $resultCode"))
     }
 
     private fun authenticateWithFirebase(account: GoogleSignInAccount?) {
@@ -46,9 +46,9 @@ class AuthenticationManager(
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    activityContract.handleSuccessfulFirebaseSignIn()
+                    activityContract.handleSuccessfulFirebaseLogIn()
                 } else {
-                    activityContract.handleFailedFirebaseSignIn(it.exception)
+                    activityContract.handleFailedFirebaseLogIn(it.exception)
                 }
             }
     }

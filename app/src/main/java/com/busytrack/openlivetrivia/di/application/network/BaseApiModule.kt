@@ -25,7 +25,7 @@ class BaseApiModule {
         return if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
                 Timber.tag(OKHTTP_TAG).d(message)
-            })
+            }).setLevel(HttpLoggingInterceptor.Level.BODY)
         } else {
             null
         }

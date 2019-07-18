@@ -1,7 +1,6 @@
 package com.busytrack.openlivetriviainterface.rest
 
 import com.busytrack.openlivetriviainterface.rest.model.*
-import com.busytrack.openlivetriviainterface.socket.model.OutgoingAuthenticationModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -11,7 +10,7 @@ interface OpenLiveTriviaApiService {
     // Users
 
     @POST("user/register")
-    fun registerUser(@Body authenticationModel: OutgoingAuthenticationModel): Observable<UserModel>
+    fun registerUser(@Body registerModel: OutgoingRegisterModel): Observable<UserModel>
 
     @POST("user/login")
     fun login(): Observable<UserModel>

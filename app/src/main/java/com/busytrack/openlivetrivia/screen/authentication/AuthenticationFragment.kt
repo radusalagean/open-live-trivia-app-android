@@ -5,18 +5,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
+import androidx.core.content.res.ResourcesCompat
 
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.auth.AuthorizationManager
+import com.busytrack.openlivetrivia.extension.setVisible
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import kotlinx.android.synthetic.main.fragment_authentication.*
+import kotlinx.android.synthetic.main.layout_register.*
+import kotlinx.android.synthetic.main.layout_register.view.*
 import javax.inject.Inject
 
 
-class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View {
+class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, AuthenticationContract {
     @Inject
     lateinit var presenter: AuthenticationMvp.Presenter
+
+    @Inject
+    lateinit var authorizationManager: AuthorizationManager
+
+    private val pagerAdapter = AuthenticationAdapter(this)
 
     override fun onAttach(context: Context) {
         activityComponent.inject(this)
@@ -31,27 +40,26 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View {
         return inflater.inflate(R.layout.fragment_authentication, container, false)
     }
 
-    override fun initViews() {
+    override fun setRefreshingIndicator(refreshing: Boolean) {
+        progress_bar_main.setVisible(refreshing)
+        view_pager.setVisible(!refreshing)
+    }
 
+    override fun initViews() {
+        view_pager.isUserInputEnabled = false
+        view_pager.adapter = pagerAdapter
     }
 
     override fun disposeViews() {
-
+        view_pager.adapter = null
     }
 
     override fun registerListeners() {
-        button_sign_in.setOnClickListener {
-            presenter.signIn()
-        }
-        button_sign_in.setOnLongClickListener {
-            presenter.signOut()
-            true
-        }
+
     }
 
     override fun unregisterListeners() {
-        button_sign_in.setOnClickListener(null)
-        button_sign_in.setOnLongClickListener(null)
+
     }
 
     override fun loadData() {
@@ -59,7 +67,8 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View {
 
     override fun handleSuccessfulFirebaseSignIn() {
         super.handleSuccessfulFirebaseSignIn()
-        presenter.refreshing = false
+        // We can now log in with the backend
+        presenter.login()
     }
 
     override fun handleFailedFirebaseSignIn(t: Throwable?) {
@@ -67,14 +76,66 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View {
         presenter.refreshing = false
     }
 
-    override fun getProgressBar() = progress_bar_main
-
     @Suppress("UNCHECKED_CAST")
     override fun <T : BaseMvp.View> getPresenter(): BaseMvp.Presenter<T> =
         presenter as BaseMvp.Presenter<T>
 
+    // Mvp Contract
+
+    override fun showRegisterPage() {
+        view_pager.currentItem = AuthenticationPageType.REGISTER.ordinal
+    }
+
+    override fun setUsernameAvailability(available: Boolean) {
+        pagerAdapter.registerViewHolder?.itemView?.apply {
+            text_view_username_availability?.apply {
+                setText(if (available) R.string.username_available else R.string.username_unavailable)
+                setTextColor(
+                    ResourcesCompat.getColor(
+                        resources,
+                        if (available) R.color.colorUsernameAvailable else R.color.colorUsernameUnavailable,
+                        null
+                    )
+                )
+                setVisible(true)
+            }
+            button_register.isEnabled = available
+        }
+    }
+
+    // Authentication Contract
+
+    override fun onLoginPressed() {
+        if (authorizationManager.isUserAuthenticated()) {
+            // if a Google account is already selected and authorized
+            // Log in with the backend
+            presenter.login()
+        } else {
+            // Open the account selection dialog
+            presenter.firebaseLogIn()
+        }
+    }
+
+    override fun onRegisterPressed(username: String) {
+        presenter.register(username)
+    }
+
+    override fun onUsernameChanged(username: String) {
+        clearUsernameAvailability()
+        if (username.isNotBlank() && username.length >= 4) {
+            presenter.checkUsernameAvailability(username.trim())
+        }
+    }
+
+    // Private implementation
+
+    private fun clearUsernameAvailability() {
+        text_view_username_availability.setVisible(false)
+        text_view_username_availability.text = null
+        button_register.isEnabled = false
+    }
+
     companion object {
-        @JvmStatic
         fun newInstance() = AuthenticationFragment()
     }
 }

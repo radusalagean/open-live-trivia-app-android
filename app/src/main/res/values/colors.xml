@@ -12,4 +12,8 @@
     <color name="colorSuperDarkGrey">#BBBBBB</color>
     <color name="colorSuperUltraDarkGrey">#737373</color>
     <color name="colorBlack">#000000</color>
+
+    <!--Username availability-->
+    <color name="colorUsernameAvailable">#0BB637</color>
+    <color name="colorUsernameUnavailable">#FF0000</color>
 </resources>

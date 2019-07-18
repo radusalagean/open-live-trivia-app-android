@@ -70,7 +70,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
         Timber.tag(logTag).v("-A-> onActivityResult($requestCode, $resultCode, $data)")
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            GOOGLE_SIGN_IN_REQUEST_CODE -> handleGoogleSignInResult(resultCode, data)
+            GOOGLE_LOG_IN_REQUEST_CODE -> handleGoogleSignInResult(resultCode, data)
         }
     }
 
@@ -134,27 +134,27 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
     }
 
     override fun triggerGoogleSignIn(intent: Intent) {
-        startActivityForResult(intent, GOOGLE_SIGN_IN_REQUEST_CODE)
+        startActivityForResult(intent, GOOGLE_LOG_IN_REQUEST_CODE)
     }
 
     override fun popAllFragments() {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    override fun handleSuccessfulFirebaseSignIn() {
-        showInfoMessage("Signed in successfully")
+    override fun handleSuccessfulFirebaseLogIn() {
+        showInfoMessage("Logged in successfully")
         // Pass the event to the current fragment
         getCurrentFragment()?.handleSuccessfulFirebaseSignIn()
     }
 
-    override fun handleFailedFirebaseSignIn(t: Throwable?) {
-        showErrorMessage("Failed to sign in: ${t?.message}")
+    override fun handleFailedFirebaseLogIn(t: Throwable?) {
+        showErrorMessage("Failed to log in: ${t?.message}")
         // Pass the event to the current fragment
         getCurrentFragment()?.handleFailedFirebaseSignIn(t)
     }
 
-    override fun handleSignOut() {
-        showInfoMessage("Signed out")
+    override fun handleLogOut() {
+        showInfoMessage("Logged out")
     }
 
     // Abstract methods
