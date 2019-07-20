@@ -106,8 +106,14 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
         // Empty implementation
     }
 
-    override fun popFragment() {
+    override fun popBackStack() {
         fragmentManager?.popBackStack()
+    }
+
+    override fun removeFragment() {
+        fragmentManager?.findFragmentByTag(javaClass.name)?.let {
+            fragmentManager?.beginTransaction()?.remove(it)?.commit()
+        }
     }
 
     // Abstract methods
@@ -162,6 +168,13 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
      */
     open fun handleFailedFirebaseSignIn(t: Throwable?) {
         // empty implementation
+    }
+
+    /**
+     * Override to handle the event in specific fragments
+     */
+    open fun handleLogOut() {
+        removeFragment()
     }
 
     /**

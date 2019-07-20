@@ -27,6 +27,8 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
 
     private val pagerAdapter = AuthenticationAdapter(this)
 
+    // Lifecycle callbacks
+
     override fun onAttach(context: Context) {
         activityComponent.inject(this)
         super.onAttach(context)
@@ -36,9 +38,10 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_authentication, container, false)
     }
+
+    // BaseFragment implementation
 
     override fun setRefreshingIndicator(refreshing: Boolean) {
         progress_bar_main.setVisible(refreshing)
@@ -48,6 +51,10 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
     override fun initViews() {
         view_pager.isUserInputEnabled = false
         view_pager.adapter = pagerAdapter
+        if (authorizationManager.isUserAuthenticated()) {
+            // If a Google account was previously selected, authenticate with the backend
+            presenter.login()
+        }
     }
 
     override fun disposeViews() {
@@ -93,7 +100,7 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
                 setTextColor(
                     ResourcesCompat.getColor(
                         resources,
-                        if (available) R.color.colorUsernameAvailable else R.color.colorUsernameUnavailable,
+                        if (available) R.color.colorPositive else R.color.colorNegative,
                         null
                     )
                 )

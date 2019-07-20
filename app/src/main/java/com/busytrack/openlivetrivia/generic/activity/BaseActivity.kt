@@ -13,6 +13,8 @@ import com.busytrack.openlivetrivia.di.activity.ActivityModule
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import timber.log.Timber
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
+import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
+import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
 
 abstract class BaseActivity : AppCompatActivity(), ActivityContract {
     private val logTag : String = javaClass.simpleName
@@ -103,7 +105,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
         addToBackStack: Boolean = true,
         backStackStateName: String? = null
     ) {
-        // Make sure we don't open unnecessary fragments
+        // Make sure the fragment is not already in the foreground
         with(getCurrentFragment()) {
             if (this != null && javaClass == fragment.javaClass) {
                 Timber.d("Attempting to open an unnecessary fragment, skipping request!")
@@ -111,7 +113,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
             }
         }
         supportFragmentManager.beginTransaction().apply {
-            replace(getFragmentContainerId(), fragment)
+            replace(getFragmentContainerId(), fragment, fragment.javaClass.name)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             if (addToBackStack) {
                 addToBackStack(backStackStateName)
@@ -141,6 +143,18 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
+    override fun showAuthenticationScreen() {
+        showFragment(AuthenticationFragment.newInstance(), addToBackStack = false)
+    }
+
+    override fun showMainMenuScreen() {
+        var mainMenuFragment: BaseFragment? = null
+        supportFragmentManager.findFragmentByTag(MainMenuFragment::class.java.name)?.let {
+            mainMenuFragment = it as BaseFragment
+        }
+        showFragment(mainMenuFragment ?: MainMenuFragment.newInstance(), addToBackStack = false)
+    }
+
     override fun handleSuccessfulFirebaseLogIn() {
         showInfoMessage("Logged in successfully")
         // Pass the event to the current fragment
@@ -155,6 +169,10 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
 
     override fun handleLogOut() {
         showInfoMessage("Logged out")
+        // Pass the event to the current fragment
+        getCurrentFragment()?.handleLogOut()
+        popAllFragments()
+        showAuthenticationScreen()
     }
 
     // Abstract methods

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <padding android:left="@dimen/button_padding_horizontal"
+        android:top="@dimen/button_padding_vertical"
+        android:right="@dimen/button_padding_horizontal"
+        android:bottom="@dimen/button_padding_vertical" />
+    <solid android:color="@color/colorDarkGrey" />
+    <corners android:radius="@dimen/button_corner_radius"/>
+</shape>

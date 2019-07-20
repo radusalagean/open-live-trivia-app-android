@@ -1,6 +1,7 @@
 package com.busytrack.openlivetrivia.screen.authentication
 
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
 import com.busytrack.openlivetriviainterface.rest.model.OutgoingRegisterModel
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
@@ -13,6 +14,7 @@ import java.net.HttpURLConnection
 
 class AuthenticationPresenter(
     model: AuthenticationMvp.Model,
+    private val activityContract: ActivityContract,
     private val authenticationManager: AuthenticationManager
 ) : BasePresenter<AuthenticationMvp.View, AuthenticationMvp.Model>(model),
     AuthenticationMvp.Presenter {
@@ -28,7 +30,7 @@ class AuthenticationPresenter(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableObserver<UserModel>() {
                 override fun onNext(t: UserModel) {
-                    Timber.d("onNext($t)")
+                    authenticationManager.setAuthenticatedUser(t)
                 }
 
                 override fun onError(e: Throwable) {
@@ -41,8 +43,7 @@ class AuthenticationPresenter(
                 }
 
                 override fun onComplete() {
-                    Timber.d("onComplete()")
-                    // TODO Show Home Screen
+                    showMainMenuScreen()
                 }
             })
         )
@@ -56,7 +57,7 @@ class AuthenticationPresenter(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableObserver<UserModel>() {
                     override fun onNext(t: UserModel) {
-                        Timber.d("onNext($t)")
+                        authenticationManager.setAuthenticatedUser(t)
                     }
 
                     override fun onError(e: Throwable) {
@@ -65,8 +66,7 @@ class AuthenticationPresenter(
                     }
 
                     override fun onComplete() {
-                        Timber.d("onComplete()")
-                        // TODO Show Home Screen
+                        showMainMenuScreen()
                     }
                 })
         )
@@ -91,5 +91,10 @@ class AuthenticationPresenter(
                     }
                 })
         )
+    }
+
+    private fun showMainMenuScreen() {
+        view?.removeFragment()
+        activityContract.showMainMenuScreen()
     }
 }

@@ -10,6 +10,8 @@ interface ActivityContract {
     fun triggerGoogleSignIn(intent: Intent)
     @IdRes fun getFragmentContainerId(): Int
     fun popAllFragments()
+    fun showAuthenticationScreen()
+    fun showMainMenuScreen()
     fun handleSuccessfulFirebaseLogIn()
     fun handleFailedFirebaseLogIn(t: Throwable?)
     fun handleLogOut()

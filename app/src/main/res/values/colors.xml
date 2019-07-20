@@ -13,7 +13,10 @@
     <color name="colorSuperUltraDarkGrey">#737373</color>
     <color name="colorBlack">#000000</color>
 
-    <!--Username availability-->
-    <color name="colorUsernameAvailable">#0BB637</color>
-    <color name="colorUsernameUnavailable">#FF0000</color>
+    <!--Yin and Yang-->
+    <color name="colorPositive">#0BB637</color>
+    <color name="colorNegative">#FF0000</color>
+
+    <!--Other colors-->
+    <color name="coin_color">#03A9F4</color>
 </resources>

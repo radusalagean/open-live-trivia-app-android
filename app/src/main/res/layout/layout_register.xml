@@ -31,14 +31,13 @@
         android:visibility="gone"
         tools:visibility="visible"
         tools:text="@string/username_available"
-        android:textColor="@color/colorUsernameAvailable"
         fontPath="fonts/NunitoSans-Light.ttf"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_register"
-        android:text="@string/register"
+        android:text="@string/register_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

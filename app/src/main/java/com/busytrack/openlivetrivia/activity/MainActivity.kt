@@ -13,6 +13,8 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var authenticationManager: AuthenticationManager
 
+    // Lifecycle callbacks
+
     override fun onCreate(savedInstanceState: Bundle?) {
         activityComponent.inject(this)
         super.onCreate(savedInstanceState)

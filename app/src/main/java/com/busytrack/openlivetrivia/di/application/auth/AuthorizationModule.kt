@@ -1,4 +1,4 @@
-package com.busytrack.openlivetrivia.di.application.authorization
+package com.busytrack.openlivetrivia.di.application.auth
 
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
 import com.busytrack.openlivetrivia.di.application.ApplicationScope

@@ -11,7 +11,8 @@ interface BaseMvp {
 
     interface View {
         fun setRefreshingIndicator(refreshing: Boolean)
-        fun popFragment()
+        fun popBackStack()
+        fun removeFragment()
     }
 
     interface Presenter<T : View> {
