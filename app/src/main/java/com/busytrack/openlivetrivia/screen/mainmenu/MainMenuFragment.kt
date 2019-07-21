@@ -10,9 +10,9 @@ import androidx.core.view.updatePadding
 
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
-import com.busytrack.openlivetrivia.view.CoinView
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import javax.inject.Inject
 
@@ -22,6 +22,9 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
 
     @Inject
     lateinit var authenticationManager: AuthenticationManager
+
+    @Inject
+    lateinit var activityContract: ActivityContract
 
     // Lifecycle callbacks
 
@@ -53,12 +56,8 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
             view.updatePadding(top = insets.systemWindowInsetTop, bottom = insets.systemWindowInsetBottom)
             insets
         }
-        coin_view.setOnClickListener {
-            (it as CoinView).accelerateShort()
-        }
-        coin_view.setOnLongClickListener {
-            (it as CoinView).accelerateLong()
-            true
+        button_play.setOnClickListener {
+            activityContract.showGameScreen()
         }
         button_log_out.setOnClickListener {
             authenticationManager.signOut()
@@ -67,13 +66,14 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
 
     override fun unregisterListeners() {
         ViewCompat.setOnApplyWindowInsetsListener(main_menu_root_layout, null)
-        coin_view.setOnClickListener(null)
-        coin_view.setOnLongClickListener(null)
+        button_play.setOnClickListener(null)
         button_log_out.setOnClickListener(null)
     }
 
     override fun loadData() {
-        text_view_coins.text = "%.2f".format(authenticationManager.getAuthenticatedUser()?.coins)
+        authenticationManager.getAuthenticatedUser()?.let {
+            text_view_coins.setCoins(it.coins!!)
+        }
     }
 
     @Suppress("UNCHECKED_CAST")

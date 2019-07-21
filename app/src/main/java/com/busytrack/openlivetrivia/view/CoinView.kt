@@ -7,21 +7,20 @@ import org.rajawali3d.view.ISurface
 import org.rajawali3d.view.SurfaceView
 
 class CoinView(context: Context, attributeSet: AttributeSet) : SurfaceView(context, attributeSet) {
-
     private var renderer: CoinRenderer
 
     init {
-        setFrameRate(60.0)
+        setFrameRate(COIN_VIEW_FRAMERATE.toDouble())
         renderMode = ISurface.RENDERMODE_WHEN_DIRTY
         mIsTransparent = true
         setSurfaceRenderer(CoinRenderer(context).also { renderer = it })
     }
 
     fun accelerateLong() {
-        renderer.accelerate(2000)
+        renderer.accelerate(COIN_ACCELERATE_LONG)
     }
 
     fun accelerateShort() {
-        renderer.accelerate(300)
+        renderer.accelerate(COIN_ACCELERATE_SHORT)
     }
 }

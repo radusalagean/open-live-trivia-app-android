@@ -6,7 +6,7 @@ data class GameStateModel(
     @SerializedName("gameState") val gameState: GameState,
     @SerializedName("userCoins") val userCoins: Double,
     @SerializedName("entryId") val entryId: Int,
-    @SerializedName("category") val category: String,
+    @SerializedName("category") val category: String?,
     @SerializedName("clue") val clue: String,
     @SerializedName("answer") val answer: String,
     @SerializedName("currentValue") val currentValue: Double,

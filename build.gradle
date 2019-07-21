@@ -64,11 +64,10 @@ ext {
     viewpager2Version = '1.0.0-beta01'
     rajawali3dVersion = '1.1.970'
     coroutinesVersion = '1.3.0-RC'
+    glideVersion = '4.9.0'
+    materialVersion = '1.0.0'
 //    multidexVersion = '2.0.1'
-//    materialVersion = '1.0.0'
 //    guavaVersion = '27.1-android'
-//    butterknifeVersion = '10.1.0'
-//    glideVersion = '4.9.0'
 
 
     // App test dependencies

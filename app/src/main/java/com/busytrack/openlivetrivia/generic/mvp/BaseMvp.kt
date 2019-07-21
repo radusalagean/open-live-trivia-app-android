@@ -18,6 +18,6 @@ interface BaseMvp {
     interface Presenter<T : View> {
         var view: T?
         var refreshing: Boolean
-        fun clearCompositeDisposable()
+        fun dispose()
     }
 }

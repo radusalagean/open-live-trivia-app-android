@@ -12,4 +12,7 @@
     <!--Main Menu-->
     <string name="play_button">Play</string>
     <string name="log_out_button">Log out</string>
+
+    <!--Game-->
+    <string name="game_answer_attempt_hint">Type your answer attempt</string>
 </resources>

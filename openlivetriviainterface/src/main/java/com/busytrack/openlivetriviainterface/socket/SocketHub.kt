@@ -1,5 +1,6 @@
 package com.busytrack.openlivetriviainterface.socket
 
+import android.os.Handler
 import com.busytrack.openlivetriviainterface.ROOT_DOMAIN
 import com.busytrack.openlivetriviainterface.SOCKET_IO_PATH
 import com.busytrack.openlivetriviainterface.extension.toJsonObject
@@ -18,7 +19,7 @@ class SocketHub {
         secure = true
         path = SOCKET_IO_PATH
     })
-    private val registeredSocketListeners: MutableList<SocketEventListener> = mutableListOf()
+    private val registeredSocketListeners: MutableMap<SocketEventListener, Handler> = hashMapOf()
 
     init {
         // Register socket events
@@ -32,28 +33,30 @@ class SocketHub {
                 if (event.modelClass != null) {
                     model = gson.fromJson(args[0].toString(), event.modelClass)
                 }
-                registeredSocketListeners.forEach { listener ->
-                    with(listener) {
-                        when(event) {
-                            SocketIncomingEvent.CONNECT -> onConnected()
-                            SocketIncomingEvent.DISCONNECT -> onDisconnected()
-                            SocketIncomingEvent.CONNECTING -> onConnecting()
-                            SocketIncomingEvent.CONNECT_ERROR -> onConnectionError()
-                            SocketIncomingEvent.CONNECT_TIMEOUT -> onConnectionTimeout()
-                            SocketIncomingEvent.AUTHENTICATED -> onAuthenticated()
-                            SocketIncomingEvent.UNAUTHORIZED -> onUnauthorized(model as UnauthorizedModel)
-                            SocketIncomingEvent.WELCOME -> onWelcome(model as GameStateModel)
-                            SocketIncomingEvent.PEER_JOIN -> onPeerJoin(model as PresenceModel)
-                            SocketIncomingEvent.PEER_ATTEMPT -> onPeerAttempt(model as AttemptModel)
-                            SocketIncomingEvent.COIN_DIFF -> onCoinDiff(model as CoinDiffModel)
-                            SocketIncomingEvent.PEER_REACTION -> onPeerReaction(model as ReactionModel)
-                            SocketIncomingEvent.ROUND -> onRound(model as RoundModel)
-                            SocketIncomingEvent.SPLIT -> onSplit(model as SplitModel)
-                            SocketIncomingEvent.REVEAL -> onReveal(model as RevealModel)
-                            SocketIncomingEvent.ENTRY_REPORTED_OK -> onEntryReportedOk()
-                            SocketIncomingEvent.ENTRY_REPORTED_ERROR -> onEntryReportedError()
-                            SocketIncomingEvent.PLAYER_LIST -> onPlayerList(model as PlayerListModel)
-                            SocketIncomingEvent.PEER_LEFT -> onPeerLeft(model as PresenceModel)
+                for ((callbacks, handler) in registeredSocketListeners) {
+                    handler.post {
+                        with(callbacks) {
+                            when(event) {
+                                SocketIncomingEvent.CONNECT -> onConnected()
+                                SocketIncomingEvent.DISCONNECT -> onDisconnected()
+                                SocketIncomingEvent.CONNECTING -> onConnecting()
+                                SocketIncomingEvent.CONNECT_ERROR -> onConnectionError()
+                                SocketIncomingEvent.CONNECT_TIMEOUT -> onConnectionTimeout()
+                                SocketIncomingEvent.AUTHENTICATED -> onAuthenticated()
+                                SocketIncomingEvent.UNAUTHORIZED -> onUnauthorized(model as UnauthorizedModel)
+                                SocketIncomingEvent.WELCOME -> onWelcome(model as GameStateModel)
+                                SocketIncomingEvent.PEER_JOIN -> onPeerJoin(model as PresenceModel)
+                                SocketIncomingEvent.PEER_ATTEMPT -> onPeerAttempt(model as AttemptModel)
+                                SocketIncomingEvent.COIN_DIFF -> onCoinDiff(model as CoinDiffModel)
+                                SocketIncomingEvent.PEER_REACTION -> onPeerReaction(model as ReactionModel)
+                                SocketIncomingEvent.ROUND -> onRound(model as RoundModel)
+                                SocketIncomingEvent.SPLIT -> onSplit(model as SplitModel)
+                                SocketIncomingEvent.REVEAL -> onReveal(model as RevealModel)
+                                SocketIncomingEvent.ENTRY_REPORTED_OK -> onEntryReportedOk()
+                                SocketIncomingEvent.ENTRY_REPORTED_ERROR -> onEntryReportedError()
+                                SocketIncomingEvent.PLAYER_LIST -> onPlayerList(model as PlayerListModel)
+                                SocketIncomingEvent.PEER_LEFT -> onPeerLeft(model as PresenceModel)
+                            }
                         }
                     }
                 }
@@ -61,8 +64,8 @@ class SocketHub {
         }
     }
 
-    fun registerEventListener(listener: SocketEventListener) {
-        registeredSocketListeners.add(listener)
+    fun registerEventListener(listener: SocketEventListener, handler: Handler) {
+        registeredSocketListeners.put(listener, handler)
     }
 
     fun unregisterEventListener(listener: SocketEventListener) {

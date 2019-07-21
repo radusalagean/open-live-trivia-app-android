@@ -16,7 +16,7 @@ abstract class BasePresenter<T : BaseMvp.View, S : BaseMvp.Model<*>>(
 
     protected val compositeDisposable = CompositeDisposable()
 
-    override fun clearCompositeDisposable() {
+    override fun dispose() {
         compositeDisposable.clear()
     }
 }

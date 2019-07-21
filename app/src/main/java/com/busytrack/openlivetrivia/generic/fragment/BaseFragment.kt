@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
 import com.busytrack.openlivetrivia.di.activity.ActivityModule
@@ -78,7 +77,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
 
     override fun onStop() {
         Timber.tag(logTag).d("-F-> onStop()")
-        getPresenter<BaseFragment>().clearCompositeDisposable()
+        getPresenter<BaseFragment>().dispose()
         super.onStop()
     }
 

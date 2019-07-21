@@ -12,6 +12,7 @@ interface ActivityContract {
     fun popAllFragments()
     fun showAuthenticationScreen()
     fun showMainMenuScreen()
+    fun showGameScreen()
     fun handleSuccessfulFirebaseLogIn()
     fun handleFailedFirebaseLogIn(t: Throwable?)
     fun handleLogOut()

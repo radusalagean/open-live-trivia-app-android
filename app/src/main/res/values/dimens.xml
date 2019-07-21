@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="screen_horizontal_padding">16dp</dimen>
+    <dimen name="screen_vertical_padding">16dp</dimen>
+
     <dimen name="button_padding_horizontal">24dp</dimen>
     <dimen name="button_padding_vertical">12dp</dimen>
     <dimen name="button_corner_radius">24dp</dimen>
+
+    <!--Game-->
+    <dimen name="attempt_list_vertical_offset">8dp</dimen>
 </resources>

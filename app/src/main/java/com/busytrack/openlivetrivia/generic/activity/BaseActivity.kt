@@ -14,6 +14,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import timber.log.Timber
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
+import com.busytrack.openlivetrivia.screen.game.GameFragment
 import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
 
 abstract class BaseActivity : AppCompatActivity(), ActivityContract {
@@ -153,6 +154,10 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
             mainMenuFragment = it as BaseFragment
         }
         showFragment(mainMenuFragment ?: MainMenuFragment.newInstance(), addToBackStack = false)
+    }
+
+    override fun showGameScreen() {
+        showFragment(GameFragment.newInstance(), addToBackStack = true)
     }
 
     override fun handleSuccessfulFirebaseLogIn() {

@@ -11,3 +11,4 @@ const val API_BASE_URL = "$ROOT_DOMAIN/open-live-trivia-api/v1/"
 
 // Static Paths
 const val USER_THUMBNAILS_PATH = "$ROOT_DOMAIN/open-live-trivia-api-static/user-thumbnails/"
+const val USER_THUMBNAILS_EXTENSION = ".png"

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/attempt_frame_layout"
+    android:background="@drawable/layout_attempt_background"
+    tools:ignore="MissingPrefix">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/attempt_text_view_username"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Username"
+        android:maxLines="1"
+        fontPath="fonts/NunitoSans-ExtraLightItalic.ttf"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/attempt_text_view_attempt"
+        tools:text="Attempt"
+        app:layout_constraintTop_toBottomOf="@id/attempt_text_view_username"
+        app:layout_constraintStart_toStartOf="parent"
+        fontPath="fonts/NunitoSans-SemiBold.ttf"
+        android:textColor="@color/colorBlack"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

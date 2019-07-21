@@ -3,6 +3,9 @@ package com.busytrack.openlivetrivia.opengl.renderer
 import android.content.Context
 import android.view.MotionEvent
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.view.COIN_ACCELERATED_SPIN_DEGREES
+import com.busytrack.openlivetrivia.view.COIN_BASELINE_SPIN_DEGREES
+import com.busytrack.openlivetrivia.view.COIN_VIEW_FRAMERATE
 import kotlinx.coroutines.*
 import org.rajawali3d.Object3D
 import org.rajawali3d.loader.LoaderOBJ
@@ -13,20 +16,17 @@ import timber.log.Timber
 import org.rajawali3d.lights.DirectionalLight
 import kotlin.coroutines.CoroutineContext
 
-const val BASELINE_SPIN_DEGREES = 0.5
-const val ACCELERATED_SPIN_DEGREES = 15.0
-
 class CoinRenderer(context: Context) : Renderer(context), CoroutineScope {
 
     private var coinObject: Object3D? = null
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Default
 
-    var spinDegrees = BASELINE_SPIN_DEGREES
+    var spinDegrees = COIN_BASELINE_SPIN_DEGREES
     var spinJob: Job? = null
 
     init {
-        setFrameRate(60)
+        setFrameRate(COIN_VIEW_FRAMERATE)
     }
 
     override fun onOffsetsChanged(
@@ -73,11 +73,10 @@ class CoinRenderer(context: Context) : Renderer(context), CoroutineScope {
 
     fun accelerate(millis: Long) {
         spinJob?.cancel()
-        spinDegrees = ACCELERATED_SPIN_DEGREES
+        spinDegrees = COIN_ACCELERATED_SPIN_DEGREES
         spinJob = launch {
             delay(millis)
-            spinDegrees = BASELINE_SPIN_DEGREES
-            spinJob = null
+            spinDegrees = COIN_BASELINE_SPIN_DEGREES
         }
     }
 }

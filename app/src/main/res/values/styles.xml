@@ -41,4 +41,10 @@
         <item name="android:textColor">@color/coin_color</item>
     </style>
 
+    <style name="text_view_clue_category">
+        <item name="android:background">@drawable/text_view_clue</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
 </resources>
