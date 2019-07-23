@@ -47,6 +47,12 @@ class GameAttemptsAdapter(
         notifyDataSetChanged()
     }
 
+    fun initializeAttempts(models: List<AttemptModel>) {
+        attempts.clear()
+        attempts.addAll(models)
+        notifyDataSetChanged()
+    }
+
     fun clearAttempts() {
         attempts.clear()
         notifyDataSetChanged()

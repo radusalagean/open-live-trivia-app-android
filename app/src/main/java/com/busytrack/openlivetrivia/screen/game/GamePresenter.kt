@@ -73,6 +73,7 @@ class GamePresenter(
     }
 
     override fun onPeerJoin(model: PresenceModel) {
+        view?.updatePeerJoin(model)
     }
 
     override fun onPeerAttempt(model: AttemptModel) {
@@ -108,5 +109,6 @@ class GamePresenter(
     }
 
     override fun onPeerLeft(model: PresenceModel) {
+        view?.updatePeerLeft(model)
     }
 }

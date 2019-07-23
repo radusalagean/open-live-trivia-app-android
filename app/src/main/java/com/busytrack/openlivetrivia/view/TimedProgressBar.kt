@@ -2,6 +2,7 @@ package com.busytrack.openlivetrivia.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ProgressBar
 import com.busytrack.openlivetrivia.R
 import kotlinx.coroutines.*
@@ -18,6 +19,7 @@ class TimedProgressBar(
     private var timerJob: Job? = null
 
     private fun startTimer() {
+        show()
         stopTimer()
         timerJob = launch {
             if (progress >= max) {
@@ -44,5 +46,13 @@ class TimedProgressBar(
         this.max = max
         this.progress = progress
         startTimer()
+    }
+
+    fun hide() {
+        visibility = View.INVISIBLE
+    }
+
+    fun show() {
+        visibility = View.VISIBLE
     }
 }

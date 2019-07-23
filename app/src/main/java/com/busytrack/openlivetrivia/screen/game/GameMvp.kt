@@ -15,6 +15,8 @@ interface GameMvp {
         fun updateAttempt(attemptModel: AttemptModel)
         fun updateReveal(revealModel: RevealModel)
         fun updateCoinDiff(coinDiffModel: CoinDiffModel)
+        fun updatePeerJoin(presenceModel: PresenceModel)
+        fun updatePeerLeft(presenceModel: PresenceModel)
     }
 
     interface Presenter : BaseMvp.Presenter<View> {

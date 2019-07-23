@@ -12,7 +12,6 @@
     android:paddingStart="@dimen/screen_horizontal_padding"
     android:paddingEnd="@dimen/screen_horizontal_padding"
     android:keepScreenOn="true"
-    android:clipChildren="false"
     android:clipToPadding="false"
     tools:ignore="MissingPrefix">
 
@@ -23,7 +22,8 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/game_header_background">
+        android:background="@drawable/game_header_background"
+        android:translationZ="8dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,11 +31,11 @@
             android:id="@+id/text_view_my_username"
             tools:text="Username"
             android:maxLines="1"
-            fontPath="fonts/NunitoSans-ExtraLight.ttf"
             android:textSize="14sp"
             android:layout_marginEnd="4dp"
             android:ellipsize="end"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:maxWidth="200dp"/>
 
         <ImageView
             android:layout_width="20dp"
@@ -53,7 +53,9 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toStartOf="@id/layout_user_header"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/game_header_background">
+        android:background="@drawable/game_header_background"
+        android:translationZ="8dp"
+        android:layout_marginEnd="8dp">
 
         <com.busytrack.openlivetrivia.view.CoinsTextView
             android:layout_width="wrap_content"
@@ -61,7 +63,7 @@
             android:id="@+id/text_view_my_coins"
             tools:text="100.00"
             android:maxLines="1"
-            fontPath="fonts/Teko-Regular.ttf"
+            fontPath="fonts/ShareTechMono-Regular.ttf"
             android:textSize="16sp"
             android:layout_marginEnd="4dp"
             android:ellipsize="end"
@@ -72,6 +74,38 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:id="@+id/coin_view_my_coins"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_players_header"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/layout_coins_header"
+        app:layout_constraintHorizontal_bias="0"
+        android:background="@drawable/game_header_background"
+        android:translationZ="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constrainedWidth="true">
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/dot_online_players"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"/>
+
+        <com.busytrack.openlivetrivia.view.PlayersTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view_online_players"
+            tools:text="1 player"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
     </LinearLayout>
 
@@ -113,7 +147,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_send_attempt"
-        android:maxLines="200"/>
+        android:maxLines="1"
+        android:maxLength="200"/>
 
     <Button
         android:layout_width="wrap_content"

@@ -26,6 +26,8 @@ class NetworkRepository(private val openLiveTriviaApiService: OpenLiveTriviaApiS
     fun getLeaderboard(): Observable<PaginatedResponseModel<UserModel>> =
         openLiveTriviaApiService.getLeaderboard()
 
+    fun getMe(): Observable<UserModel> = openLiveTriviaApiService.getMe()
+
     // Entry reports
 
     fun getReportedEntries(banned: Boolean? = null): Observable<PaginatedResponseModel<EntryReportModel>> =

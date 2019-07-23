@@ -30,6 +30,9 @@ interface OpenLiveTriviaApiService {
     @GET("user/leaderboard")
     fun getLeaderboard(): Observable<PaginatedResponseModel<UserModel>>
 
+    @GET("user/me")
+    fun getMe(): Observable<UserModel>
+
     // Entry reports
 
     @GET("reported_entry/get_reports")

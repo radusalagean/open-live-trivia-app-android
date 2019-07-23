@@ -9,7 +9,7 @@ import com.busytrack.openlivetriviainterface.socket.model.AttemptModel
 import kotlinx.android.synthetic.main.item_attempt_peer.view.*
 import kotlinx.android.synthetic.main.layout_attempt.view.*
 
-class GamePeerAttemptViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class GamePeerAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView) {
     fun bind(model: AttemptModel) {
         with(itemView) {
             attempt_text_view_username.visibility = View.VISIBLE
@@ -20,6 +20,9 @@ class GamePeerAttemptViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
                 .circleCrop()
                 .into(attempt_image_view_profile)
         }
+        if (model.correct) {
+            switchToCorrectAnswerState()
+        }
     }
 
     fun recycle() {
@@ -29,5 +32,6 @@ class GamePeerAttemptViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
             Glide.with(this).clear(attempt_image_view_profile)
             attempt_image_view_profile.setImageDrawable(null)
         }
+        switchToDefaultState()
     }
 }

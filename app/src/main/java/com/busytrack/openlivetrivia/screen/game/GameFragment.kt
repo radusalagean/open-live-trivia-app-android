@@ -72,16 +72,30 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope {
 
     override fun updateGameState(gameStateModel: GameStateModel) {
         text_view_my_coins.setCoins(gameStateModel.userCoins)
+        text_view_online_players.playersCount = gameStateModel.players
         card_view_clue.visibility = View.VISIBLE
         text_view_clue_category.text = gameStateModel.category?.also {
             text_view_clue_category.visibility = View.VISIBLE
         }
+        text_view_clue_coins.setCoins(gameStateModel.currentValue)
         text_view_clue.text = gameStateModel.clue
         text_view_answer.text = gameStateModel.answer
         timed_progress_bar_remaining_time.set(
             gameStateModel.totalSplitSeconds,
             gameStateModel.elapsedSplitSeconds
         )
+        gameStateModel.attempts.lastOrNull()?.let {
+            if (it.correct) {
+                text_view_answer.text = it.correctAnswer
+                text_view_answer.correct()
+            } else if (GameState.TRANSITION == gameStateModel.gameState) {
+                text_view_answer.reveal()
+            }
+        }
+        attemptsAdapter?.apply {
+            initializeAttempts(gameStateModel.attempts)
+            recycler_view_attempts.scrollToPosition(itemCount - 1)
+        }
     }
 
     override fun updateRound(roundModel: RoundModel) {
@@ -90,24 +104,40 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope {
         text_view_clue_category.text = roundModel.category?.also {
             text_view_clue_category.visibility = View.VISIBLE
         }
+        text_view_clue_coins.setCoins(roundModel.currentValue)
         text_view_clue.text = roundModel.clue
+        text_view_answer.resetState()
         text_view_answer.text = roundModel.answer
         timed_progress_bar_remaining_time.reset()
     }
 
     override fun updateSplit(splitModel: SplitModel) {
         text_view_answer.text = splitModel.answer
+        text_view_clue_coins.updateValue(splitModel.currentValue, COIN_ACCELERATE_SHORT)
+        coin_view_clue_coins.accelerateShort()
         timed_progress_bar_remaining_time.reset()
     }
 
     override fun updateAttempt(attemptModel: AttemptModel) {
         attemptsAdapter?.apply {
             addAttempt(attemptModel)
+            recycler_view_attempts.smoothScrollToPosition(itemCount - 1)
+        }
+        if (attemptModel.correct) {
+            text_view_clue_coins.drain()
+            coin_view_clue_coins.accelerateLong()
+            text_view_answer.text = attemptModel.correctAnswer
+            text_view_answer.correct()
+            timed_progress_bar_remaining_time.hide()
         }
     }
 
     override fun updateReveal(revealModel: RevealModel) {
         text_view_answer.text = revealModel.answer
+        timed_progress_bar_remaining_time.hide()
+        text_view_clue_coins.drain()
+        coin_view_clue_coins.accelerateLong()
+        text_view_answer.reveal()
     }
 
     override fun updateCoinDiff(coinDiffModel: CoinDiffModel) {
@@ -118,6 +148,14 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope {
         with (coin_view_my_coins) {
             if (coinDiffModel.coinDiff > 1.0) accelerateLong() else accelerateShort()
         }
+    }
+
+    override fun updatePeerJoin(presenceModel: PresenceModel) {
+        text_view_online_players.incrementCount()
+    }
+
+    override fun updatePeerLeft(presenceModel: PresenceModel) {
+        text_view_online_players.decrementCount()
     }
 
     // BaseFragment implementation
@@ -136,7 +174,9 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope {
                 authenticationManager.getAuthenticatedUser()!!.userId
             ).also { attemptsAdapter = it }
             addItemDecoration(ListItemDecoration(resources.getDimension(R.dimen.attempt_list_vertical_offset).toInt()))
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context).apply {
+                stackFromEnd = true // Show new messages starting from the bottom
+            }
         }
     }
 

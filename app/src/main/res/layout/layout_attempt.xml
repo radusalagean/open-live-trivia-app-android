@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:id="@+id/attempt_frame_layout"
     android:background="@drawable/layout_attempt_background"
-    tools:ignore="MissingPrefix">
+    tools:ignore="MissingPrefix"
+    android:maxWidth="300dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,6 +19,7 @@
         tools:text="Username"
         android:maxLines="1"
         fontPath="fonts/NunitoSans-ExtraLightItalic.ttf"
+        android:textColor="@color/colorSuperUltraDarkGrey"
         android:visibility="gone"
         tools:visibility="visible"/>
 

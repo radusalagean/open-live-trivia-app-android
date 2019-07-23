@@ -4,12 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
 import kotlinx.coroutines.*
-import timber.log.Timber
 import java.lang.IllegalStateException
 import kotlin.coroutines.CoroutineContext
+import kotlin.math.absoluteValue
 
 private const val FORMAT = "%.2f"
-private const val ANIMATION_DELAY = 100L // Milliseconds
+private const val ANIMATION_DELAY = 50L // Milliseconds
 
 class CoinsTextView(
     context: Context,
@@ -25,23 +25,37 @@ class CoinsTextView(
         private set
 
     fun setCoins(coins: Double) {
+        animateJob?.cancel()
         this.coins = coins
         text = FORMAT.format(coins)
     }
 
     fun computeDiff(diff: Double, millis: Long) {
-        Timber.d("computeDiff($diff, $millis)")
-//        if (coins == null) { TODO
-//            throw IllegalStateException(
-//                "Unable to compute diff of uninitialized base value. Assign 'coins' with a value first"
-//            )
-//        }
-//        coins!!.apply {
-//            val oldValue = this
-//            plus(diff)
-//            Timber.d("old $oldValue | new $this")
-//            animateDiff(oldValue, this, millis)
-//        }
+        assertCoinsInitialized()
+        coins!!.let {
+            coins = it.plus(diff)
+            animateDiff(it, coins!!, millis)
+        }
+    }
+
+    fun updateValue(newValue: Double, millis: Long) {
+        assertCoinsInitialized()
+        coins!!.let {
+            coins = newValue
+            animateDiff(it, newValue, millis)
+        }
+    }
+
+    fun drain() {
+        updateValue(0.0, COIN_ACCELERATE_LONG)
+    }
+
+    private fun assertCoinsInitialized() {
+        if (coins == null) {
+            throw IllegalStateException(
+                "Unable to compute diff of uninitialized base value. Assign 'coins' with a value first"
+            )
+        }
     }
 
     private fun animateDiff(oldValue: Double, newValue: Double, millis: Long) {
@@ -51,12 +65,11 @@ class CoinsTextView(
             val diffPerDrawCycle = diff / (millis / ANIMATION_DELAY)
             var currentValue = oldValue
             animateJob = launch {
-                while (currentValue < newValue) {
+                while (if (diff > 0.0) currentValue < newValue else currentValue > newValue) {
                     delay(ANIMATION_DELAY)
                     currentValue += diffPerDrawCycle
                     withContext(Dispatchers.Main) {
-                        Timber.d("current: $currentValue")
-                        text = FORMAT.format(currentValue)
+                        text = FORMAT.format(currentValue.absoluteValue)
                     }
                 }
             }
