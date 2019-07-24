@@ -8,7 +8,6 @@ import com.busytrack.openlivetriviainterface.socket.SocketHub
 import com.busytrack.openlivetriviainterface.socket.event.SocketEventListener
 import com.busytrack.openlivetriviainterface.socket.model.*
 import kotlinx.coroutines.*
-import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 class GamePresenter(
@@ -27,13 +26,21 @@ class GamePresenter(
         super.dispose()
         coroutineContext.cancel()
         coroutineContext.cancelChildren()
-        socketHub.unregisterEventListener(this)
     }
 
     override fun initSocketConnection() {
         // Register callbacks on the main thread
         socketHub.registerEventListener(this, Handler(Looper.getMainLooper()))
         socketHub.connect()
+    }
+
+    override fun disposeSocketConnection() {
+        socketHub.unregisterEventListener(this)
+        socketHub.disconnect()
+    }
+
+    override fun getGameState(): GameState? {
+        return model.gameState
     }
 
     override fun sendAttempt(message: String) {
@@ -51,25 +58,32 @@ class GamePresenter(
     }
 
     override fun onDisconnected() {
+        view?.onDisconnected()
     }
 
     override fun onConnecting() {
+        view?.onConnecting()
     }
 
     override fun onConnectionError() {
+
     }
 
     override fun onConnectionTimeout() {
+
     }
 
     override fun onAuthenticated() {
+        view?.onConnected()
     }
 
     override fun onUnauthorized(model: UnauthorizedModel) {
+
     }
 
     override fun onWelcome(model: GameStateModel) {
         view?.updateGameState(model)
+        this.model.gameState = model.gameState
     }
 
     override fun onPeerJoin(model: PresenceModel) {
@@ -78,6 +92,9 @@ class GamePresenter(
 
     override fun onPeerAttempt(model: AttemptModel) {
         view?.updateAttempt(model)
+        if (model.correct) {
+            this.model.gameState = GameState.TRANSITION
+        }
     }
 
     override fun onCoinDiff(model: CoinDiffModel) {
@@ -89,6 +106,7 @@ class GamePresenter(
 
     override fun onRound(model: RoundModel) {
         view?.updateRound(model)
+        this.model.gameState = GameState.SPLIT
     }
 
     override fun onSplit(model: SplitModel) {
@@ -97,6 +115,7 @@ class GamePresenter(
 
     override fun onReveal(model: RevealModel) {
         view?.updateReveal(model)
+        this.model.gameState = GameState.TRANSITION
     }
 
     override fun onEntryReportedOk() {

@@ -1,166 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/game_root_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".screen.game.GameFragment"
-    android:paddingTop="@dimen/screen_vertical_padding"
-    android:paddingBottom="@dimen/screen_vertical_padding"
-    android:paddingStart="@dimen/screen_horizontal_padding"
-    android:paddingEnd="@dimen/screen_horizontal_padding"
-    android:keepScreenOn="true"
-    android:clipToPadding="false"
-    tools:ignore="MissingPrefix">
+    android:id="@+id/game_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_user_header"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/game_header_background"
-        android:translationZ="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_view_my_username"
-            tools:text="Username"
-            android:maxLines="1"
-            android:textSize="14sp"
-            android:layout_marginEnd="4dp"
-            android:ellipsize="end"
-            android:layout_gravity="center_vertical"
-            android:maxWidth="200dp"/>
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:id="@+id/image_view_my_profile"
-            tools:ignore="ContentDescription"
-            tools:srcCompat="@tools:sample/avatars"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout_coins_header"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toStartOf="@id/layout_user_header"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/game_header_background"
-        android:translationZ="8dp"
-        android:layout_marginEnd="8dp">
-
-        <com.busytrack.openlivetrivia.view.CoinsTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_view_my_coins"
-            tools:text="100.00"
-            android:maxLines="1"
-            fontPath="fonts/ShareTechMono-Regular.ttf"
-            android:textSize="16sp"
-            android:layout_marginEnd="4dp"
-            android:ellipsize="end"
-            android:layout_gravity="center_vertical"
-            android:includeFontPadding="false"/>
-
-        <com.busytrack.openlivetrivia.view.CoinView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:id="@+id/coin_view_my_coins"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout_players_header"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/layout_coins_header"
-        app:layout_constraintHorizontal_bias="0"
-        android:background="@drawable/game_header_background"
-        android:translationZ="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constrainedWidth="true">
-
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:background="@drawable/dot_online_players"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="4dp"/>
-
-        <com.busytrack.openlivetrivia.view.PlayersTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_view_online_players"
-            tools:text="1 player"
-            android:textSize="14sp"
-            android:maxLines="1"
-            android:ellipsize="end"/>
-
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/card_view_clue"
-        android:translationZ="8dp"
-        app:cardCornerRadius="8dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_user_header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/game_progress_bar_main"
+        android:layout_gravity="center"
         android:visibility="gone"
-        tools:visibility="visible"
-        android:layout_marginTop="8dp">
+        tools:visibility="visible"/>
 
-        <include layout="@layout/layout_clue"/>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/game_content_root_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/recycler_view_attempts"
-        app:layout_constraintTop_toBottomOf="@id/card_view_clue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/edit_text_attempt"
-        android:layout_marginBottom="8dp"
-        tools:listitem="@layout/item_attempt_peer"/>
+        android:layout_height="match_parent"
+        tools:context=".screen.game.GameFragment"
+        android:paddingTop="@dimen/screen_vertical_padding"
+        android:paddingBottom="@dimen/screen_vertical_padding"
+        android:paddingStart="@dimen/screen_horizontal_padding"
+        android:paddingEnd="@dimen/screen_horizontal_padding"
+        android:keepScreenOn="true"
+        android:clipToPadding="false"
+        tools:ignore="MissingPrefix"
+        android:visibility="gone"
+        tools:visibility="visible">
 
-    <EditText
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_text_attempt"
-        tools:ignore="Autofill"
-        android:inputType="textNoSuggestions"
-        android:hint="@string/game_answer_attempt_hint"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/button_send_attempt"
-        android:maxLines="1"
-        android:maxLength="200"/>
+        <!--Players Header-->
+        <include
+            layout="@layout/layout_header_players"
+            android:id="@+id/layout_header_players"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/layout_header_coins"
+            app:layout_constraintBottom_toTopOf="@id/header_barrier"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_send_attempt"
-        android:text="Send"
-        app:layout_constraintTop_toTopOf="@id/edit_text_attempt"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_attempt"
-        app:layout_constraintStart_toEndOf="@id/edit_text_attempt"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="8dp"
-        android:textSize="12sp"
-        android:enabled="false"/>
+        <!--Coins Header-->
+        <include
+            layout="@layout/layout_header_coins"
+            android:id="@+id/layout_header_coins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/header_barrier"
+            app:layout_constraintStart_toEndOf="@id/layout_header_players"
+            app:layout_constraintEnd_toStartOf="@id/layout_header_user"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--User Header-->
+        <include
+            layout="@layout/layout_header_user"
+            android:id="@+id/layout_header_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/header_barrier"
+            app:layout_constraintStart_toEndOf="@id/layout_header_coins"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constrainedWidth="true"/>
+
+        <!--Barrier-->
+        <androidx.constraintlayout.widget.Barrier
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/header_barrier"
+            app:constraint_referenced_ids="layout_header_players,layout_header_coins,layout_header_user"
+            app:barrierDirection="bottom"/>
+
+        <!--Clue Card-->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/card_view_clue"
+            android:translationZ="8dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintTop_toBottomOf="@id/header_barrier"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_marginTop="8dp">
+
+            <include layout="@layout/layout_clue"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <!--Attempts-->
+        <com.busytrack.openlivetrivia.view.ResizeAwareRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/recycler_view_attempts"
+            app:layout_constraintTop_toBottomOf="@id/card_view_clue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/edit_text_attempt"
+            android:layout_marginBottom="8dp"
+            android:overScrollMode="never"
+            tools:listitem="@layout/item_attempt_peer"/>
+
+        <!--Scroll to Bottom Button-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/game_fab_scroll_down"
+            app:layout_constraintBottom_toTopOf="@id/edit_text_attempt"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_round_arrow_downward_24dp"
+            app:fabSize="mini"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="12dp"
+            android:visibility="invisible"
+            tools:visibility="visible"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_text_attempt"
+            tools:ignore="Autofill"
+            android:inputType="textNoSuggestions"
+            android:hint="@string/game_answer_attempt_hint"
+            app:layout_constraintBottom_toBottomOf="@id/button_send_attempt"
+            app:layout_constraintTop_toTopOf="@id/button_send_attempt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_send_attempt"
+            android:layout_marginEnd="8dp"
+            android:maxLines="1"
+            android:maxLength="200"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_send_attempt"
+            android:src="@drawable/ic_round_send_20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/game_button_send_content_description"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

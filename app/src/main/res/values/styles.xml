@@ -10,6 +10,8 @@
 
         <!--Override default UI styles-->
         <item name="android:buttonStyle">@style/button_regular</item>
+        <item name="imageButtonStyle">@style/image_button</item>
+        <item name="editTextStyle">@style/edit_text</item>
 
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -17,12 +19,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="edit_text" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/edit_text_background</item>
+    </style>
+
+    <style name="image_button" parent="@android:style/Widget.ImageButton">
+        <item name="android:background">@drawable/image_button_background</item>
+        <item name="android:stateListAnimator">@animator/button_animator</item>
+    </style>
+
     <style name="button_regular" parent="@android:style/Widget.Button">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="fontPath">fonts/NunitoSans-Bold.ttf</item>
-        <item name="android:translationZ">8dp</item>
         <item name="android:stateListAnimator">@animator/button_animator</item>
         <item name="android:background">@drawable/button_regular</item>
         <item name="android:focusable">true</item>

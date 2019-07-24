@@ -41,6 +41,14 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
         return inflater.inflate(R.layout.fragment_authentication, container, false)
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (authorizationManager.isUserAuthenticated()) {
+            // If a Google account was previously selected, authenticate with the backend
+            presenter.login()
+        }
+    }
+
     // BaseFragment implementation
 
     override fun setRefreshingIndicator(refreshing: Boolean) {
@@ -51,10 +59,6 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
     override fun initViews() {
         view_pager.isUserInputEnabled = false
         view_pager.adapter = pagerAdapter
-        if (authorizationManager.isUserAuthenticated()) {
-            // If a Google account was previously selected, authenticate with the backend
-            presenter.login()
-        }
     }
 
     override fun disposeViews() {

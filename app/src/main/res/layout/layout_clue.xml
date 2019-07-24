@@ -9,7 +9,8 @@
     android:paddingTop="12dp"
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
-    tools:ignore="MissingPrefix">
+    tools:ignore="MissingPrefix"
+    android:clipToPadding="false">
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,14 +41,15 @@
         android:ellipsize="end"
         android:layout_gravity="center_vertical"
         android:includeFontPadding="false"
-        app:layout_constraintTop_toTopOf="@id/coin_view_clue_coins"
-        app:layout_constraintBottom_toBottomOf="@id/coin_view_clue_coins"
+        app:layout_constraintTop_toTopOf="@id/text_view_clue_category"
+        app:layout_constraintBottom_toBottomOf="@id/text_view_clue_category"
         app:layout_constraintEnd_toStartOf="@id/coin_view_clue_coins"/>
 
     <com.busytrack.openlivetrivia.view.CoinView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_view_clue_coins"
+        app:layout_constraintBottom_toBottomOf="@id/text_view_clue_coins"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/coin_view_clue_coins"/>
 
@@ -76,18 +78,19 @@
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
         android:paddingTop="2dp"
-        android:paddingBottom="2dp"/>
+        android:gravity="center"/>
 
     <com.busytrack.openlivetrivia.view.TimedProgressBar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="4dp"
         android:id="@+id/timed_progress_bar_remaining_time"
         app:layout_constraintTop_toBottomOf="@id/text_view_answer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
+        android:visibility="invisible"
         tools:visibility="visible"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:indeterminate="false"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="-12dp"
+        android:layout_marginEnd="-12dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

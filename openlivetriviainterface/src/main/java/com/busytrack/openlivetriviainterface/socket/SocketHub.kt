@@ -65,10 +65,12 @@ class SocketHub {
     }
 
     fun registerEventListener(listener: SocketEventListener, handler: Handler) {
+        Timber.d("registerEventListener")
         registeredSocketListeners.put(listener, handler)
     }
 
     fun unregisterEventListener(listener: SocketEventListener) {
+        Timber.d("unregisterEventListener")
         registeredSocketListeners.remove(listener)
     }
 

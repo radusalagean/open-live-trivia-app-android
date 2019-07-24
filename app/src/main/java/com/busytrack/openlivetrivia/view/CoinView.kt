@@ -11,7 +11,7 @@ class CoinView(context: Context, attributeSet: AttributeSet) : SurfaceView(conte
 
     init {
         setFrameRate(COIN_VIEW_FRAMERATE.toDouble())
-        renderMode = ISurface.RENDERMODE_WHEN_DIRTY
+        renderMode = ISurface.RENDERMODE_CONTINUOUSLY
         mIsTransparent = true
         setSurfaceRenderer(CoinRenderer(context).also { renderer = it })
     }

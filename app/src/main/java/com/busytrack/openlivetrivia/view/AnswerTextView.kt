@@ -3,13 +3,14 @@ package com.busytrack.openlivetrivia.view
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import com.busytrack.openlivetrivia.R
 
 class AnswerTextView(
     context: Context,
     attributeSet: AttributeSet
-) : TextView(context, attributeSet) {
+) : AppCompatTextView(context, attributeSet) {
 
     var defaultColor = textColors
 

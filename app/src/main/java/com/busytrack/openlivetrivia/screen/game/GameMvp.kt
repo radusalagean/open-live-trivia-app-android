@@ -5,10 +5,13 @@ import com.busytrack.openlivetriviainterface.socket.model.*
 
 interface GameMvp {
     interface Model : BaseMvp.Model<GameViewModel> {
-
+        var gameState: GameState?
     }
 
     interface View : BaseMvp.View {
+        fun onConnecting()
+        fun onConnected()
+        fun onDisconnected()
         fun updateGameState(gameStateModel: GameStateModel)
         fun updateRound(roundModel: RoundModel)
         fun updateSplit(splitModel: SplitModel)
@@ -21,6 +24,8 @@ interface GameMvp {
 
     interface Presenter : BaseMvp.Presenter<View> {
         fun initSocketConnection()
+        fun disposeSocketConnection()
+        fun getGameState(): GameState?
         fun sendAttempt(message: String)
     }
 }

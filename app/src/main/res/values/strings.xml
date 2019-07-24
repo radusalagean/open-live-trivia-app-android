@@ -17,4 +17,5 @@
     <string name="game_answer_attempt_hint">Type your answer attempt</string>
     <string name="game_online_players">%d players</string>
     <string name="game_online_players_singular_form">%d player</string>
+    <string name="game_button_send_content_description">Send attempt</string>
 </resources>

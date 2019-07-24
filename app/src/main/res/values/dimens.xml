@@ -8,6 +8,13 @@
     <dimen name="button_padding_vertical">12dp</dimen>
     <dimen name="button_corner_radius">24dp</dimen>
 
+    <dimen name="image_button_padding_horizontal">12dp</dimen>
+    <dimen name="image_button_padding_vertical">12dp</dimen>
+
+    <dimen name="edit_text_corner_radius">16dp</dimen>
+    <dimen name="edit_text_padding_horizontal">12dp</dimen>
+    <dimen name="edit_text_padding_vertical">6dp</dimen>
+
     <!--Game-->
     <dimen name="attempt_list_vertical_offset">8dp</dimen>
 </resources>

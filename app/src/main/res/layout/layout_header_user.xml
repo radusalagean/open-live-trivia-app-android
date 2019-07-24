@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_header_user"
+    android:orientation="horizontal"
+    android:background="@drawable/game_header_background"
+    android:translationZ="8dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_view_my_username"
+        tools:text="Username bvekv kj hjv jdbjh jherfbjem fehjf emfe"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:layout_marginEnd="4dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/image_view_my_profile"
+        tools:ignore="ContentDescription"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_weight="0"/>
+
+</LinearLayout>
+

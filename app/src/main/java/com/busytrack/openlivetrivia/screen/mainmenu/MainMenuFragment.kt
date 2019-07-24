@@ -53,7 +53,12 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
 
     override fun registerListeners() {
         ViewCompat.setOnApplyWindowInsetsListener(main_menu_root_layout) { view, insets ->
-            view.updatePadding(top = insets.systemWindowInsetTop, bottom = insets.systemWindowInsetBottom)
+            view.setPadding(
+                insets.systemWindowInsetLeft,
+                insets.systemWindowInsetTop,
+                insets.systemWindowInsetRight,
+                insets.systemWindowInsetBottom
+            )
             insets
         }
         button_play.setOnClickListener {

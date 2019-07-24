@@ -10,6 +10,7 @@ private const val ATTEMPT_TYPE_OWN = 0
 private const val ATTEMPT_TYPE_PEER = 1
 
 class GameAttemptsAdapter(
+    private val contract: GameAttemptContract,
     private val attempts: ArrayList<AttemptModel>,
     private val authenticatedUserId: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -25,7 +26,7 @@ class GameAttemptsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is GameOwnAttemptViewHolder -> holder.bind(attempts[position])
+            is GameOwnAttemptViewHolder -> holder.bind(attempts[position], contract)
             is GamePeerAttemptViewHolder -> holder.bind(attempts[position])
         }
     }
@@ -44,7 +45,7 @@ class GameAttemptsAdapter(
 
     fun addAttempt(model: AttemptModel) {
         attempts.add(model)
-        notifyDataSetChanged()
+        notifyItemInserted(attempts.size - 1)
     }
 
     fun initializeAttempts(models: List<AttemptModel>) {
