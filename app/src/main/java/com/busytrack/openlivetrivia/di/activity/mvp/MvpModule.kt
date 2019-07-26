@@ -55,8 +55,9 @@ class MvpModule {
     @Provides
     fun provideGamePresenter(
         model: GameMvp.Model,
+        activityContract: ActivityContract,
         socketHub: SocketHub,
         authorizationManager: AuthorizationManager
     ): GameMvp.Presenter =
-        GamePresenter(model, socketHub, authorizationManager)
+        GamePresenter(model, activityContract, socketHub, authorizationManager)
 }

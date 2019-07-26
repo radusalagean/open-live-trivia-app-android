@@ -6,44 +6,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_menu_root_layout"
+    android:paddingTop="@dimen/screen_vertical_padding"
+    android:paddingBottom="@dimen/screen_vertical_padding"
+    android:paddingStart="@dimen/screen_horizontal_padding"
+    android:paddingEnd="@dimen/screen_horizontal_padding"
     tools:context=".screen.mainmenu.MainMenuFragment">
 
-    <com.busytrack.openlivetrivia.view.CoinView
+    <ImageView
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:id="@+id/coin_view"
+        android:id="@+id/image_view_logo"
+        android:src="@drawable/logo_gradient_text"
         android:layout_marginTop="48dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription"/>
 
-    <com.busytrack.openlivetrivia.view.CoinsTextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/text_view_coins"
+        android:id="@+id/linear_layout_coins"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/coin_view"
+        app:layout_constraintTop_toBottomOf="@id/image_view_logo"
         android:layout_marginTop="24dp"
-        style="@style/main_menu_text_view_coin_indicator"
-        tools:text="100.00"
-        android:includeFontPadding="false"/>
+        android:orientation="horizontal"
+        android:background="@drawable/text_view_main_menu_coin_indicator">
+
+        <com.busytrack.openlivetrivia.view.CoinView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"/>
+
+        <com.busytrack.openlivetrivia.view.CoinsTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view_coins"
+            fontPath="fonts/ShareTechMono-Regular.ttf"
+            android:textSize="24sp"
+            android:textColor="@color/colorBlack"
+            tools:text="100.00"
+            android:includeFontPadding="false"/>
+
+    </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_play"
+        style="@style/button_regular"
         android:text="@string/play_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_coins"
+        app:layout_constraintTop_toBottomOf="@id/linear_layout_coins"
         android:layout_marginTop="48dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_log_out"
-        style="@style/button_negative"
+        style="@style/button_dark"
         android:text="@string/log_out_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

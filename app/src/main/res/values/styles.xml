@@ -4,12 +4,14 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+
+        <!--THESE ARE FOR TRANSLLUCENT UI-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
 
         <!--Override default UI styles-->
-        <item name="android:buttonStyle">@style/button_regular</item>
+        <!--<item name="android:buttonStyle">@style/button_regular</item>-->
         <item name="imageButtonStyle">@style/image_button</item>
         <item name="editTextStyle">@style/edit_text</item>
 
@@ -39,22 +41,24 @@
         <item name="android:clickable">true</item>
     </style>
 
-    <style name="button_negative" parent="button_regular">
-        <item name="android:background">@drawable/button_negative</item>
-        <item name="android:textColor">@drawable/button_negative_text_color</item>
-    </style>
-    
-    <style name="main_menu_text_view_coin_indicator">
-        <item name="android:background">@drawable/text_view_main_menu_coin_indicator</item>
-        <item name="fontPath">fonts/ShareTechMono-Regular.ttf</item>
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/colorBlack</item>
+    <style name="button_dark" parent="button_regular">
+        <item name="android:background">@drawable/button_dark_background</item>
+        <item name="android:textColor">@drawable/button_dark_text_color</item>
     </style>
 
     <style name="text_view_clue_category">
         <item name="android:background">@drawable/text_view_clue</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="rights_level">
+        <item name="android:background">@drawable/text_view_rights_level_background</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="fontPath">fonts/NunitoSans-SemiBold.ttf</item>
+        <item name="android:visibility">gone</item>
     </style>
 
 </resources>

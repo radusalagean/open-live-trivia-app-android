@@ -3,11 +3,11 @@ package com.busytrack.openlivetrivia.screen.authentication
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
+import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
 import com.busytrack.openlivetriviainterface.rest.model.OutgoingRegisterModel
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableCompletableObserver
-import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
 import timber.log.Timber
 import java.net.HttpURLConnection
@@ -24,18 +24,21 @@ class AuthenticationPresenter(
         refreshing = true
     }
 
+    override fun firebaseLogOut() {
+        authenticationManager.signOut(true)
+    }
+
     override fun login() {
         refreshing = true
         compositeDisposable.add(model.login()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object : DisposableObserver<UserModel>() {
+            .subscribeWith(object : ReactiveObserver<UserModel>(this) {
                 override fun onNext(t: UserModel) {
                     authenticationManager.setAuthenticatedUser(t)
                 }
 
                 override fun onError(e: Throwable) {
-                    Timber.e("onError($e)")
-                    refreshing = false
+                    super.onError(e)
                     if (e is HttpException && e.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                         // The selected Google account is not yet registered in the app
                         view?.showRegisterPage()
@@ -55,14 +58,9 @@ class AuthenticationPresenter(
         compositeDisposable.add(
             model.registerUser(registerModel)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<UserModel>() {
+                .subscribeWith(object : ReactiveObserver<UserModel>(this) {
                     override fun onNext(t: UserModel) {
                         authenticationManager.setAuthenticatedUser(t)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Timber.e("onError($e)")
-                        refreshing = false
                     }
 
                     override fun onComplete() {
@@ -78,7 +76,7 @@ class AuthenticationPresenter(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableCompletableObserver() {
                     override fun onError(e: Throwable) {
-                        Timber.e("onError($e)")
+                        Timber.e(e)
                         if (e is HttpException && e.code() == HttpURLConnection.HTTP_CONFLICT) {
                             // The username is already registered in the app
                             view?.setUsernameAvailability(false)
@@ -86,7 +84,6 @@ class AuthenticationPresenter(
                     }
 
                     override fun onComplete() {
-                        Timber.d("onComplete()")
                         view?.setUsernameAvailability(true)
                     }
                 })

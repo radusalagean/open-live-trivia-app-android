@@ -13,6 +13,7 @@ interface SocketEventListener {
     fun onWelcome(model: GameStateModel)
     fun onPeerJoin(model: PresenceModel)
     fun onPeerAttempt(model: AttemptModel)
+    fun onInsufficientFunds()
     fun onCoinDiff(model: CoinDiffModel)
     fun onPeerReaction(model: ReactionModel)
     fun onRound(model: RoundModel)

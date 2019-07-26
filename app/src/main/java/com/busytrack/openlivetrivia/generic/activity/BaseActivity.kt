@@ -3,16 +3,20 @@ package com.busytrack.openlivetrivia.generic.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
 import com.busytrack.openlivetrivia.di.activity.ActivityComponent
 import com.busytrack.openlivetrivia.di.activity.ActivityModule
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import timber.log.Timber
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
+import com.busytrack.openlivetrivia.generic.infobar.InfoBar
+import com.busytrack.openlivetrivia.generic.infobar.TYPE_ERROR
+import com.busytrack.openlivetrivia.generic.infobar.TYPE_INFO
+import com.busytrack.openlivetrivia.generic.infobar.TYPE_WARN
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import com.busytrack.openlivetrivia.screen.game.GameFragment
 import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
@@ -81,6 +85,14 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase!!))
     }
 
+    override fun onBackPressed() {
+        getCurrentFragment()?.let {
+            if (!it.onBackPressed()) {
+                super.onBackPressed()
+            }
+        } ?: super.onBackPressed()
+    }
+
     // Base methods
 
     /**
@@ -124,16 +136,16 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
 
     // Activity contract implementation
 
-    override fun showInfoMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    override fun showInfoMessage(message: Int, args: Any?) {
+        showMessage(message, args, TYPE_INFO)
     }
 
-    override fun showWarningMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    override fun showWarningMessage(message: Int, args: Any?) {
+        showMessage(message, args, TYPE_WARN)
     }
 
-    override fun showErrorMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    override fun showErrorMessage(message: Int, args: Any?) {
+        showMessage(message, args, TYPE_ERROR)
     }
 
     override fun triggerGoogleSignIn(intent: Intent) {
@@ -161,19 +173,19 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
     }
 
     override fun handleSuccessfulFirebaseLogIn() {
-        showInfoMessage("Logged in successfully")
+        showInfoMessage(R.string.message_logged_in_successfully)
         // Pass the event to the current fragment
         getCurrentFragment()?.handleSuccessfulFirebaseSignIn()
     }
 
     override fun handleFailedFirebaseLogIn(t: Throwable?) {
-        showErrorMessage("Failed to log in: ${t?.message}")
+        showErrorMessage(R.string.message_failed_to_log_in, t?.message)
         // Pass the event to the current fragment
         getCurrentFragment()?.handleFailedFirebaseSignIn(t)
     }
 
     override fun handleLogOut() {
-        showInfoMessage("Logged out")
+        showInfoMessage(R.string.message_logged_out)
         // Pass the event to the current fragment
         getCurrentFragment()?.handleLogOut()
         popAllFragments()
@@ -188,4 +200,13 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
      * Override to specify the default fragment to be added with the [addDefaultFragmentIfNecessary] method
      */
     protected abstract fun getDefaultFragment(): BaseFragment
+
+    // Private
+
+    private fun showMessage(message: Int, args: Any?, type: Int) {
+        getCurrentFragment()?.let {
+            val string = if (args == null) getString(message) else getString(message, args)
+            InfoBar.make(it.getInfoBarContainer(), string, type).show()
+        }
+    }
 }

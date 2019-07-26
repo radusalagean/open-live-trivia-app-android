@@ -52,15 +52,6 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     }
 
     override fun registerListeners() {
-        ViewCompat.setOnApplyWindowInsetsListener(main_menu_root_layout) { view, insets ->
-            view.setPadding(
-                insets.systemWindowInsetLeft,
-                insets.systemWindowInsetTop,
-                insets.systemWindowInsetRight,
-                insets.systemWindowInsetBottom
-            )
-            insets
-        }
         button_play.setOnClickListener {
             activityContract.showGameScreen()
         }
@@ -70,7 +61,6 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     }
 
     override fun unregisterListeners() {
-        ViewCompat.setOnApplyWindowInsetsListener(main_menu_root_layout, null)
         button_play.setOnClickListener(null)
         button_log_out.setOnClickListener(null)
     }
@@ -84,6 +74,8 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     @Suppress("UNCHECKED_CAST")
     override fun <T : BaseMvp.View> getPresenter(): BaseMvp.Presenter<T> =
         presenter as BaseMvp.Presenter<T>
+
+    override fun getInfoBarContainer(): ViewGroup = main_menu_root_layout
 
     // Mvp Contract
 

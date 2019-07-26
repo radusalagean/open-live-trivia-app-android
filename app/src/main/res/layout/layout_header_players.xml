@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/layout_header_players"
+    android:id="@+id/layout_header_players_parent"
     android:orientation="horizontal"
     android:background="@drawable/game_header_background"
     android:translationZ="8dp">

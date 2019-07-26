@@ -20,6 +20,7 @@ interface AuthenticationMvp {
 
     interface Presenter : BaseMvp.Presenter<View> {
         fun firebaseLogIn()
+        fun firebaseLogOut()
         fun login()
         fun register(username: String)
         fun checkUsernameAvailability(username: String)

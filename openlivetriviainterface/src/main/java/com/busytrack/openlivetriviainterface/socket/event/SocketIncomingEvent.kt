@@ -20,6 +20,7 @@ internal enum class SocketIncomingEvent(
     WELCOME(modelClass = GameStateModel::class.java),
     PEER_JOIN(modelClass = PresenceModel::class.java),
     PEER_ATTEMPT(modelClass = AttemptModel::class.java),
+    INSUFFICIENT_FUNDS,
     COIN_DIFF(modelClass = CoinDiffModel::class.java),
     PEER_REACTION(modelClass = ReactionModel::class.java),
     ROUND(modelClass = RoundModel::class.java),

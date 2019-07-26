@@ -187,4 +187,9 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
      * @return true if the event was consumed, false otherwise
      */
     open fun onBackPressed() = false
+
+    /**
+     * Override to return the preferred container for info messages
+     */
+    abstract fun getInfoBarContainer(): ViewGroup
 }

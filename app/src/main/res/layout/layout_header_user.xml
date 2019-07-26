@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/layout_header_user"
+    android:id="@+id/layout_header_user_parent"
     android:orientation="horizontal"
     android:background="@drawable/game_header_background"
     android:translationZ="8dp">
@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view_my_username"
-        tools:text="Username bvekv kj hjv jdbjh jherfbjem fehjf emfe"
+        tools:text="Username"
         android:singleLine="true"
         android:textSize="14sp"
         android:layout_marginEnd="4dp"

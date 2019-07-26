@@ -32,7 +32,7 @@ class TimedProgressBar(
     }
 
     private fun startTimer() {
-        invalidate()
+        postInvalidate()
         show()
         stopTimer()
         timerJob = launch {
@@ -43,7 +43,7 @@ class TimedProgressBar(
             while (isActive && progress < max) {
                 delay(1000)
                 progress++
-                invalidate()
+                postInvalidate()
             }
         }
     }

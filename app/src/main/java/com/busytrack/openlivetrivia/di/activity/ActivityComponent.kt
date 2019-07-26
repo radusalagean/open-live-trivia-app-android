@@ -2,6 +2,7 @@ package com.busytrack.openlivetrivia.di.activity
 
 import com.busytrack.openlivetrivia.activity.MainActivity
 import com.busytrack.openlivetrivia.di.activity.auth.AuthenticationModule
+import com.busytrack.openlivetrivia.di.activity.dialog.DialogModule
 import com.busytrack.openlivetrivia.di.activity.mvp.MvpModule
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import com.busytrack.openlivetrivia.screen.game.GameFragment
@@ -12,7 +13,8 @@ import dagger.Subcomponent
 @Subcomponent(modules = [
     ActivityModule::class,
     AuthenticationModule::class,
-    MvpModule::class
+    MvpModule::class,
+    DialogModule::class
 ])
 interface ActivityComponent {
     fun inject(mainActivity: MainActivity)

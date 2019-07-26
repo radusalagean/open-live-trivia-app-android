@@ -5,9 +5,13 @@
     <string name="log_in_button">Log in</string>
     <string name="log_in_hint">Your personal Google account information won\'t be accessed by the app. You will be able to customize your in-game identity with a display name of your choice, when registering a new account.</string>
     <string name="register_button">Register</string>
+    <string name="register_select_another_account"><u>Wrong account?\nSelect a different Google account.</u></string>
     <string name="username_hint">Username</string>
     <string name="username_available">Username available</string>
     <string name="username_unavailable">Username unavailable</string>
+    <string name="message_logged_in_successfully">Logged in successfully</string>
+    <string name="message_failed_to_log_in">Failed to log in: %s</string>
+    <string name="message_logged_out">Logged out</string>
 
     <!--Main Menu-->
     <string name="play_button">Play</string>
@@ -15,7 +19,37 @@
 
     <!--Game-->
     <string name="game_answer_attempt_hint">Type your answer attempt</string>
-    <string name="game_online_players">%d players</string>
-    <string name="game_online_players_singular_form">%d player</string>
     <string name="game_button_send_content_description">Send attempt</string>
+    <string name="game_entry_menu_report_entry">Report entry</string>
+    <string name="game_quit_confirmation_title">Quit game</string>
+    <string name="game_quit_confirmation_message">Are you sure you want to leave the current session?</string>
+    <string name="game_entry_reported_successfully">Entry reported successfully</string>
+    <string name="game_entry_already_reported">Entry already reported by you</string>
+    <string name="game_entry_report_error">Entry report error</string>
+
+    <!--Dialog-->
+    <string name="dialog_positive">Yes</string>
+    <string name="dialog_negative">No</string>
+    <string name="dialog_dismiss">Dismiss</string>
+
+    <!--User-->
+    <string name="user_playing">Playing</string>
+    <string name="user_last_seen_prefix">Last seen:</string>
+    <string name="user_action_dialog_title">Select an option</string>
+    <string name="user_action_dialog_option_upgrade_to_moderator">Upgrade to moderator</string>
+    <string name="user_action_dialog_option_downgrade_to_regular_user">Downgrade to regular user</string>
+
+    <!--General messages-->
+    <string name="general_error_message">Error: %s</string>
+
+    <!--Socket connection messages-->
+    <string name="message_socket_connection_lost">Connection lost</string>
+    <string name="message_socket_connection_error">Connection error</string>
+
+    <!--Game messages-->
+    <string name="message_insufficient_funds">Insufficient funds</string>
+
+    <!--REST messages-->
+    <string name="message_user_upgraded_to_moderator">%s was upgraded to moderator rights</string>
+    <string name="message_user_downgraded_to_regular">%s was downgraded to regular rights</string>
 </resources>

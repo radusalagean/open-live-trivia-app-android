@@ -4,27 +4,26 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.widget.Toast
-import androidx.core.view.ViewCompat
-import androidx.core.view.updatePadding
+import android.view.*
+import android.widget.PopupMenu
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.extension.applyText
 import com.busytrack.openlivetrivia.extension.setVisible
+import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_LONG
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_SHORT
-import com.busytrack.openlivetriviainterface.USER_THUMBNAILS_EXTENSION
-import com.busytrack.openlivetriviainterface.USER_THUMBNAILS_PATH
+import com.busytrack.openlivetriviainterface.BuildConfig.COST_EXTRA_ANSWER
+import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.model.*
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.layout_clue.*
@@ -33,11 +32,13 @@ import kotlinx.android.synthetic.main.layout_header_players.*
 import kotlinx.android.synthetic.main.layout_header_user.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptContract {
+class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptContract,
+    PopupMenu.OnMenuItemClickListener, GamePlayerContract
+{
+
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
 
@@ -46,8 +47,31 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
 
     @Inject
     lateinit var authenticationManager: AuthenticationManager
+    
+    @Inject
+    lateinit var dialogManager: DialogManager
+
+    @Inject
+    lateinit var activityContract: ActivityContract
 
     private var attemptsAdapter: GameAttemptsAdapter? = null
+    private var playersAdapter: GamePlayersAdapter? = null
+    private var entryPopupMenu: PopupMenu? = null
+
+    private val drawerListener = object : DrawerLayout.DrawerListener {
+        override fun onDrawerStateChanged(newState: Int) {}
+
+        override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+
+        override fun onDrawerClosed(drawerView: View) {}
+
+        override fun onDrawerOpened(drawerView: View) {
+            if (playersAdapter?.itemCount == 0) {
+                game_nav_swipe_refresh_layout.isRefreshing = true
+            }
+            presenter.requestPlayerList()
+        }
+    }
 
     private val textWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -92,10 +116,54 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         edit_text_attempt.applyText(attempt)
     }
 
+    // Popup menu
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        if (R.id.menu_report_entry == item?.itemId) {
+            if (presenter.isEntryReported()) {
+                activityContract.showWarningMessage(R.string.game_entry_already_reported)
+            } else {
+                presenter.reportEntry()
+            }
+            return true
+        }
+        return false
+    }
+
+    // User item contract
+
+    override fun onPlayerLongClicked(userModel: UserModel) {
+        if (authenticationManager.getAuthenticatedUser()?.rights == UserRightsLevel.ADMIN &&
+                userModel.rights != UserRightsLevel.ADMIN) {
+            val rightsChangeString = getString(
+                if (userModel.rights == UserRightsLevel.REGULAR) {
+                    R.string.user_action_dialog_option_upgrade_to_moderator
+                } else {
+                    R.string.user_action_dialog_option_downgrade_to_regular_user
+                }
+            )
+            val items = arrayOf(rightsChangeString)
+            dialogManager.showListAlertDialog(
+                R.string.user_action_dialog_title,
+                items
+            ) { dialog, which ->
+                when(items[which]) {
+                    rightsChangeString -> {
+                        if (userModel.rights == UserRightsLevel.REGULAR) {
+                            presenter.upgradeToMod(userModel)
+                        } else {
+                            presenter.downgradeToRegular(userModel)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // Mvp Implementation
 
     override fun onConnecting() {
-        setLoadingState(true)
+        setSocketLoadingState(true)
     }
 
     override fun onConnected() {
@@ -103,8 +171,13 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     }
 
     override fun onDisconnected() {
-        // TODO Show reconnect / abort dialog
-        Toast.makeText(context, "onDisconnected()", Toast.LENGTH_LONG).show()
+        activityContract.showErrorMessage(R.string.message_socket_connection_lost)
+        popBackStack()
+    }
+
+    override fun onConnectionError() {
+        activityContract.showErrorMessage(R.string.message_socket_connection_error)
+        popBackStack()
     }
 
     override fun updateGameState(gameStateModel: GameStateModel) {
@@ -136,11 +209,11 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
             recycler_view_attempts.scrollToPosition(itemCount - 1)
         }
         button_send_attempt.isEnabled = false
-        setLoadingState(false)
+        setSocketLoadingState(false)
     }
 
     override fun updateRound(roundModel: RoundModel) {
-        Timber.w("updateRound")
+        entryPopupMenu?.dismiss()
         attemptsAdapter?.clearAttempts()
         card_view_clue.visibility = View.VISIBLE
         text_view_clue_category.text = roundModel.category?.also {
@@ -157,7 +230,6 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     override fun updateSplit(splitModel: SplitModel) {
         text_view_answer.text = splitModel.answer
         text_view_clue_coins.updateValue(splitModel.currentValue, COIN_ACCELERATE_SHORT)
-        coin_view_clue_coins.accelerateShort()
         timed_progress_bar_remaining_time.resetAndStart()
     }
 
@@ -173,7 +245,6 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         }
         if (attemptModel.correct) {
             text_view_clue_coins.drain()
-            coin_view_clue_coins.accelerateLong()
             text_view_answer.text = attemptModel.correctAnswer
             text_view_answer.correct()
             timed_progress_bar_remaining_time.hide()
@@ -185,7 +256,6 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         text_view_answer.text = revealModel.answer
         timed_progress_bar_remaining_time.hide()
         text_view_clue_coins.drain()
-        coin_view_clue_coins.accelerateLong()
         text_view_answer.reveal()
         button_send_attempt.isEnabled = false
     }
@@ -193,11 +263,8 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     override fun updateCoinDiff(coinDiffModel: CoinDiffModel) {
         text_view_my_coins.computeDiff(
             coinDiffModel.coinDiff,
-            if (coinDiffModel.coinDiff > 1.0) COIN_ACCELERATE_LONG else COIN_ACCELERATE_SHORT
+            if (coinDiffModel.coinDiff > COST_EXTRA_ANSWER) COIN_ACCELERATE_LONG else COIN_ACCELERATE_SHORT
         )
-        with (coin_view_my_coins) {
-            if (coinDiffModel.coinDiff > 1.0) accelerateLong() else accelerateShort()
-        }
     }
 
     override fun updatePeerJoin(presenceModel: PresenceModel) {
@@ -208,14 +275,25 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         text_view_online_players.decrementCount()
     }
 
+    override fun updatePlayerList(playerListModel: PlayerListModel) {
+        playersAdapter?.initializePlayers(playerListModel)
+        game_nav_swipe_refresh_layout.isRefreshing = false
+    }
+
+    override fun onUserRightsChanged() {
+        refreshPlayerListIfOpen()
+    }
+
     // BaseFragment implementation
 
     override fun initViews() {
-        text_view_my_username.isSelected = true // Enables marquee if text is constrained
+        // Select text views to enable marquee if text is constrained
+        text_view_my_username.isSelected = true
+        text_view_clue_category.isSelected = true
         authenticationManager.getAuthenticatedUser()?.let {
             text_view_my_username.text = it.username
             Glide.with(image_view_my_profile)
-                .load(USER_THUMBNAILS_PATH + it.userId + USER_THUMBNAILS_EXTENSION)
+                .load(UserModel.getThumbnailPath(it.userId))
                 .circleCrop()
                 .into(image_view_my_profile)
         }
@@ -229,27 +307,42 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
                 stackFromEnd = true // Show new messages starting from the bottom
             }
         }
+        game_nav_swipe_refresh_layout.apply {
+            setOnRefreshListener {
+                presenter.requestPlayerList()
+            }
+            setColorSchemeResources(R.color.colorAccent)
+        }
+        game_recycler_view_players.apply {
+            adapter = GamePlayersAdapter(
+                this@GameFragment,
+                arrayListOf()
+            ).also { playersAdapter = it }
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 
     override fun disposeViews() {
         text_view_my_username.text = null
-        Glide.with(image_view_my_profile).clear(image_view_my_profile)
+        context?.let { Glide.with(it.applicationContext).clear(image_view_my_profile) }
         image_view_my_profile.setImageDrawable(null)
         recycler_view_attempts.apply {
+            adapter = null
+            layoutManager = null
+        }
+        game_recycler_view_players.apply {
             adapter = null
             layoutManager = null
         }
     }
 
     override fun registerListeners() {
-        ViewCompat.setOnApplyWindowInsetsListener(game_root_view) { view, insets ->
-            view.setPadding(
-                insets.systemWindowInsetLeft,
-                insets.systemWindowInsetTop,
-                insets.systemWindowInsetRight,
-                insets.systemWindowInsetBottom
-            )
-            insets
+        game_drawer_layout.addDrawerListener(drawerListener)
+        layout_header_players.setOnClickListener {
+            game_drawer_layout.openDrawer(GravityCompat.START)
+        }
+        menu_entry.setOnClickListener {
+            showEntryMenu()
         }
         edit_text_attempt.addTextChangedListener(textWatcher)
         button_send_attempt.setOnClickListener {
@@ -277,7 +370,9 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     }
 
     override fun unregisterListeners() {
-        ViewCompat.setOnApplyWindowInsetsListener(game_root_view, null)
+        game_drawer_layout.removeDrawerListener(drawerListener)
+        layout_header_players.setOnClickListener(null)
+        menu_entry.setOnClickListener(null)
         edit_text_attempt.removeTextChangedListener(textWatcher)
         button_send_attempt.setOnClickListener(null)
         recycler_view_attempts.clearOnScrollListeners()
@@ -292,11 +387,44 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     override fun <T : BaseMvp.View> getPresenter(): BaseMvp.Presenter<T> =
         presenter as BaseMvp.Presenter<T>
 
+    override fun onBackPressed(): Boolean {
+        // Close the Nav Drawer if it's open
+        if (game_drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            game_drawer_layout.closeDrawer(GravityCompat.START)
+            return true
+        }
+        dialogManager.showAlertDialog(
+            titleResId = R.string.game_quit_confirmation_title,
+            messageResId = R.string.game_quit_confirmation_message,
+            positiveButtonClickListener = { dialog, _ ->
+                popBackStack()
+            }
+        )
+        return true
+    }
+
+    override fun getInfoBarContainer(): ViewGroup = game_root_view
+
     // Private
 
-    private fun setLoadingState(loading: Boolean) {
+    private fun setSocketLoadingState(loading: Boolean) {
         game_progress_bar_main.setVisible(loading)
         game_content_root_layout.setVisible(!loading)
+    }
+
+    private fun showEntryMenu() {
+        entryPopupMenu?.dismiss()
+        entryPopupMenu = PopupMenu(context, menu_entry).apply {
+            setOnMenuItemClickListener(this@GameFragment)
+            inflate(R.menu.menu_entry)
+            show()
+        }
+    }
+
+    private fun refreshPlayerListIfOpen() {
+        if (game_drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            presenter.requestPlayerList()
+        }
     }
 
     companion object {

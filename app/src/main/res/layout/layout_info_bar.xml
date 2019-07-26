@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingPrefix"
+    tools:parentTag="com.busytrack.openlivetrivia.view.InfoBarView">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/info_bar_text_view"
+        fontPath="fonts/NunitoSans-ExtraBold.ttf"
+        tools:text="Positive message"
+        android:layout_gravity="center"
+        android:textColor="@color/colorWhite"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+</merge>

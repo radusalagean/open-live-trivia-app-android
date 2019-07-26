@@ -25,7 +25,10 @@ class AuthenticationRegisterViewHolder(
         itemView.run {
             edit_text_username.addTextChangedListener(textWatcher)
             button_register.setOnClickListener {
-                contract.onRegisterPressed(edit_text_username.text.toString())
+                contract.onRegisterPressed(edit_text_username.text.trim().toString())
+            }
+            link_select_another_account.setOnClickListener {
+                contract.onChangeAccountPressed()
             }
         }
     }
@@ -34,6 +37,7 @@ class AuthenticationRegisterViewHolder(
         itemView.run {
             edit_text_username.removeTextChangedListener(textWatcher)
             button_register.setOnClickListener(null)
+            link_select_another_account.setOnClickListener(null)
         }
     }
 }

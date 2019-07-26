@@ -22,12 +22,17 @@ class AuthenticationManager(
         activityContract.triggerGoogleSignIn(googleSignInClient.signInIntent)
     }
 
-    fun signOut() {
+    /**
+     * [silent] sign out is suitable for cases where we don't want the usual activity handling of the event
+     */
+    fun signOut(silent: Boolean = false) {
         firebaseAuth.signOut()
         googleSignInClient.signOut()
         googleSignInClient.revokeAccess()
         authenticationRepository.currentUser = null
-        activityContract.handleLogOut()
+        if (!silent) {
+            activityContract.handleLogOut()
+        }
     }
 
     fun handleGoogleSignInSuccess(data: Intent?) {

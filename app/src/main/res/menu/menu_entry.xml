@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_report_entry"
+        android:title="@string/game_entry_menu_report_entry"
+        android:icon="@drawable/ic_round_report_24dp"/>
+    <!--TODO Fix icon-->
+</menu>

@@ -5,7 +5,7 @@ import com.busytrack.openlivetrivia.network.NAMED_BASE_URL
 import com.busytrack.openlivetrivia.network.NAMED_HEADER_INTERCEPTOR
 import com.busytrack.openlivetrivia.network.NAMED_LOGGING_INTERCEPTOR
 import com.busytrack.openlivetrivia.network.NAMED_STETHO_INTERCEPTOR
-import com.busytrack.openlivetriviainterface.API_BASE_URL
+import com.busytrack.openlivetriviainterface.BuildConfig.*
 import com.busytrack.openlivetriviainterface.rest.OpenLiveTriviaApiService
 import dagger.Module
 import dagger.Provides
@@ -22,7 +22,7 @@ class OpenLiveTriviaApiModule : ApiModuleContract<OpenLiveTriviaApiService> {
     @Provides
     @Named(NAMED_BASE_URL)
     @ApplicationScope
-    override fun getBaseUrl(): String = API_BASE_URL
+    override fun getBaseUrl(): String = "$ROOT_DOMAIN$API_PATH"
 
     @Provides
     @ApplicationScope

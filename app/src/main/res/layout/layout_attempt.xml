@@ -19,7 +19,7 @@
         tools:text="Username"
         android:maxLines="1"
         fontPath="fonts/NunitoSans-ExtraLightItalic.ttf"
-        android:textColor="@color/colorSuperUltraDarkGrey"
+        android:textColor="@color/colorBlack"
         android:visibility="gone"
         tools:visibility="visible"/>
 

@@ -2,16 +2,23 @@ package com.busytrack.openlivetrivia.screen.game
 
 import android.os.Handler
 import android.os.Looper
+import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
+import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
+import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
+import com.busytrack.openlivetriviainterface.rest.model.MessageModel
+import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.SocketHub
 import com.busytrack.openlivetriviainterface.socket.event.SocketEventListener
 import com.busytrack.openlivetriviainterface.socket.model.*
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class GamePresenter(
     model: GameMvp.Model,
+    private val activityContract: ActivityContract,
     private val socketHub: SocketHub,
     private val authorizationManager: AuthorizationManager
 ) : BasePresenter<GameMvp.View, GameMvp.Model>(model),
@@ -47,6 +54,56 @@ class GamePresenter(
         socketHub.attempt(message)
     }
 
+    override fun reportEntry() {
+        socketHub.reportCurrentEntry()
+    }
+
+    override fun isEntryReported() = model.entryReported
+
+    override fun requestPlayerList() {
+        socketHub.requestPlayerList()
+    }
+
+    override fun upgradeToMod(user: UserModel) {
+        compositeDisposable.add(model.upgradeToMod(user.userId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
+                override fun onNext(t: MessageModel) {
+                    activityContract.showInfoMessage(
+                        R.string.message_user_upgraded_to_moderator,
+                        user.username
+                    )
+                    view?.onUserRightsChanged()
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    activityContract.showErrorMessage(R.string.general_error_message, e.message)
+                }
+            })
+        )
+    }
+
+    override fun downgradeToRegular(user: UserModel) {
+        compositeDisposable.add(model.downgradeToRegular(user.userId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
+                override fun onNext(t: MessageModel) {
+                    activityContract.showInfoMessage(
+                        R.string.message_user_downgraded_to_regular,
+                        user.username
+                    )
+                    view?.onUserRightsChanged()
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    activityContract.showErrorMessage(R.string.general_error_message, e.message)
+                }
+            })
+        )
+    }
+
     // Socket Events
 
     override fun onConnected() {
@@ -66,7 +123,7 @@ class GamePresenter(
     }
 
     override fun onConnectionError() {
-
+        view?.onConnectionError()
     }
 
     override fun onConnectionTimeout() {
@@ -84,6 +141,7 @@ class GamePresenter(
     override fun onWelcome(model: GameStateModel) {
         view?.updateGameState(model)
         this.model.gameState = model.gameState
+        this.model.entryReported = model.entryReported
     }
 
     override fun onPeerJoin(model: PresenceModel) {
@@ -97,6 +155,10 @@ class GamePresenter(
         }
     }
 
+    override fun onInsufficientFunds() {
+        activityContract.showWarningMessage(R.string.message_insufficient_funds)
+    }
+
     override fun onCoinDiff(model: CoinDiffModel) {
         view?.updateCoinDiff(model)
     }
@@ -107,6 +169,7 @@ class GamePresenter(
     override fun onRound(model: RoundModel) {
         view?.updateRound(model)
         this.model.gameState = GameState.SPLIT
+        this.model.entryReported = false
     }
 
     override fun onSplit(model: SplitModel) {
@@ -119,12 +182,16 @@ class GamePresenter(
     }
 
     override fun onEntryReportedOk() {
+        model.entryReported = true
+        activityContract.showInfoMessage(R.string.game_entry_reported_successfully)
     }
 
     override fun onEntryReportedError() {
+        activityContract.showErrorMessage(R.string.game_entry_report_error)
     }
 
     override fun onPlayerList(model: PlayerListModel) {
+        view?.updatePlayerList(model)
     }
 
     override fun onPeerLeft(model: PresenceModel) {

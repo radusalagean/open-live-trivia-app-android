@@ -2,7 +2,6 @@ package com.busytrack.openlivetrivia.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import com.busytrack.openlivetrivia.extension.cutTo
 import kotlinx.coroutines.*

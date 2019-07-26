@@ -15,6 +15,13 @@
     <dimen name="edit_text_padding_horizontal">12dp</dimen>
     <dimen name="edit_text_padding_vertical">6dp</dimen>
 
+    <dimen name="info_bar_vertical_padding">4dp</dimen>
+    <dimen name="info_bar_horizontal_padding">8dp</dimen>
+
     <!--Game-->
     <dimen name="attempt_list_vertical_offset">8dp</dimen>
+
+    <!--User item-->
+    <dimen name="user_item_horizontal_padding">4dp</dimen>
+    <dimen name="user_item_vertical_padding">4dp</dimen>
 </resources>

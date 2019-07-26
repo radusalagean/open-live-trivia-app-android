@@ -12,8 +12,27 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "SOCKET_IO_PATH", "\"/open-live-trivia-api/socket.io\"")
+        buildConfigField("String", "API_PATH", "\"/open-live-trivia-api/v1/\"")
+        buildConfigField("String", "PUBLIC_FOLDER_PATH", "\"/open-live-trivia-api-static\"")
+        buildConfigField("String", "USER_THUMBNAILS_PATH", "\"/user-thumbnails/\"")
+        buildConfigField("String", "USER_THUMBNAILS_EXTENSION", "\".png\"")
+        buildConfigField("double", "COST_EXTRA_ANSWER", "1.0")
     }
+    flavorDimensions "environment"
+    productFlavors {
+        dev {
+            dimension "environment"
+            buildConfigField("String", "ROOT_DOMAIN", "\"http://192.168.0.130:3006\"") // TODO create script to get PC ip
+            buildConfigField("boolean", "SOCKET_IO_SECURE_CONNECTION", "false")
 
+        }
+        prod {
+            dimension "environment"
+            buildConfigField("String", "ROOT_DOMAIN", "\"https://releasetracker.app\"")
+            buildConfigField("boolean", "SOCKET_IO_SECURE_CONNECTION", "true")
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false

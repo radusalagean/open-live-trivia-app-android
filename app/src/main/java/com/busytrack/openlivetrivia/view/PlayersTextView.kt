@@ -14,8 +14,7 @@ class PlayersTextView(
     var playersCount: Int = 0
         set(value) {
             field = value
-            val stringId = if (value == 1) R.string.game_online_players_singular_form else R.string.game_online_players
-            text = context.getString(stringId, value)
+            text = value.toString()
         }
 
     fun incrementCount() {

@@ -1,8 +1,7 @@
 package com.busytrack.openlivetriviainterface.socket
 
 import android.os.Handler
-import com.busytrack.openlivetriviainterface.ROOT_DOMAIN
-import com.busytrack.openlivetriviainterface.SOCKET_IO_PATH
+import com.busytrack.openlivetriviainterface.BuildConfig.*
 import com.busytrack.openlivetriviainterface.extension.toJsonObject
 import com.busytrack.openlivetriviainterface.socket.event.SocketEventListener
 import com.busytrack.openlivetriviainterface.socket.event.SocketIncomingEvent
@@ -16,7 +15,7 @@ import timber.log.Timber
 class SocketHub {
     private val gson = Gson()
     private val socket: Socket = IO.socket(ROOT_DOMAIN, IO.Options().apply {
-        secure = true
+        secure = SOCKET_IO_SECURE_CONNECTION
         path = SOCKET_IO_PATH
     })
     private val registeredSocketListeners: MutableMap<SocketEventListener, Handler> = hashMapOf()
@@ -47,6 +46,7 @@ class SocketHub {
                                 SocketIncomingEvent.WELCOME -> onWelcome(model as GameStateModel)
                                 SocketIncomingEvent.PEER_JOIN -> onPeerJoin(model as PresenceModel)
                                 SocketIncomingEvent.PEER_ATTEMPT -> onPeerAttempt(model as AttemptModel)
+                                SocketIncomingEvent.INSUFFICIENT_FUNDS -> onInsufficientFunds()
                                 SocketIncomingEvent.COIN_DIFF -> onCoinDiff(model as CoinDiffModel)
                                 SocketIncomingEvent.PEER_REACTION -> onPeerReaction(model as ReactionModel)
                                 SocketIncomingEvent.ROUND -> onRound(model as RoundModel)

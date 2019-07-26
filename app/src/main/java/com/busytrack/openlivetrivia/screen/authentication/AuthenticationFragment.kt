@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.layout_register.*
 import kotlinx.android.synthetic.main.layout_register.view.*
 import javax.inject.Inject
 
-
 class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, AuthenticationContract {
     @Inject
     lateinit var presenter: AuthenticationMvp.Presenter
@@ -91,6 +90,8 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
     override fun <T : BaseMvp.View> getPresenter(): BaseMvp.Presenter<T> =
         presenter as BaseMvp.Presenter<T>
 
+    override fun getInfoBarContainer(): ViewGroup = authentication_root_view
+
     // Mvp Contract
 
     override fun showRegisterPage() {
@@ -136,6 +137,11 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
         if (username.isNotBlank() && username.length >= 4) {
             presenter.checkUsernameAvailability(username.trim())
         }
+    }
+
+    override fun onChangeAccountPressed() {
+        view_pager.currentItem = AuthenticationPageType.LOG_IN.ordinal
+        presenter.firebaseLogOut()
     }
 
     // Private implementation
