@@ -173,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/game_recycler_view_players"
-                tools:listitem="@layout/item_user"
+                tools:listitem="@layout/item_user_compact"
                 android:overScrollMode="never"
                 android:paddingStart="@dimen/screen_horizontal_padding"
                 android:paddingTop="@dimen/screen_vertical_padding"

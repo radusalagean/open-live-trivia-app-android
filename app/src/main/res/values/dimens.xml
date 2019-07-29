@@ -24,4 +24,7 @@
     <!--User item-->
     <dimen name="user_item_horizontal_padding">4dp</dimen>
     <dimen name="user_item_vertical_padding">4dp</dimen>
+    <dimen name="user_item_place_background_horizontal_padding">6dp</dimen>
+    <dimen name="user_item_place_background_vertical_padding">2dp</dimen>
+    <dimen name="user_item_place_background_radius">8dp</dimen>
 </resources>

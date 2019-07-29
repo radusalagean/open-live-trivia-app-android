@@ -1,5 +1,6 @@
 package com.busytrack.openlivetrivia.screen.authentication
 
+import androidx.fragment.app.Fragment
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
@@ -14,10 +15,14 @@ import java.net.HttpURLConnection
 
 class AuthenticationPresenter(
     model: AuthenticationMvp.Model,
-    private val activityContract: ActivityContract,
+    activityContract: ActivityContract,
     private val authenticationManager: AuthenticationManager
-) : BasePresenter<AuthenticationMvp.View, AuthenticationMvp.Model>(model),
+) : BasePresenter<AuthenticationMvp.View, AuthenticationMvp.Model>(model, activityContract),
     AuthenticationMvp.Presenter {
+
+    override fun initViewModel(fragment: Fragment) {
+        model.initViewModel(fragment, AuthenticationViewModel::class.java)
+    }
 
     override fun firebaseLogIn() {
         authenticationManager.signIn()
@@ -30,7 +35,7 @@ class AuthenticationPresenter(
 
     override fun login() {
         refreshing = true
-        compositeDisposable.add(model.login()
+        disposer.add(model.login()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : ReactiveObserver<UserModel>(this) {
                 override fun onNext(t: UserModel) {
@@ -55,7 +60,7 @@ class AuthenticationPresenter(
     override fun register(username: String) {
         refreshing = true
         val registerModel = OutgoingRegisterModel(username)
-        compositeDisposable.add(
+        disposer.add(
             model.registerUser(registerModel)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : ReactiveObserver<UserModel>(this) {
@@ -71,7 +76,7 @@ class AuthenticationPresenter(
     }
 
     override fun checkUsernameAvailability(username: String) {
-        compositeDisposable.add(
+        disposer.add(
             model.checkUsernameAvailability(username)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableCompletableObserver() {

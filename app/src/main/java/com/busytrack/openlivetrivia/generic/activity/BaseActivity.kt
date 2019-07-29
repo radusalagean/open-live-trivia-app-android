@@ -19,6 +19,7 @@ import com.busytrack.openlivetrivia.generic.infobar.TYPE_INFO
 import com.busytrack.openlivetrivia.generic.infobar.TYPE_WARN
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import com.busytrack.openlivetrivia.screen.game.GameFragment
+import com.busytrack.openlivetrivia.screen.leaderboard.LeaderboardFragment
 import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
 
 abstract class BaseActivity : AppCompatActivity(), ActivityContract {
@@ -169,7 +170,11 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
     }
 
     override fun showGameScreen() {
-        showFragment(GameFragment.newInstance(), addToBackStack = true)
+        showFragment(GameFragment.newInstance())
+    }
+
+    override fun showLeaderboardScreen() {
+        showFragment(LeaderboardFragment.newInstance())
     }
 
     override fun handleSuccessfulFirebaseLogIn() {

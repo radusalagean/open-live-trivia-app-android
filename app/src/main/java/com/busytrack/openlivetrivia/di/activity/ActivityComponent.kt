@@ -4,8 +4,10 @@ import com.busytrack.openlivetrivia.activity.MainActivity
 import com.busytrack.openlivetrivia.di.activity.auth.AuthenticationModule
 import com.busytrack.openlivetrivia.di.activity.dialog.DialogModule
 import com.busytrack.openlivetrivia.di.activity.mvp.MvpModule
+import com.busytrack.openlivetrivia.di.activity.rights.RightsModule
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import com.busytrack.openlivetrivia.screen.game.GameFragment
+import com.busytrack.openlivetrivia.screen.leaderboard.LeaderboardFragment
 import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
 import dagger.Subcomponent
 
@@ -14,11 +16,13 @@ import dagger.Subcomponent
     ActivityModule::class,
     AuthenticationModule::class,
     MvpModule::class,
-    DialogModule::class
+    DialogModule::class,
+    RightsModule::class
 ])
 interface ActivityComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(authenticationFragment: AuthenticationFragment)
     fun inject(mainMenuFragment: MainMenuFragment)
     fun inject(gameFragment: GameFragment)
+    fun inject(leaderboardFragment: LeaderboardFragment)
 }

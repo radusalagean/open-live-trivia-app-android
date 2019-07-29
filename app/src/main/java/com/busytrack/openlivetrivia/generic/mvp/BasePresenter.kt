@@ -1,12 +1,16 @@
 package com.busytrack.openlivetrivia.generic.mvp
 
+import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.observer.ReactiveListener
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 abstract class BasePresenter<T : BaseMvp.View, S : BaseMvp.Model<*>>(
-    protected val model: S
+    protected val model: S,
+    protected val activityContract: ActivityContract
 ) : BaseMvp.Presenter<T>, ReactiveListener {
+
+    // Mvp Implementation
 
     override var view: T? = null
     override var refreshing: Boolean = false
@@ -16,11 +20,13 @@ abstract class BasePresenter<T : BaseMvp.View, S : BaseMvp.Model<*>>(
             view?.apply { setRefreshingIndicator(value) }
         }
 
-    protected val compositeDisposable = CompositeDisposable()
+    protected val disposer = CompositeDisposable()
 
     override fun dispose() {
-        compositeDisposable.clear()
+        disposer.clear()
     }
+
+    // Reactive listener
 
     override fun onError(t: Throwable) {
         Timber.e(t)

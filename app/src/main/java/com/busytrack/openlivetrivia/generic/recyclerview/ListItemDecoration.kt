@@ -4,14 +4,22 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class ListItemDecoration(private val offset: Int) : RecyclerView.ItemDecoration() {
+class ListItemDecoration(
+    private val left: Int,
+    private val top: Int,
+    private val right: Int,
+    private val bottom: Int
+) : RecyclerView.ItemDecoration() {
+
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         outRect.apply {
+            left = this@ListItemDecoration.left
             if (parent.getChildAdapterPosition(view) == 0) {
-                top = offset
+                top = this@ListItemDecoration.top
             }
-            if (parent.getChildAdapterPosition(view) != parent.adapter?.itemCount!! - 1) {
-                bottom = offset
+            right = this@ListItemDecoration.right
+            if (parent.getChildAdapterPosition(view) == parent.adapter?.itemCount!! - 1) {
+                bottom = this@ListItemDecoration.bottom
             }
         }
     }

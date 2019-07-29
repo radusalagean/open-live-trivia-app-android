@@ -32,6 +32,14 @@ android {
             dimension "environment"
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def version = variant.versionName
+            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def flavor = variant.productFlavors[0].name
+            outputFileName = "open-live-trivia-${version}-${buildType}-${flavor}.apk"
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -49,6 +57,9 @@ dependencies {
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-rxjava2:$roomVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     implementation "com.facebook.stetho:stetho:$stethoVersion"
@@ -72,6 +83,7 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
     implementation "com.google.android.material:material:$materialVersion"
+    implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"

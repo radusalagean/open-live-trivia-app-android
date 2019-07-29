@@ -15,6 +15,7 @@
 
     <!--Main Menu-->
     <string name="play_button">Play</string>
+    <string name="leaderboard_button">Leaderboard</string>
     <string name="log_out_button">Log out</string>
 
     <!--Game-->
@@ -52,4 +53,6 @@
     <!--REST messages-->
     <string name="message_user_upgraded_to_moderator">%s was upgraded to moderator rights</string>
     <string name="message_user_downgraded_to_regular">%s was downgraded to regular rights</string>
+    <string name="message_unable_to_refresh_account_info">Unable to refresh your account info\nDisplaying cached data instead</string>
+    <string name="message_unable_to_refresh_leaderboard">Unable to refresh leaderboard\nDisplaying cached data instead</string>
 </resources>

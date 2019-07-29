@@ -32,6 +32,8 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.tag(logTag).d("-F-> onCreate($savedInstanceState)")
         super.onCreate(savedInstanceState)
+        // Init view model
+        getPresenter<BaseFragment>().initViewModel(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

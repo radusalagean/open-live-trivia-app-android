@@ -2,49 +2,46 @@ package com.busytrack.openlivetrivia.network
 
 import com.busytrack.openlivetriviainterface.rest.OpenLiveTriviaApiService
 import com.busytrack.openlivetriviainterface.rest.model.*
-import com.busytrack.openlivetriviainterface.socket.model.OutgoingAuthenticationModel
-import io.reactivex.Completable
-import io.reactivex.Observable
 
 class NetworkRepository(private val openLiveTriviaApiService: OpenLiveTriviaApiService) {
 
     // Users
 
-    fun registerUser(registerModel: OutgoingRegisterModel): Observable<UserModel> =
+    fun registerUser(registerModel: OutgoingRegisterModel) =
         openLiveTriviaApiService.registerUser(registerModel)
 
-    fun login(): Observable<UserModel> = openLiveTriviaApiService.login()
+    fun login() = openLiveTriviaApiService.login()
 
-    fun deleteUser(): Observable<MessageModel> = openLiveTriviaApiService.deleteUser()
+    fun deleteUser() = openLiveTriviaApiService.deleteUser()
 
-    fun checkUsernameAvailability(username: String): Completable =
+    fun checkUsernameAvailability(username: String) =
         openLiveTriviaApiService.checkUsernameAvailability(username)
 
-    fun updateUserRights(userId: String, rightsLevel: Int): Observable<MessageModel> =
+    fun updateUserRights(userId: String, rightsLevel: Int) =
         openLiveTriviaApiService.updateUserRights(userId, rightsLevel)
 
-    fun getLeaderboard(): Observable<PaginatedResponseModel<UserModel>> =
-        openLiveTriviaApiService.getLeaderboard()
+    fun getLeaderboard(page: Int = 1) =
+        openLiveTriviaApiService.getLeaderboard(page)
 
-    fun getMe(): Observable<UserModel> = openLiveTriviaApiService.getMe()
+    fun getMe() = openLiveTriviaApiService.getMe()
 
     // Entry reports
 
-    fun getReportedEntries(banned: Boolean? = null): Observable<PaginatedResponseModel<EntryReportModel>> =
-        openLiveTriviaApiService.getReportedEntries(banned)
+    fun getReportedEntries(banned: Boolean? = null, page: Int = 1) =
+        openLiveTriviaApiService.getReportedEntries(banned, page)
 
-    fun banReportedEntry(reportId: String): Observable<MessageModel> =
+    fun banReportedEntry(reportId: String) =
         openLiveTriviaApiService.banReportedEntry(reportId)
 
-    fun unbanReportedEntry(reportId: String): Observable<MessageModel> =
+    fun unbanReportedEntry(reportId: String) =
         openLiveTriviaApiService.unbanReportedEntry(reportId)
 
-    fun dismissReportedEntry(reportId: String): Observable<MessageModel> =
+    fun dismissReportedEntry(reportId: String) =
         openLiveTriviaApiService.dismissReportedEntry(reportId)
 
     // System
 
-    fun disconnectEveryone(): Observable<MessageModel> = openLiveTriviaApiService.disconnectEveryone()
+    fun disconnectEveryone() = openLiveTriviaApiService.disconnectEveryone()
 
-    fun getSystemInfo(): Observable<SystemInfoModel> = openLiveTriviaApiService.getSystemInfo()
+    fun getSystemInfo() = openLiveTriviaApiService.getSystemInfo()
 }

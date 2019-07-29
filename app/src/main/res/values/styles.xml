@@ -41,9 +41,9 @@
         <item name="android:clickable">true</item>
     </style>
 
-    <style name="button_dark" parent="button_regular">
-        <item name="android:background">@drawable/button_dark_background</item>
-        <item name="android:textColor">@drawable/button_dark_text_color</item>
+    <style name="button_negative" parent="button_regular">
+        <item name="android:background">@drawable/button_negative_background</item>
+        <item name="android:textColor">@drawable/button_negative_text_color</item>
     </style>
 
     <style name="text_view_clue_category">

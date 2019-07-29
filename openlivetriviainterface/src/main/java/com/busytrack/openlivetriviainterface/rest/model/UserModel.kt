@@ -11,7 +11,7 @@ data class UserModel(
     @SerializedName("rights") val rights: UserRightsLevel?,
     @SerializedName("coins") val coins: Double?,
     @SerializedName("lastSeen") val lastSeen: Date?,
-    @SerializedName("playing") val playing: Boolean?,
+    @SerializedName("playing") val playing: Boolean,
     @SerializedName("joined") val joined: Date?
 ) {
 

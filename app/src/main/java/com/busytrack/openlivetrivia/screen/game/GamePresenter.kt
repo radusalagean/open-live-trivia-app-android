@@ -2,6 +2,7 @@ package com.busytrack.openlivetrivia.screen.game
 
 import android.os.Handler
 import android.os.Looper
+import androidx.fragment.app.Fragment
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
@@ -18,16 +19,20 @@ import kotlin.coroutines.CoroutineContext
 
 class GamePresenter(
     model: GameMvp.Model,
-    private val activityContract: ActivityContract,
+    activityContract: ActivityContract,
     private val socketHub: SocketHub,
     private val authorizationManager: AuthorizationManager
-) : BasePresenter<GameMvp.View, GameMvp.Model>(model),
+) : BasePresenter<GameMvp.View, GameMvp.Model>(model, activityContract),
     GameMvp.Presenter,
     SocketEventListener,
     CoroutineScope {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Default
+
+    override fun initViewModel(fragment: Fragment) {
+        model.initViewModel(fragment, GameViewModel::class.java)
+    }
 
     override fun dispose() {
         super.dispose()
@@ -65,7 +70,7 @@ class GamePresenter(
     }
 
     override fun upgradeToMod(user: UserModel) {
-        compositeDisposable.add(model.upgradeToMod(user.userId)
+        disposer.add(model.upgradeToMod(user.userId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
                 override fun onNext(t: MessageModel) {
@@ -85,7 +90,7 @@ class GamePresenter(
     }
 
     override fun downgradeToRegular(user: UserModel) {
-        compositeDisposable.add(model.downgradeToRegular(user.userId)
+        disposer.add(model.downgradeToRegular(user.userId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
                 override fun onNext(t: MessageModel) {

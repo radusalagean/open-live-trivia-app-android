@@ -13,6 +13,7 @@ interface ActivityContract {
     fun showAuthenticationScreen()
     fun showMainMenuScreen()
     fun showGameScreen()
+    fun showLeaderboardScreen()
     fun handleSuccessfulFirebaseLogIn()
     fun handleFailedFirebaseLogIn(t: Throwable?)
     fun handleLogOut()

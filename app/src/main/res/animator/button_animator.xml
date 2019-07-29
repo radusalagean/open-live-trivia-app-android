@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!--Enabled-->
-    <item android:state_enabled="true">
-        <objectAnimator android:duration="@android:integer/config_shortAnimTime"
-            android:propertyName="translationZ"
-            android:valueTo="4dp"
-            android:valueType="floatType" />
-    </item>
-    <!--TODO-->
     <item android:state_enabled="true" android:state_pressed="true">
-        <objectAnimator android:duration="@android:integer/config_shortAnimTime"
-            android:propertyName="elevation"
-            android:valueTo="4dp"
-            android:valueType="floatType" />
+        <set android:ordering="together">
+            <objectAnimator
+                android:duration="@integer/button_anim_time"
+                android:propertyName="translationZ"
+                android:valueTo="4dp"
+                android:valueType="floatType"/>
+            <objectAnimator
+                android:duration="@integer/button_anim_time"
+                android:propertyName="elevation"
+                android:valueTo="4dp"
+                android:valueType="floatType"/>
+        </set>
     </item>
     <item android:state_enabled="true" android:state_pressed="false">
-        <objectAnimator android:duration="@android:integer/config_shortAnimTime"
-            android:propertyName="elevation"
-            android:valueTo="0dp"
-            android:valueType="floatType" />
+        <set android:ordering="together">
+            <objectAnimator
+                android:duration="@integer/button_anim_time"
+                android:propertyName="translationZ"
+                android:valueTo="4dp"
+                android:valueType="floatType"/>
+            <objectAnimator android:duration="@integer/button_anim_time"
+                android:propertyName="elevation"
+                android:valueTo="0dp"
+                android:valueType="floatType" />
+        </set>
+
     </item>
 
     <!--Disabled-->
     <item android:state_enabled="false">
-        <objectAnimator android:duration="@android:integer/config_shortAnimTime"
+        <objectAnimator android:duration="@integer/button_anim_time"
             android:propertyName="translationZ"
             android:valueTo="0dp"
             android:valueType="floatType" />

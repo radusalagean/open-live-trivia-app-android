@@ -17,7 +17,7 @@
     <color name="colorPositive">#0BB637</color>
     <color name="colorNegative">#FF0000</color>
 
-    <!--Yin and Yang-->
+    <!--Message backgrounds-->
     <color name="colorInfo">#0BB637</color>
     <color name="colorWarn">#FF6F00</color>
     <color name="colorError">#FF0000</color>
@@ -29,5 +29,10 @@
     <!--Game-->
     <color name="colorRevealAnswer">#EB514E</color>
     <color name="colorCorrectAnswer">#27C04E</color>
+
+    <!--Podium-->
+    <color name="colorGold">#FFD700</color>
+    <color name="colorSilver">#BEC7C7</color>
+    <color name="colorBronze">#CD7F32</color>
 
 </resources>

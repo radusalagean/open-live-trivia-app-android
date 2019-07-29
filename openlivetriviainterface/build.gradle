@@ -18,6 +18,7 @@ android {
         buildConfigField("String", "USER_THUMBNAILS_PATH", "\"/user-thumbnails/\"")
         buildConfigField("String", "USER_THUMBNAILS_EXTENSION", "\".png\"")
         buildConfigField("double", "COST_EXTRA_ANSWER", "1.0")
+        buildConfigField("int", "PER_PAGE", "20")
     }
     flavorDimensions "environment"
     productFlavors {
@@ -25,7 +26,6 @@ android {
             dimension "environment"
             buildConfigField("String", "ROOT_DOMAIN", "\"http://192.168.0.130:3006\"") // TODO create script to get PC ip
             buildConfigField("boolean", "SOCKET_IO_SECURE_CONNECTION", "false")
-
         }
         prod {
             dimension "environment"

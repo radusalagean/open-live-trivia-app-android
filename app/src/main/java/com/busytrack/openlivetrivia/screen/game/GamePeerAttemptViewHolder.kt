@@ -2,6 +2,7 @@ package com.busytrack.openlivetrivia.screen.game
 
 import android.view.View
 import com.bumptech.glide.Glide
+import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.model.AttemptModel
 import kotlinx.android.synthetic.main.item_attempt_peer.view.*
@@ -15,6 +16,7 @@ class GamePeerAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView
             attempt_text_view_attempt.text = model.message
             Glide.with(this)
                 .load(UserModel.getThumbnailPath(model.userId))
+                .placeholder(R.drawable.ic_account_circle_accent_24dp)
                 .circleCrop()
                 .into(attempt_image_view_profile)
         }

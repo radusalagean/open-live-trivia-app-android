@@ -3,10 +3,12 @@ package com.busytrack.openlivetrivia.screen.game
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
-import kotlinx.android.synthetic.main.item_user.view.*
+import kotlinx.android.synthetic.main.item_user_compact.view.*
 
 class GamePlayerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
     fun bind(user: UserModel, contract: GamePlayerContract) {
         with(itemView) {
             user_parent_layout.setOnLongClickListener {
@@ -15,6 +17,7 @@ class GamePlayerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
             Glide.with(context)
                 .load(UserModel.getThumbnailPath(user.userId))
+                .placeholder(R.drawable.ic_account_circle_accent_24dp)
                 .circleCrop()
                 .into(user_image_view_profile)
             user_text_view_username.text = user.username

@@ -20,6 +20,7 @@ import com.busytrack.openlivetrivia.extension.setVisible
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
+import com.busytrack.openlivetrivia.rights.RightsManager
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_LONG
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_SHORT
 import com.busytrack.openlivetriviainterface.BuildConfig.COST_EXTRA_ANSWER
@@ -50,6 +51,9 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     
     @Inject
     lateinit var dialogManager: DialogManager
+
+    @Inject
+    lateinit var rightsManager: RightsManager
 
     @Inject
     lateinit var activityContract: ActivityContract
@@ -133,31 +137,11 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     // User item contract
 
     override fun onPlayerLongClicked(userModel: UserModel) {
-        if (authenticationManager.getAuthenticatedUser()?.rights == UserRightsLevel.ADMIN &&
-                userModel.rights != UserRightsLevel.ADMIN) {
-            val rightsChangeString = getString(
-                if (userModel.rights == UserRightsLevel.REGULAR) {
-                    R.string.user_action_dialog_option_upgrade_to_moderator
-                } else {
-                    R.string.user_action_dialog_option_downgrade_to_regular_user
-                }
-            )
-            val items = arrayOf(rightsChangeString)
-            dialogManager.showListAlertDialog(
-                R.string.user_action_dialog_title,
-                items
-            ) { dialog, which ->
-                when(items[which]) {
-                    rightsChangeString -> {
-                        if (userModel.rights == UserRightsLevel.REGULAR) {
-                            presenter.upgradeToMod(userModel)
-                        } else {
-                            presenter.downgradeToRegular(userModel)
-                        }
-                    }
-                }
-            }
-        }
+        rightsManager.triggerRightsChange(
+            userModel,
+            presenter::upgradeToMod,
+            presenter::downgradeToRegular
+        )
     }
 
     // Mvp Implementation
@@ -294,6 +278,7 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
             text_view_my_username.text = it.username
             Glide.with(image_view_my_profile)
                 .load(UserModel.getThumbnailPath(it.userId))
+                .placeholder(R.drawable.ic_account_circle_accent_24dp)
                 .circleCrop()
                 .into(image_view_my_profile)
         }
@@ -330,10 +315,12 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
             adapter = null
             layoutManager = null
         }
+        attemptsAdapter = null
         game_recycler_view_players.apply {
             adapter = null
             layoutManager = null
         }
+        playersAdapter = null
     }
 
     override fun registerListeners() {
@@ -396,7 +383,7 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         dialogManager.showAlertDialog(
             titleResId = R.string.game_quit_confirmation_title,
             messageResId = R.string.game_quit_confirmation_message,
-            positiveButtonClickListener = { dialog, _ ->
+            positiveButtonClickListener = { _, _ ->
                 popBackStack()
             }
         )

@@ -15,7 +15,8 @@
         tools:text="Positive message"
         android:layout_gravity="center"
         android:textColor="@color/colorWhite"
-        android:maxLines="1"
-        android:ellipsize="end"/>
+        android:maxLines="5"
+        android:ellipsize="end"
+        android:gravity="center"/>
 
 </merge>

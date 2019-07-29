@@ -10,7 +10,20 @@
     android:paddingBottom="@dimen/screen_vertical_padding"
     android:paddingStart="@dimen/screen_horizontal_padding"
     android:paddingEnd="@dimen/screen_horizontal_padding"
+    android:clipToPadding="false"
     tools:context=".screen.mainmenu.MainMenuFragment">
+
+    <!--User Header-->
+    <include
+        layout="@layout/layout_header_user"
+        android:id="@+id/layout_header_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="1"/>
 
     <ImageView
         android:layout_width="160dp"
@@ -66,12 +79,23 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button_log_out"
-        style="@style/button_dark"
-        android:text="@string/log_out_button"
+        android:id="@+id/button_leaderboard"
+        style="@style/button_regular"
+        android:text="@string/leaderboard_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_play"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_log_out"
+        style="@style/button_negative"
+        android:text="@string/log_out_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_leaderboard"
+        android:layout_marginTop="12dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

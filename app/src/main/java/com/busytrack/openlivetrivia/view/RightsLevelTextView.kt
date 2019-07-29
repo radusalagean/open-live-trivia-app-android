@@ -15,8 +15,8 @@ class RightsLevelTextView(
     var rightsLevel: UserRightsLevel? = null
         set(value) {
             field = value ?: UserRightsLevel.REGULAR
-            if (value != UserRightsLevel.REGULAR) {
-                text = rightsLevel?.name
+            if (field != UserRightsLevel.REGULAR) {
+                text = field?.name
                 visibility = View.VISIBLE
             } else {
                 text = null

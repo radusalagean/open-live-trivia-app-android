@@ -18,7 +18,7 @@ class GamePlayersAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         LayoutInflater.from(parent.context).inflate(
-            R.layout.item_user,
+            R.layout.item_user_compact,
             parent,
             false
         ).let { GamePlayerViewHolder(it) }

@@ -28,7 +28,9 @@ interface OpenLiveTriviaApiService {
     ): Observable<MessageModel>
 
     @GET("user/leaderboard")
-    fun getLeaderboard(): Observable<PaginatedResponseModel<UserModel>>
+    fun getLeaderboard(
+        @Query("page") page: Int = 1
+    ): Observable<PaginatedResponseModel<UserModel>>
 
     @GET("user/me")
     fun getMe(): Observable<UserModel>
@@ -37,7 +39,8 @@ interface OpenLiveTriviaApiService {
 
     @GET("reported_entry/get_reports")
     fun getReportedEntries(
-        @Query("banned") banned: Boolean? = null
+        @Query("banned") banned: Boolean? = null,
+        @Query("page") page: Int = 1
     ): Observable<PaginatedResponseModel<EntryReportModel>>
 
     @PUT("reported_entry/ban/{report_id}")
