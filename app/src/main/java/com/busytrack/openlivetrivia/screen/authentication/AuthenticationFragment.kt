@@ -9,7 +9,7 @@ import androidx.core.content.res.ResourcesCompat
 
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
-import com.busytrack.openlivetrivia.extension.setVisible
+import com.busytrack.openlivetrivia.extension.setVisibleSoft
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import kotlinx.android.synthetic.main.fragment_authentication.*
@@ -51,8 +51,8 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
     // BaseFragment implementation
 
     override fun setRefreshingIndicator(refreshing: Boolean) {
-        progress_bar_main.setVisible(refreshing)
-        view_pager.setVisible(!refreshing)
+        progress_bar_main.setVisibleSoft(refreshing)
+        view_pager.setVisibleSoft(!refreshing)
     }
 
     override fun initViews() {
@@ -92,7 +92,7 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
 
     override fun getInfoBarContainer(): ViewGroup = authentication_root_view
 
-    // Mvp Contract
+    // Mvp Implementation
 
     override fun showRegisterPage() {
         view_pager.currentItem = AuthenticationPageType.REGISTER.ordinal
@@ -109,7 +109,7 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
                         null
                     )
                 )
-                setVisible(true)
+                setVisibleSoft(true)
             }
             button_register.isEnabled = available
         }
@@ -147,7 +147,7 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
     // Private implementation
 
     private fun clearUsernameAvailability() {
-        text_view_username_availability.setVisible(false)
+        text_view_username_availability.setVisibleSoft(false)
         text_view_username_availability.text = null
         button_register.isEnabled = false
     }

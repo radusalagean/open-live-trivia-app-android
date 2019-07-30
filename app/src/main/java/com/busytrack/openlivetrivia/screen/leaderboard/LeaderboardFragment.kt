@@ -63,7 +63,7 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
     // Mvp Implementation
 
     override fun updateLeaderboard(users: List<UserModel>) {
-        leaderboardAdapter?.setUsers(users)
+        leaderboardAdapter?.setList(users)
     }
 
     override fun updateLoadMoreState(loading: Boolean) {
@@ -128,7 +128,7 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
     }
 
     private fun triggerFullRefresh() {
-        leaderboardAdapter?.clear()
+        leaderboardAdapter?.clearList()
         presenter.requestLeaderboard(invalidate = true)
     }
 

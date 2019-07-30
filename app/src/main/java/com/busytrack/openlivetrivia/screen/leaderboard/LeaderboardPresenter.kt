@@ -17,7 +17,7 @@ class LeaderboardPresenter(
 ) : BasePresenter<LeaderboardMvp.View, LeaderboardMvp.Model>(model, activityContract),
     LeaderboardMvp.Presenter {
 
-    private var loadingModeContent = false
+    private var loadingMoreContent = false
         set(value) {
             field = value
             view?.updateLoadMoreState(value)
@@ -29,9 +29,9 @@ class LeaderboardPresenter(
 
     override fun requestLeaderboard(invalidate: Boolean) {
         if (invalidate) {
-            model.viewModel.users.clear()
+            model.viewModel.clear()
             disposer.clear()
-            loadingModeContent = false
+            loadingMoreContent = false
         }
         model.viewModel.users.let {
             if (it.isNotEmpty()) {
@@ -69,8 +69,8 @@ class LeaderboardPresenter(
 
     override fun onScrollThresholdReached() {
         // Load more content
-        if (loadingModeContent || model.viewModel.nextAvailablePage == null) return
-        loadingModeContent = true
+        if (loadingMoreContent || model.viewModel.nextAvailablePage == null) return
+        loadingMoreContent = true
         disposer.add(model.getNextLeaderboardPage()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : ReactiveObserver<PaginatedResponseModel<UserModel>>(this) {
@@ -80,12 +80,12 @@ class LeaderboardPresenter(
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
-                    loadingModeContent = false
+                    loadingMoreContent = false
                 }
 
                 override fun onComplete() {
                     super.onComplete()
-                    loadingModeContent = false
+                    loadingMoreContent = false
                 }
             }))
     }

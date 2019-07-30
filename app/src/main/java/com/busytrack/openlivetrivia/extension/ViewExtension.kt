@@ -6,8 +6,18 @@ import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 
-fun View.setVisible(visible: Boolean) {
+/**
+ * If [visible] is false, the View will be set to [View.INVISIBLE]
+ */
+fun View.setVisibleSoft(visible: Boolean) {
     visibility = if (visible) View.VISIBLE else View.INVISIBLE
+}
+
+/**
+ * If [visible] is false, the View will be set to [View.GONE]
+ */
+fun View.setVisibleHard(visible: Boolean) {
+    visibility = if (visible) View.VISIBLE else View.GONE
 }
 
 /**

@@ -16,7 +16,8 @@ import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.extension.applyText
-import com.busytrack.openlivetrivia.extension.setVisible
+import com.busytrack.openlivetrivia.extension.setVisibleHard
+import com.busytrack.openlivetrivia.extension.setVisibleSoft
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
@@ -27,7 +28,7 @@ import com.busytrack.openlivetriviainterface.BuildConfig.COST_EXTRA_ANSWER
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.model.*
 import kotlinx.android.synthetic.main.fragment_game.*
-import kotlinx.android.synthetic.main.layout_clue.*
+import kotlinx.android.synthetic.main.layout_base_entry.*
 import kotlinx.android.synthetic.main.layout_header_coins.*
 import kotlinx.android.synthetic.main.layout_header_players.*
 import kotlinx.android.synthetic.main.layout_header_user.*
@@ -168,8 +169,8 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         text_view_my_coins.setCoins(gameStateModel.userCoins)
         text_view_online_players.playersCount = gameStateModel.players
         card_view_clue.visibility = View.VISIBLE
-        text_view_clue_category.text = gameStateModel.category?.also {
-            text_view_clue_category.visibility = View.VISIBLE
+        text_view_clue_category.text = gameStateModel.category.also {
+            text_view_clue_category.setVisibleHard(it != null)
         }
         text_view_clue_coins.setCoins(gameStateModel.currentValue)
         text_view_clue.text = gameStateModel.clue
@@ -200,8 +201,8 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         entryPopupMenu?.dismiss()
         attemptsAdapter?.clearAttempts()
         card_view_clue.visibility = View.VISIBLE
-        text_view_clue_category.text = roundModel.category?.also {
-            text_view_clue_category.visibility = View.VISIBLE
+        text_view_clue_category.text = roundModel.category.also {
+            text_view_clue_category.setVisibleHard(it != null)
         }
         text_view_clue_coins.setCoins(roundModel.currentValue)
         text_view_clue.text = roundModel.clue
@@ -395,8 +396,8 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     // Private
 
     private fun setSocketLoadingState(loading: Boolean) {
-        game_progress_bar_main.setVisible(loading)
-        game_content_root_layout.setVisible(!loading)
+        game_progress_bar_main.setVisibleSoft(loading)
+        game_content_root_layout.setVisibleSoft(!loading)
     }
 
     private fun showEntryMenu() {

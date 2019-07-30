@@ -9,6 +9,7 @@ import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import com.busytrack.openlivetrivia.screen.game.GameFragment
 import com.busytrack.openlivetrivia.screen.leaderboard.LeaderboardFragment
 import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
+import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsFragment
 import dagger.Subcomponent
 
 @ActivityScope
@@ -25,4 +26,5 @@ interface ActivityComponent {
     fun inject(mainMenuFragment: MainMenuFragment)
     fun inject(gameFragment: GameFragment)
     fun inject(leaderboardFragment: LeaderboardFragment)
+    fun inject(moderateReportsFragment: ModerateReportsFragment)
 }

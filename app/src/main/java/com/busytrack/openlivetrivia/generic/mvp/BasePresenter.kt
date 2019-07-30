@@ -17,7 +17,7 @@ abstract class BasePresenter<T : BaseMvp.View, S : BaseMvp.Model<*>>(
         set(value) {
             field = value
             // Update the main progress indicator from the view
-            view?.apply { setRefreshingIndicator(value) }
+            view?.setRefreshingIndicator(value)
         }
 
     protected val disposer = CompositeDisposable()

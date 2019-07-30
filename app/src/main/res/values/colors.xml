@@ -35,4 +35,7 @@
     <color name="colorSilver">#BEC7C7</color>
     <color name="colorBronze">#CD7F32</color>
 
+    <!--Loading Shimmer-->
+    <color name="colorLoadingShimmer">#DDDDDD</color>
+
 </resources>

@@ -46,6 +46,7 @@ android {
     }
     lintOptions {
         disable 'InvalidPackage'
+        disable 'SetTextI18n'
     }
 }
 

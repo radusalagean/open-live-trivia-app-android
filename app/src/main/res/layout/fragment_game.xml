@@ -83,7 +83,7 @@
                 app:constraint_referenced_ids="layout_header_players,layout_header_coins,layout_header_user"
                 app:barrierDirection="bottom"/>
 
-            <!--Clue Card-->
+            <!--Entry Card-->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                 tools:visibility="visible"
                 android:layout_marginTop="8dp">
 
-                <include layout="@layout/layout_clue"/>
+                <include layout="@layout/layout_base_entry"/>
 
             </androidx.cardview.widget.CardView>
 

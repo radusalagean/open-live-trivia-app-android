@@ -18,7 +18,7 @@ class LeaderboardModel(
             .doOnNext {
                 // Successful response, invalidate cached users and insert fresh data
                 databaseRepository.clearUsers()
-                viewModel.users.clear()
+                viewModel.clear()
                 handleReceivedResponse(it)
             }
 
@@ -31,7 +31,7 @@ class LeaderboardModel(
     override fun getCachedLeaderboard(): Observable<List<UserModel>> =
         databaseRepository.getAllUsers()
             .doOnNext {
-                viewModel.users.clear()
+                viewModel.clear()
                 viewModel.users.addAll(it)
             }
 

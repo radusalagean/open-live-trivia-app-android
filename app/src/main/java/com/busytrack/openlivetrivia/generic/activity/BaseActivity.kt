@@ -21,6 +21,7 @@ import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import com.busytrack.openlivetrivia.screen.game.GameFragment
 import com.busytrack.openlivetrivia.screen.leaderboard.LeaderboardFragment
 import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
+import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsFragment
 
 abstract class BaseActivity : AppCompatActivity(), ActivityContract {
     private val logTag : String = javaClass.simpleName
@@ -175,6 +176,10 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
 
     override fun showLeaderboardScreen() {
         showFragment(LeaderboardFragment.newInstance())
+    }
+
+    override fun showModerateReportsScreen() {
+        showFragment(ModerateReportsFragment.newInstance())
     }
 
     override fun handleSuccessfulFirebaseLogIn() {

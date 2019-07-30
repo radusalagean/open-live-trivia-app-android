@@ -14,6 +14,7 @@ import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_LONG
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
+import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import kotlinx.android.synthetic.main.layout_header_user.*
 import javax.inject.Inject
@@ -65,6 +66,9 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
         button_leaderboard.setOnClickListener {
             activityContract.showLeaderboardScreen()
         }
+        button_moderate_reports.setOnClickListener {
+            activityContract.showModerateReportsScreen()
+        }
         button_log_out.setOnClickListener {
             authenticationManager.signOut()
         }
@@ -73,6 +77,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     override fun unregisterListeners() {
         button_play.setOnClickListener(null)
         button_leaderboard.setOnClickListener(null)
+        button_moderate_reports.setOnClickListener(null)
         button_log_out.setOnClickListener(null)
     }
 
@@ -86,7 +91,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
 
     override fun getInfoBarContainer(): ViewGroup = main_menu_root_layout
 
-    // Mvp Contract
+    // Mvp Implementation
 
     override fun updateAccountInfo(userModel: UserModel) {
         with(userModel) {
@@ -105,6 +110,12 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
                     updateValue(userModel.coins!!, COIN_ACCELERATE_LONG)
                 }
             }
+            button_moderate_reports.visibility =
+                if (userModel.rights!!.ordinal >= UserRightsLevel.MOD.ordinal) { // MOD or higher rights level
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
         }
     }
 

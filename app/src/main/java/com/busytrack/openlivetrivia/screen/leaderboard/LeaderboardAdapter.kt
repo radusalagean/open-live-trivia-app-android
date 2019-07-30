@@ -4,13 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.generic.recyclerview.DynamicLoadAdapter
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import timber.log.Timber
 
 class LeaderboardAdapter(
     private val leaderboardItemContract: LeaderboardItemContract,
     private var users: ArrayList<UserModel?>
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    DynamicLoadAdapter<UserModel> {
 
     init {
         setHasStableIds(true)
@@ -27,19 +29,16 @@ class LeaderboardAdapter(
                     true
                 }
             }
-            else -> LeaderboardUserLoadingViewHolder(view)
+            else -> object : RecyclerView.ViewHolder(view){}
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Timber.d("onBindViewHolder($position)")
-        when(holder) {
-            is LeaderboardUserViewHolder -> {
-                holder.bind(
-                    users[position]!!,
-                    position + 1
-                )
-            }
+        if (holder is LeaderboardUserViewHolder) {
+            holder.bind(
+                users[position]!!,
+                position + 1
+            )
         }
     }
 
@@ -48,9 +47,8 @@ class LeaderboardAdapter(
     override fun getItemId(position: Int) = users[position]?.userId?.hashCode()?.toLong() ?: 0L
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
-        Timber.d("onViewRecycled()")
-        when(holder) {
-            is LeaderboardUserViewHolder -> holder.recycle()
+        if (holder is LeaderboardUserViewHolder) {
+            holder.recycle()
         }
     }
 
@@ -60,23 +58,25 @@ class LeaderboardAdapter(
             else -> R.layout.item_user_loading
         }
 
-    fun showLoadingPlaceholder() {
+    // DynamicLoadAdapter
+
+    override fun showLoadingPlaceholder() {
         users.add(null)
         notifyDataSetChanged()
     }
 
-    fun hideLoadingPlaceholder() {
+    override fun hideLoadingPlaceholder() {
         users.remove(null)
         notifyDataSetChanged()
     }
 
-    fun setUsers(users: List<UserModel>) {
-        this.users.clear()
-        this.users.addAll(users)
+    override fun setList(list: List<UserModel>) {
+        users.clear()
+        users.addAll(list)
         notifyDataSetChanged()
     }
 
-    fun clear() {
+    override fun clearList() {
         users.clear()
         notifyDataSetChanged()
     }

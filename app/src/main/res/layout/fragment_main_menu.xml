@@ -85,7 +85,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_play"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="14dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_moderate_reports"
+        style="@style/button_regular"
+        android:text="@string/moderate_reports_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_leaderboard"
+        android:layout_marginTop="14dp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -95,7 +108,7 @@
         android:text="@string/log_out_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_leaderboard"
-        android:layout_marginTop="12dp"/>
+        app:layout_constraintTop_toBottomOf="@id/button_moderate_reports"
+        android:layout_marginTop="14dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:translationZ="8dp"
+    app:cardCornerRadius="8dp"
+    android:layout_marginBottom="8dp"
+    tools:ignore="MissingPrefix">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp">
+
+        <include layout="@layout/layout_base_entry"/>
+        
+        <com.busytrack.openlivetrivia.view.ReportersTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view_reporters"
+            tools:text="Reported by: User 1, User 2, User 3 and 56 otherssdsdsdsdsdsdsdsdsd"
+            android:gravity="center"
+            android:maxLines="2"
+            android:ellipsize="end"
+            fontPath="fonts/NunitoSans-LightItalic.ttf"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/colorAccent"/>
+
+        <com.busytrack.openlivetrivia.view.TimeTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/time_text_view_last_reported"
+            tools:text="Last reported: 2 days ago"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            fontPath="fonts/NunitoSans-Light.ttf"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="end">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:id="@+id/button_dismiss_report"
+                android:text="@string/dismiss_report_button"
+                style="@style/Widget.AppCompat.Button.Borderless"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:id="@+id/button_ban_entry"
+                android:text="@string/ban_entry_button"
+                android:textColor="@color/colorNegative"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/button_unban_entry"
+                android:text="@string/unban_entry_button"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

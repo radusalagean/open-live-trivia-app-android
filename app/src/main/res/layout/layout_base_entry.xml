@@ -2,10 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="12dp"
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
@@ -103,10 +102,17 @@
         app:layout_constraintTop_toBottomOf="@id/text_view_answer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="invisible"
+        android:visibility="gone"
         tools:visibility="visible"
         android:layout_marginTop="8dp"
         android:layout_marginStart="-12dp"
         android:layout_marginEnd="-12dp"/>
+
+    <!--The group will be hidden when displayed in entry reports-->
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/group_game_specific_views"
+        app:constraint_referenced_ids="text_view_clue_coins,coin_view_clue_coins,menu_entry"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
