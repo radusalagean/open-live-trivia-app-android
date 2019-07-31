@@ -20,6 +20,9 @@ import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuPresenter
 import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsModel
 import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsMvp
 import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsPresenter
+import com.busytrack.openlivetrivia.screen.settings.SettingsModel
+import com.busytrack.openlivetrivia.screen.settings.SettingsMvp
+import com.busytrack.openlivetrivia.screen.settings.SettingsPresenter
 import com.busytrack.openlivetriviainterface.socket.SocketHub
 import dagger.Module
 import dagger.Provides
@@ -98,4 +101,17 @@ class MvpModule {
         model: ModerateReportsMvp.Model,
         activityContract: ActivityContract
     ): ModerateReportsMvp.Presenter = ModerateReportsPresenter(model, activityContract)
+
+    // Settings Screen
+
+    @Provides
+    fun provideSettingsModel(networkRepository: NetworkRepository): SettingsMvp.Model =
+        SettingsModel(networkRepository)
+
+    @Provides
+    fun provideSettingsPresenter(
+        model: SettingsMvp.Model,
+        activityContract: ActivityContract,
+        authenticationManager: AuthenticationManager
+    ): SettingsMvp.Presenter = SettingsPresenter(model, activityContract, authenticationManager)
 }

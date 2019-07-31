@@ -11,6 +11,7 @@
     <string name="username_unavailable">Username unavailable</string>
     <string name="message_logged_in_successfully">Logged in successfully</string>
     <string name="message_failed_to_log_in">Failed to log in: %s</string>
+    <string name="message_registered">Registered successfully</string>
     <string name="message_logged_out">Logged out</string>
     <string name="message_unable_to_authenticate">Unable to authenticate with the server.\nYou are now in offline mode.</string>
 
@@ -18,6 +19,7 @@
     <string name="play_button">Play</string>
     <string name="leaderboard_button">Leaderboard</string>
     <string name="moderate_reports_button">Moderate Reports</string>
+    <string name="settings_button">Settings</string>
     <string name="log_out_button">Log out</string>
     <string name="message_amount_won">You won %s points</string>
     <string name="message_amount_lost">You lost %s points</string>
@@ -77,4 +79,26 @@
     <string name="dialog_message_confirm_ban">Are you sure you want to ban the selected entry?</string>
     <string name="dialog_message_confirm_unban">Are you sure you want to unban the selected entry?</string>
     <string name="dialog_message_confirm_dismiss_report">Are you sure you want to dismiss the selected entry report?</string>
+
+    <!--Preferences Titles-->
+    <string name="pref_screen_category_display">Display</string>
+    <string name="pref_screen_relative_time">Relative time</string>
+    <string name="pref_screen_category_sound">Sound</string>
+    <string name="pref_screen_winning_sounds">Winning sounds</string>
+    <string name="pref_screen_losing_sounds">Losing sounds</string>
+    <string name="pref_screen_attempt_sounds">Attempt sounds</string>
+    <string name="pref_screen_split_sounds">Split sounds</string>
+    <string name="pref_screen_category_vibration">Vibration</string>
+    <string name="pref_screen_winning_vibration">Winning vibration</string>
+    <string name="pref_screen_category_danger_zone">Danger zone</string>
+    <string name="pref_screen_delete_account">Delete account</string>
+
+    <!--Preference - Delete Account-->
+    <string name="dialog_delete_account_title">WARNING</string>
+    <string name="dialog_delete_account_message">This action is permanent, you will lose your account data, including your earned points and the username you are now using will be made available for registration to anyone. Continue?</string>
+    <string name="message_account_deleted">Account deleted</string>
+
+    <!--Preference keys-->
+    <string name="pref_key_delete_account" translatable="false">pref_delete_account</string>
+
 </resources>

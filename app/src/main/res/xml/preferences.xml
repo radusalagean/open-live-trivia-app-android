@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_screen_category_display">
+        <SwitchPreference android:key="pref_relative_time"
+            android:title="@string/pref_screen_relative_time"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_screen_category_sound">
+        <SwitchPreference android:key="pref_winning_sounds"
+            android:title="@string/pref_screen_winning_sounds"
+            android:defaultValue="true"/>
+        <SwitchPreference android:key="pref_losing_sounds"
+            android:title="@string/pref_screen_losing_sounds"
+            android:defaultValue="true"/>
+        <SwitchPreference android:key="pref_attempt_sounds"
+            android:title="@string/pref_screen_attempt_sounds"
+            android:defaultValue="true"/>
+        <SwitchPreference android:key="pref_split_sounds"
+            android:title="@string/pref_screen_split_sounds"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_screen_category_vibration">
+        <SwitchPreference android:key="pref_winning_vibration"
+            android:title="@string/pref_screen_winning_vibration"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_screen_category_danger_zone">
+        <Preference android:key="@string/pref_key_delete_account"
+            android:title="@string/pref_screen_delete_account"/>
+    </PreferenceCategory>
+</PreferenceScreen>

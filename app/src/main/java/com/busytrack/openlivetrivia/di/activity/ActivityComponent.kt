@@ -13,6 +13,8 @@ import com.busytrack.openlivetrivia.screen.game.GameFragment
 import com.busytrack.openlivetrivia.screen.leaderboard.LeaderboardFragment
 import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
 import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsFragment
+import com.busytrack.openlivetrivia.screen.settings.SettingsFragment
+import com.busytrack.openlivetrivia.view.TimeTextView
 import dagger.Subcomponent
 
 @ActivityScope
@@ -27,10 +29,15 @@ import dagger.Subcomponent
     SoundModule::class
 ])
 interface ActivityComponent {
+    // Activity
     fun inject(mainActivity: MainActivity)
+    // Fragment
     fun inject(authenticationFragment: AuthenticationFragment)
     fun inject(mainMenuFragment: MainMenuFragment)
     fun inject(gameFragment: GameFragment)
     fun inject(leaderboardFragment: LeaderboardFragment)
     fun inject(moderateReportsFragment: ModerateReportsFragment)
+    fun inject(settingsFragment: SettingsFragment)
+    // View
+    fun inject(timeTextView: TimeTextView)
 }

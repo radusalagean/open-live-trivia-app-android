@@ -51,3 +51,27 @@ fun View?.findSuitableParent(): ViewGroup? {
     // If we reach here then we didn't find a CoL or a suitable content view so we'll fallback
     return fallback
 }
+
+/**
+ * Get all children of a parent [View] (for debugging purposes)
+ *
+ * from: https://stackoverflow.com/a/11263152/11631823
+ */
+fun View.getAllChildren(): ArrayList<View> {
+    if (this !is ViewGroup) {
+        val viewArrayList = ArrayList<View>()
+        viewArrayList.add(this)
+        return viewArrayList
+    }
+
+    val result = ArrayList<View>()
+
+    for (i in 0 until childCount) {
+        val child = getChildAt(i)
+        val viewArrayList = ArrayList<View>()
+        viewArrayList.add(this)
+        viewArrayList.addAll(child.getAllChildren())
+        result.addAll(viewArrayList)
+    }
+    return result
+}

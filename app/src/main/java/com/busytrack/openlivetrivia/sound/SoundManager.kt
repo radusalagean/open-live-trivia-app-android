@@ -7,7 +7,7 @@ import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRep
 
 class SoundManager(
     context: Context,
-    sharedPreferencesRepository: SharedPreferencesRepository
+    private val sharedPreferencesRepository: SharedPreferencesRepository
 ) {
 
     private val wonPlayer = MediaPlayer.create(context, R.raw.won)
@@ -16,18 +16,26 @@ class SoundManager(
     private val splitPlayer = MediaPlayer.create(context, R.raw.split)
 
     fun won() {
-        wonPlayer.start()
+        if (sharedPreferencesRepository.isWinningSoundsEnabled()) {
+            wonPlayer.start()
+        }
     }
 
     fun lost() {
-        lostPlayer.start()
+        if (sharedPreferencesRepository.isLosingSoundsEnabled()) {
+            lostPlayer.start()
+        }
     }
 
     fun attempt() {
-        attemptPlayer.start()
+        if (sharedPreferencesRepository.isAttemptSoundsEnabled()) {
+            attemptPlayer.start()
+        }
     }
 
     fun split() {
-        splitPlayer.start()
+        if (sharedPreferencesRepository.isSplitSoundsEnabled()) {
+            splitPlayer.start()
+        }
     }
 }

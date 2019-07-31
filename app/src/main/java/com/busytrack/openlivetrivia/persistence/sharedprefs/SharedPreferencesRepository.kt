@@ -48,4 +48,24 @@ class SharedPreferencesRepository(
             Date(sharedPreferences.getLong(PREF_ACCOUNT_JOINED, 0L))
         )
     }
+
+    // Settings
+
+    fun isRelativeTimeEnabled() =
+        sharedPreferences.getBoolean(SharedPreferencesConstants.PREF_RELATIVE_TIME, true)
+
+    fun isWinningSoundsEnabled() =
+        sharedPreferences.getBoolean(SharedPreferencesConstants.PREF_WINNING_SOUNDS, true)
+
+    fun isLosingSoundsEnabled() =
+        sharedPreferences.getBoolean(SharedPreferencesConstants.PREF_LOSING_SOUNDS, true)
+
+    fun isAttemptSoundsEnabled() =
+        sharedPreferences.getBoolean(SharedPreferencesConstants.PREF_ATTEMPT_SOUNDS, true)
+
+    fun isSplitSoundsEnabled() =
+        sharedPreferences.getBoolean(SharedPreferencesConstants.PREF_SPLIT_SOUNDS, true)
+
+    fun isWinningVibrationEnabled() =
+        sharedPreferences.getBoolean(SharedPreferencesConstants.PREF_WINNING_VIBRATION, true)
 }

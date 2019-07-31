@@ -8,13 +8,15 @@ import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRep
 
 class VibrationManager(
     private val vibrator: Vibrator,
-    sharedPreferencesRepository: SharedPreferencesRepository
+    private val sharedPreferencesRepository: SharedPreferencesRepository
 ) {
 
     private val winPatternTimings = longArrayOf(0, 50, 30, 50, 30, 50)
 
     fun won() {
-        executeCommand(winPatternTimings)
+        if (sharedPreferencesRepository.isWinningVibrationEnabled()) {
+            executeCommand(winPatternTimings)
+        }
     }
 
     private fun executeCommand(timings: LongArray) {

@@ -5,9 +5,12 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import com.busytrack.openlivetrivia.broadcastreceiver.TimeAwareReceiver
 import com.busytrack.openlivetrivia.broadcastreceiver.TimeTickReceiver
+import com.busytrack.openlivetrivia.generic.activity.BaseActivity
+import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
 import java.text.DateFormat
 import java.util.*
 import com.google.android.gms.common.util.Strings
+import javax.inject.Inject
 
 open class TimeTextView(
     context: Context,
@@ -17,11 +20,19 @@ open class TimeTextView(
     private var prefix: String? = null
     private var timestamp: Long? = null
 
+    @Inject
+    lateinit var sharedPreferencesRepository: SharedPreferencesRepository
+
     private val timeAwareReceiver: TimeAwareReceiver = TimeAwareReceiver(object : TimeTickReceiver.Listener {
         override fun onReceive() {
             refreshTimeText()
         }
     })
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        (context as BaseActivity).activityComponent.inject(this)
+    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -65,12 +76,11 @@ open class TimeTextView(
     }
 
     private fun getTimeString(time: Long): String {
-        // AppHelper.getInstance().getSharedPreferences().getBoolean("pref_key_relative_time", true)
-        if (true) { // TODO check settings
+        if (sharedPreferencesRepository.isRelativeTimeEnabled()) {
             val currentTime = System.currentTimeMillis()
             val dividedTime: Long
             if (currentTime - time < 0)
-                return "Negative time" // TODO move to strings.xml
+                return "Negative time" // TODO move all hardcoded strings to strings.xml
             if (currentTime - time < 1000)
                 return "Just now"
             val delta = (currentTime - time) / 1000

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
+import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.generic.viewpager.PagerViewListener
@@ -58,7 +59,7 @@ class ModerateReportsFragment : BaseFragment(),
     // Fragment lifecycle
 
     override fun onAttach(context: Context) {
-        activityComponent.inject(this)
+        (this.context as BaseActivity).activityComponent.inject(this)
         super.onAttach(context)
     }
 

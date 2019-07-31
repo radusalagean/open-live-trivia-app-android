@@ -10,6 +10,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
 import com.busytrack.openlivetrivia.extension.setVisibleSoft
+import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import kotlinx.android.synthetic.main.fragment_authentication.*
@@ -29,7 +30,7 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
     // Lifecycle callbacks
 
     override fun onAttach(context: Context) {
-        activityComponent.inject(this)
+        (this.context as BaseActivity).activityComponent.inject(this)
         super.onAttach(context)
     }
 
@@ -134,12 +135,14 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
 
     override fun onUsernameChanged(username: String) {
         clearUsernameAvailability()
+        presenter.dispose()
         if (username.isNotBlank() && username.length >= 4) {
             presenter.checkUsernameAvailability(username.trim())
         }
     }
 
     override fun onChangeAccountPressed() {
+        edit_text_username.text = null
         view_pager.currentItem = AuthenticationPageType.LOG_IN.ordinal
         presenter.firebaseLogOut()
     }

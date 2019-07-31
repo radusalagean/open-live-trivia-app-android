@@ -19,6 +19,7 @@ import com.busytrack.openlivetrivia.screen.game.GameFragment
 import com.busytrack.openlivetrivia.screen.leaderboard.LeaderboardFragment
 import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
 import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsFragment
+import com.busytrack.openlivetrivia.screen.settings.SettingsFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar
 
 abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarContract {
@@ -26,7 +27,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     open lateinit var infoBarManager: InfoBarManager
 
-    protected val activityComponent: ActivityComponent by lazy {
+    val activityComponent: ActivityComponent by lazy {
         (application as OpenLiveTriviaApp).applicationComponent
             .newActivityComponent(ActivityModule(this))
     }
@@ -182,6 +183,10 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     override fun showModerateReportsScreen() {
         showFragment(ModerateReportsFragment.newInstance())
+    }
+
+    override fun showSettingsFragment() {
+        showFragment(SettingsFragment.newInstance())
     }
 
     override fun handleSuccessfulFirebaseLogIn() {

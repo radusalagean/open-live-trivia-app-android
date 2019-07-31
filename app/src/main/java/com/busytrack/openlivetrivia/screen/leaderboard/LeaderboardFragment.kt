@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.generic.recyclerview.ListItemDecoration
@@ -32,7 +33,7 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
     // Lifecycle callbacks
 
     override fun onAttach(context: Context) {
-        activityComponent.inject(this)
+        (this.context as BaseActivity).activityComponent.inject(this)
         super.onAttach(context)
     }
 

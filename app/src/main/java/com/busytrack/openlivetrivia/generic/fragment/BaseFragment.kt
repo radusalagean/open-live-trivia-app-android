@@ -6,21 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
-import com.busytrack.openlivetrivia.di.activity.ActivityModule
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import timber.log.Timber
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp.Presenter
 
 abstract class BaseFragment : Fragment(), BaseMvp.View {
     private val logTag = javaClass.simpleName
-    protected val activityComponent by lazy {
-        activity!!.let {
-            (it.application as OpenLiveTriviaApp)
-                .applicationComponent
-                .newActivityComponent(ActivityModule(it))
-        }
-    }
 
     // Lifecycle callbacks
 

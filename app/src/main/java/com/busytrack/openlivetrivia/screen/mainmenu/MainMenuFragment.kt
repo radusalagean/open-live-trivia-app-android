@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
+import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.sound.SoundManager
@@ -39,7 +40,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     // Lifecycle callbacks
 
     override fun onAttach(context: Context) {
-        activityComponent.inject(this)
+        (this.context as BaseActivity).activityComponent.inject(this)
         super.onAttach(context)
     }
 
@@ -76,6 +77,9 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
         button_moderate_reports.setOnClickListener {
             activityContract.showModerateReportsScreen()
         }
+        button_settings.setOnClickListener {
+            activityContract.showSettingsFragment()
+        }
         button_log_out.setOnClickListener {
             authenticationManager.signOut()
         }
@@ -85,6 +89,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
         button_play.setOnClickListener(null)
         button_leaderboard.setOnClickListener(null)
         button_moderate_reports.setOnClickListener(null)
+        button_settings.setOnClickListener(null)
         button_log_out.setOnClickListener(null)
     }
 

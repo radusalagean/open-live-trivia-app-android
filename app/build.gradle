@@ -61,6 +61,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-rxjava2:$roomVersion"
+    implementation "androidx.preference:preference:$preferenceVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     implementation "com.facebook.stetho:stetho:$stethoVersion"

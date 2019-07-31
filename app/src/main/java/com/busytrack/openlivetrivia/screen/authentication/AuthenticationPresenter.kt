@@ -75,6 +75,12 @@ class AuthenticationPresenter(
                 .subscribeWith(object : ReactiveObserver<UserModel>(this) {
                     override fun onNext(t: UserModel) {
                         authenticationManager.setAuthenticatedUser(t)
+                        activityContract.showInfoMessage(R.string.message_registered)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        super.onError(e)
+                        activityContract.showErrorMessage(R.string.general_error_message, e.message)
                     }
 
                     override fun onComplete() {

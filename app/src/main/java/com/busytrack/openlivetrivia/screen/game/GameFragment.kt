@@ -20,6 +20,7 @@ import com.busytrack.openlivetrivia.extension.applyText
 import com.busytrack.openlivetrivia.extension.setVisibleHard
 import com.busytrack.openlivetrivia.extension.setVisibleSoft
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
+import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.rights.RightsManager
@@ -102,7 +103,7 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     // Lifecycle callbacks
 
     override fun onAttach(context: Context) {
-        activityComponent.inject(this)
+        (this.context as BaseActivity).activityComponent.inject(this)
         super.onAttach(context)
     }
 
