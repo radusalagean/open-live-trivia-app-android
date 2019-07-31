@@ -141,7 +141,8 @@
                 app:layout_constraintEnd_toStartOf="@id/button_send_attempt"
                 android:layout_marginEnd="8dp"
                 android:maxLines="1"
-                android:maxLength="200"/>
+                android:maxLength="200"
+                android:imeOptions="actionSend"/>
 
             <ImageButton
                 android:layout_width="wrap_content"

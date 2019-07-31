@@ -1,6 +1,7 @@
 package com.busytrack.openlivetrivia.screen.authentication
 
 import androidx.fragment.app.Fragment
+import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
@@ -47,6 +48,14 @@ class AuthenticationPresenter(
                     if (e is HttpException && e.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                         // The selected Google account is not yet registered in the app
                         view?.showRegisterPage()
+                    } else if (authenticationManager.getAuthenticatedUser() != null) {
+                        // Other error, if user info was cached,
+                        // use the already saved info and show a warning message
+                        activityContract.showWarningMessage(R.string.message_unable_to_authenticate)
+                        showMainMenuScreen()
+                    } else {
+                        // fallback
+                        activityContract.showErrorMessage(R.string.message_failed_to_log_in, e.message)
                     }
                 }
 

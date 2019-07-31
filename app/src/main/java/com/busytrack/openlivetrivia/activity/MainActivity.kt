@@ -6,12 +6,16 @@ import android.os.Bundle
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
+import com.busytrack.openlivetrivia.infobar.InfoBarManager
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
     @Inject
     lateinit var authenticationManager: AuthenticationManager
+
+    @Inject
+    override lateinit var infoBarManager: InfoBarManager
 
     // Lifecycle callbacks
 

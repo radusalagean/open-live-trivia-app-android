@@ -1,4 +1,4 @@
-package com.busytrack.openlivetrivia.generic.infobar
+package com.busytrack.openlivetrivia.infobar
 
 import android.view.LayoutInflater
 import android.view.View

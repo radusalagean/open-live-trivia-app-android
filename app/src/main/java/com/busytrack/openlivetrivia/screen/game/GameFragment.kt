@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.PopupMenu
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -333,6 +334,16 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
             showEntryMenu()
         }
         edit_text_attempt.addTextChangedListener(textWatcher)
+        edit_text_attempt.setOnEditorActionListener { v, actionId, event ->
+            if (!button_send_attempt.isEnabled) return@setOnEditorActionListener false
+            if (actionId == EditorInfo.IME_ACTION_SEND ||
+                (actionId == EditorInfo.IME_NULL && event != null &&
+                        event.action == KeyEvent.ACTION_DOWN)) {
+                button_send_attempt.performClick()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
         button_send_attempt.setOnClickListener {
             presenter.sendAttempt(edit_text_attempt.text.trim().toString())
             edit_text_attempt.text = null
@@ -362,6 +373,7 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         layout_header_players.setOnClickListener(null)
         menu_entry.setOnClickListener(null)
         edit_text_attempt.removeTextChangedListener(textWatcher)
+        edit_text_attempt.setOnEditorActionListener(null)
         button_send_attempt.setOnClickListener(null)
         recycler_view_attempts.clearOnScrollListeners()
         game_fab_scroll_down.setOnClickListener(null)

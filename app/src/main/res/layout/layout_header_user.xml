@@ -32,6 +32,7 @@
         android:id="@+id/image_view_my_profile"
         tools:ignore="ContentDescription"
         tools:srcCompat="@tools:sample/avatars"
+        android:layout_gravity="center_vertical"
         android:layout_weight="0"/>
 
 </LinearLayout>

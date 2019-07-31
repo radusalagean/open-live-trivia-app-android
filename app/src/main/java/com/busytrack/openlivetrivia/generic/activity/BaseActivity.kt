@@ -13,18 +13,18 @@ import com.busytrack.openlivetrivia.di.activity.ActivityModule
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import timber.log.Timber
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
-import com.busytrack.openlivetrivia.generic.infobar.InfoBar
-import com.busytrack.openlivetrivia.generic.infobar.TYPE_ERROR
-import com.busytrack.openlivetrivia.generic.infobar.TYPE_INFO
-import com.busytrack.openlivetrivia.generic.infobar.TYPE_WARN
+import com.busytrack.openlivetrivia.infobar.*
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import com.busytrack.openlivetrivia.screen.game.GameFragment
 import com.busytrack.openlivetrivia.screen.leaderboard.LeaderboardFragment
 import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
 import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsFragment
+import com.google.android.material.snackbar.BaseTransientBottomBar
 
-abstract class BaseActivity : AppCompatActivity(), ActivityContract {
+abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarContract {
     private val logTag : String = javaClass.simpleName
+
+    open lateinit var infoBarManager: InfoBarManager
 
     protected val activityComponent: ActivityComponent by lazy {
         (application as OpenLiveTriviaApp).applicationComponent
@@ -51,10 +51,12 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
     override fun onResume() {
         Timber.tag(logTag).v("-A-> onResume()")
         super.onResume()
+        infoBarManager.resume(this)
     }
 
     override fun onPause() {
         Timber.tag(logTag).v("-A-> onPause()")
+        infoBarManager.pause()
         super.onPause()
     }
 
@@ -139,15 +141,15 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
     // Activity contract implementation
 
     override fun showInfoMessage(message: Int, args: Any?) {
-        showMessage(message, args, TYPE_INFO)
+        enqueueMessage(message, args, TYPE_INFO)
     }
 
     override fun showWarningMessage(message: Int, args: Any?) {
-        showMessage(message, args, TYPE_WARN)
+        enqueueMessage(message, args, TYPE_WARN)
     }
 
     override fun showErrorMessage(message: Int, args: Any?) {
-        showMessage(message, args, TYPE_ERROR)
+        enqueueMessage(message, args, TYPE_ERROR)
     }
 
     override fun triggerGoogleSignIn(intent: Intent) {
@@ -202,6 +204,21 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
         showAuthenticationScreen()
     }
 
+    // InfoBar Contract
+
+    override fun showInfoBarNow(
+        infoBarConfiguration: InfoBarConfiguration,
+        callback: BaseTransientBottomBar.BaseCallback<InfoBar>
+    ) {
+        getCurrentFragment()?.let {
+            InfoBar.make(
+                it.getInfoBarContainer(),
+                infoBarConfiguration.message,
+                infoBarConfiguration.type
+            ).addCallback(callback).show()
+        }
+    }
+
     // Abstract methods
 
     abstract fun handleGoogleSignInResult(resultCode: Int, data: Intent?)
@@ -213,10 +230,10 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract {
 
     // Private
 
-    private fun showMessage(message: Int, args: Any?, type: Int) {
+    private fun enqueueMessage(message: Int, args: Any?, type: Int) {
+        val string = if (args == null) getString(message) else getString(message, args)
         getCurrentFragment()?.let {
-            val string = if (args == null) getString(message) else getString(message, args)
-            InfoBar.make(it.getInfoBarContainer(), string, type).show()
+            infoBarManager.enqueueMessage(InfoBarConfiguration(string, type))
         }
     }
 }

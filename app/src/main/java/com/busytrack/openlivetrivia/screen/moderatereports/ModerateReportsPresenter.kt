@@ -68,6 +68,7 @@ class ModerateReportsPresenter(
                 override fun onError(e: Throwable) {
                     Timber.e(e)
                     refreshingReportedEntries = false
+                    activityContract.showErrorMessage(R.string.general_error_message, e.message)
                 }
 
                 override fun onComplete() {
@@ -100,6 +101,7 @@ class ModerateReportsPresenter(
                 override fun onError(e: Throwable) {
                     Timber.e(e)
                     refreshingBannedEntries = false
+                    activityContract.showErrorMessage(R.string.general_error_message, e.message)
                 }
 
                 override fun onComplete() {
@@ -121,6 +123,7 @@ class ModerateReportsPresenter(
                 override fun onError(e: Throwable) {
                     Timber.e(e)
                     loadingMoreReportedEntries = false
+                    activityContract.showErrorMessage(R.string.general_error_message, e.message)
                 }
 
                 override fun onComplete() {
@@ -142,6 +145,7 @@ class ModerateReportsPresenter(
                 override fun onError(e: Throwable) {
                     Timber.e(e)
                     loadingMoreBannedEntries = false
+                    activityContract.showErrorMessage(R.string.general_error_message, e.message)
                 }
 
                 override fun onComplete() {

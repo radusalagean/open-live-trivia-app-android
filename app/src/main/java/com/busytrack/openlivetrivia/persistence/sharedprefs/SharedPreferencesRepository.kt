@@ -1,0 +1,51 @@
+package com.busytrack.openlivetrivia.persistence.sharedprefs
+
+import android.content.SharedPreferences
+import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_COINS
+import com.busytrack.openlivetriviainterface.rest.model.UserModel
+import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_ID
+import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_JOINED
+import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_RIGHTS
+import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_USERNAME
+import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
+import java.util.*
+
+class SharedPreferencesRepository(
+    private val sharedPreferences: SharedPreferences
+) {
+
+    // Authenticated account
+
+    fun updateAuthenticatedAccount(account: UserModel) {
+        sharedPreferences.edit()
+            .putString(PREF_ACCOUNT_ID, account.userId)
+            .putString(PREF_ACCOUNT_USERNAME, account.username)
+            .putInt(PREF_ACCOUNT_RIGHTS, account.rights!!.ordinal)
+            .putString(PREF_ACCOUNT_COINS, account.coins!!.toString())
+            .putLong(PREF_ACCOUNT_JOINED, account.joined!!.time)
+            .apply()
+    }
+
+    fun clearAuthenticatedAccount() {
+        sharedPreferences.edit()
+            .remove(PREF_ACCOUNT_ID)
+            .remove(PREF_ACCOUNT_USERNAME)
+            .remove(PREF_ACCOUNT_RIGHTS)
+            .remove(PREF_ACCOUNT_COINS)
+            .remove(PREF_ACCOUNT_JOINED)
+            .apply()
+    }
+
+    fun getAuthenticatedAccount(): UserModel? {
+        val userId = sharedPreferences.getString(PREF_ACCOUNT_ID, null) ?: return null
+        return UserModel(
+            userId,
+            sharedPreferences.getString(PREF_ACCOUNT_USERNAME, null)!!,
+            UserRightsLevel.values()[sharedPreferences.getInt(PREF_ACCOUNT_RIGHTS, 0)],
+            sharedPreferences.getString(PREF_ACCOUNT_COINS, null)!!.toDouble(),
+            null,
+            false,
+            Date(sharedPreferences.getLong(PREF_ACCOUNT_JOINED, 0L))
+        )
+    }
+}

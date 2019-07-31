@@ -12,6 +12,7 @@
     <string name="message_logged_in_successfully">Logged in successfully</string>
     <string name="message_failed_to_log_in">Failed to log in: %s</string>
     <string name="message_logged_out">Logged out</string>
+    <string name="message_unable_to_authenticate">Unable to authenticate with the server.\nYou are now in offline mode.</string>
 
     <!--Main Menu-->
     <string name="play_button">Play</string>

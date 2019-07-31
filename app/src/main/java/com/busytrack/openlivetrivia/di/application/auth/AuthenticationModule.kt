@@ -2,7 +2,6 @@ package com.busytrack.openlivetrivia.di.application.auth
 
 import android.content.Context
 import com.busytrack.openlivetrivia.BuildConfig
-import com.busytrack.openlivetrivia.auth.AuthenticationRepository
 import com.busytrack.openlivetrivia.di.NAMED_APPLICATION_CONTEXT
 import com.busytrack.openlivetrivia.di.application.ApplicationScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -27,8 +26,4 @@ class AuthenticationModule {
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(BuildConfig.FIREBASE_SERVER_CLIENT_ID)
             .build()
-
-    @Provides
-    @ApplicationScope
-    fun provideAuthenticationRepository(): AuthenticationRepository = AuthenticationRepository()
 }

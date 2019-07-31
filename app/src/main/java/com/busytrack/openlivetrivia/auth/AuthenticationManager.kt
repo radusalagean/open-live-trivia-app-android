@@ -2,6 +2,7 @@ package com.busytrack.openlivetrivia.auth
 
 import android.content.Intent
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
+import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -12,7 +13,7 @@ import timber.log.Timber
 import java.lang.Exception
 
 class AuthenticationManager(
-    private val authenticationRepository: AuthenticationRepository,
+    private val sharedPreferencesRepository: SharedPreferencesRepository,
     private val googleSignInClient: GoogleSignInClient,
     private val firebaseAuth: FirebaseAuth,
     private val activityContract: ActivityContract
@@ -29,7 +30,7 @@ class AuthenticationManager(
         firebaseAuth.signOut()
         googleSignInClient.signOut()
         googleSignInClient.revokeAccess()
-        authenticationRepository.currentUser = null
+        sharedPreferencesRepository.clearAuthenticatedAccount()
         if (!silent) {
             activityContract.handleLogOut()
         }
@@ -50,10 +51,10 @@ class AuthenticationManager(
     }
 
     fun setAuthenticatedUser(userModel: UserModel) {
-        authenticationRepository.currentUser = userModel
+        sharedPreferencesRepository.updateAuthenticatedAccount(userModel)
     }
 
-    fun getAuthenticatedUser() = authenticationRepository.currentUser
+    fun getAuthenticatedUser() = sharedPreferencesRepository.getAuthenticatedAccount()
 
     private fun authenticateWithFirebase(account: GoogleSignInAccount?) {
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)

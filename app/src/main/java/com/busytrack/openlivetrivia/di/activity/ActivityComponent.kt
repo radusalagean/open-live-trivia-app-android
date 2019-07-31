@@ -3,6 +3,7 @@ package com.busytrack.openlivetrivia.di.activity
 import com.busytrack.openlivetrivia.activity.MainActivity
 import com.busytrack.openlivetrivia.di.activity.auth.AuthenticationModule
 import com.busytrack.openlivetrivia.di.activity.dialog.DialogModule
+import com.busytrack.openlivetrivia.di.activity.infobar.InfoBarModule
 import com.busytrack.openlivetrivia.di.activity.mvp.MvpModule
 import com.busytrack.openlivetrivia.di.activity.rights.RightsModule
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
@@ -18,7 +19,8 @@ import dagger.Subcomponent
     AuthenticationModule::class,
     MvpModule::class,
     DialogModule::class,
-    RightsModule::class
+    RightsModule::class,
+    InfoBarModule::class
 ])
 interface ActivityComponent {
     fun inject(mainActivity: MainActivity)

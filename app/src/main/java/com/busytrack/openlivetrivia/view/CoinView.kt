@@ -2,13 +2,13 @@ package com.busytrack.openlivetrivia.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import com.busytrack.openlivetrivia.R
 
 class CoinView(
     context: Context,
     attributeSet: AttributeSet
-) : ImageView(context, attributeSet) {
+) : AppCompatImageView(context, attributeSet) {
 
     init {
         setBackgroundResource(R.drawable.point)

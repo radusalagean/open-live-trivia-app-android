@@ -1,0 +1,45 @@
+package com.busytrack.openlivetrivia.infobar
+
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import java.util.*
+
+/**
+ * Responsible for managing [InfoBar] message queue
+ */
+class InfoBarManager {
+
+    private val messageQueue: Queue<InfoBarConfiguration> = LinkedList()
+    private var infoBarContract: InfoBarContract? = null
+
+    private val callback = object : BaseTransientBottomBar.BaseCallback<InfoBar>() {
+        override fun onDismissed(transientBottomBar: InfoBar?, event: Int) {
+            messageQueue.poll()
+            processNextMessage()
+        }
+    }
+
+    fun enqueueMessage(infoBarConfiguration: InfoBarConfiguration) {
+        messageQueue.offer(infoBarConfiguration)
+        if (messageQueue.size == 1) {
+            processNextMessage()
+        }
+    }
+
+    fun processNextMessage() {
+        if (messageQueue.peek() != null && infoBarContract != null) {
+            val nextMessage = messageQueue.peek()
+            infoBarContract?.showInfoBarNow(nextMessage, callback)
+        }
+    }
+
+    fun resume(infoBarContract: InfoBarContract) {
+        this.infoBarContract = infoBarContract
+        if (!messageQueue.isEmpty()) {
+            processNextMessage()
+        }
+    }
+
+    fun pause() {
+        infoBarContract = null
+    }
+}

@@ -2,7 +2,7 @@ package com.busytrack.openlivetrivia.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import com.busytrack.openlivetrivia.R
 import kotlin.math.min
 
@@ -11,7 +11,7 @@ const val DISPLAYED_REPORTERS_COUNT = 3
 class ReportersTextView(
     context: Context,
     attributeSet: AttributeSet
-) : TextView(context, attributeSet) {
+) : AppCompatTextView(context, attributeSet) {
 
     private val prefix = context.getString(R.string.reporter_prefix)
     private val accountUnavailable = context.getString(R.string.reporter_account_unavailable)
