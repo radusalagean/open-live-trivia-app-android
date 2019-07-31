@@ -6,6 +6,8 @@ import com.busytrack.openlivetrivia.di.activity.dialog.DialogModule
 import com.busytrack.openlivetrivia.di.activity.infobar.InfoBarModule
 import com.busytrack.openlivetrivia.di.activity.mvp.MvpModule
 import com.busytrack.openlivetrivia.di.activity.rights.RightsModule
+import com.busytrack.openlivetrivia.di.activity.sound.SoundModule
+import com.busytrack.openlivetrivia.di.activity.vibration.VibrationModule
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
 import com.busytrack.openlivetrivia.screen.game.GameFragment
 import com.busytrack.openlivetrivia.screen.leaderboard.LeaderboardFragment
@@ -20,7 +22,9 @@ import dagger.Subcomponent
     MvpModule::class,
     DialogModule::class,
     RightsModule::class,
-    InfoBarModule::class
+    InfoBarModule::class,
+    VibrationModule::class,
+    SoundModule::class
 ])
 interface ActivityComponent {
     fun inject(mainActivity: MainActivity)

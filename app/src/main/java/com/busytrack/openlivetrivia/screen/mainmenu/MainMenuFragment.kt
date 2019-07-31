@@ -12,12 +12,16 @@ import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
+import com.busytrack.openlivetrivia.sound.SoundManager
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_LONG
+import com.busytrack.openlivetrivia.view.COIN_DISPLAY_FORMAT
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import kotlinx.android.synthetic.main.layout_header_user.*
 import javax.inject.Inject
+import kotlin.math.absoluteValue
+import kotlin.math.sign
 
 class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     @Inject
@@ -28,6 +32,9 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
 
     @Inject
     lateinit var activityContract: ActivityContract
+
+    @Inject
+    lateinit var soundManager: SoundManager
 
     // Lifecycle callbacks
 
@@ -107,6 +114,22 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
                 } else {
                     // If we have a previous value for "coins",
                     // animate the transition to the new value
+                    // and play the appropriate sound effect
+                    val diff = userModel.coins!! - coins!!
+                    val diffString = COIN_DISPLAY_FORMAT.format(diff.absoluteValue)
+                    if (diff.sign > 0.0) {
+                        soundManager.won()
+                        activityContract.showInfoMessage(
+                            R.string.message_amount_won,
+                            diffString
+                        )
+                    } else if (diff.sign < 0.0f) {
+                        soundManager.lost()
+                        activityContract.showWarningMessage(
+                            R.string.message_amount_lost,
+                            diffString
+                        )
+                    }
                     updateValue(userModel.coins!!, COIN_ACCELERATE_LONG)
                 }
             }

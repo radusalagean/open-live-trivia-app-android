@@ -19,6 +19,8 @@
     <string name="leaderboard_button">Leaderboard</string>
     <string name="moderate_reports_button">Moderate Reports</string>
     <string name="log_out_button">Log out</string>
+    <string name="message_amount_won">You won %s points</string>
+    <string name="message_amount_lost">You lost %s points</string>
 
     <!--Game-->
     <string name="game_answer_attempt_hint">Type your answer attempt</string>

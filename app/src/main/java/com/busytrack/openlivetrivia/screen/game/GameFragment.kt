@@ -23,6 +23,8 @@ import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.rights.RightsManager
+import com.busytrack.openlivetrivia.sound.SoundManager
+import com.busytrack.openlivetrivia.vibration.VibrationManager
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_LONG
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_SHORT
 import com.busytrack.openlivetriviainterface.BuildConfig.COST_EXTRA_ANSWER
@@ -56,6 +58,12 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
 
     @Inject
     lateinit var rightsManager: RightsManager
+
+    @Inject
+    lateinit var vibrationManager: VibrationManager
+
+    @Inject
+    lateinit var soundManager: SoundManager
 
     @Inject
     lateinit var activityContract: ActivityContract
@@ -217,6 +225,7 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         text_view_answer.text = splitModel.answer
         text_view_clue_coins.updateValue(splitModel.currentValue, COIN_ACCELERATE_SHORT)
         timed_progress_bar_remaining_time.resetAndStart()
+        soundManager.split()
     }
 
     override fun updateAttempt(attemptModel: AttemptModel) {
@@ -229,12 +238,19 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
                 }
             }
         }
+        soundManager.attempt()
         if (attemptModel.correct) {
             text_view_clue_coins.drain()
             text_view_answer.text = attemptModel.correctAnswer
             text_view_answer.correct()
             timed_progress_bar_remaining_time.hide()
             button_send_attempt.isEnabled = false
+            if (attemptModel.userId == authenticationManager.getAuthenticatedUser()?.userId) {
+                vibrationManager.won()
+                soundManager.won()
+            } else {
+                soundManager.lost()
+            }
         }
     }
 
@@ -244,6 +260,7 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
         text_view_clue_coins.drain()
         text_view_answer.reveal()
         button_send_attempt.isEnabled = false
+        soundManager.lost()
     }
 
     override fun updateCoinDiff(coinDiffModel: CoinDiffModel) {

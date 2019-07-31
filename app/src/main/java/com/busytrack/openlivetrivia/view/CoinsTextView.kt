@@ -5,13 +5,12 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import com.busytrack.openlivetrivia.extension.cutTo
 import kotlinx.coroutines.*
-import timber.log.Timber
 import java.lang.IllegalStateException
 import kotlin.coroutines.CoroutineContext
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
-private const val FORMAT = "%.2f"
+const val COIN_DISPLAY_FORMAT = "%.2f"
 private const val ANIMATION_DELAY = 50L // Milliseconds
 
 class CoinsTextView(
@@ -30,7 +29,7 @@ class CoinsTextView(
     fun setCoins(coins: Double) {
         animateJob?.cancel()
         this.coins = coins
-        text = FORMAT.format(coins)
+        text = COIN_DISPLAY_FORMAT.format(coins)
     }
 
     fun computeDiff(diff: Double, millis: Long) {
@@ -82,7 +81,7 @@ class CoinsTextView(
                     currentValue += diffPerDrawCycle
                     //Timber.w("[draw cycle]: currentValue after: $currentValue")
                     withContext(Dispatchers.Main) {
-                        text = FORMAT.format(currentValue.absoluteValue)
+                        text = COIN_DISPLAY_FORMAT.format(currentValue.absoluteValue)
                         //Timber.w("[draw cycle MAIN THREAD]: set text to: $text")
                     }
                 }
