@@ -4,9 +4,9 @@
     <dimen name="screen_horizontal_padding">16dp</dimen>
     <dimen name="screen_vertical_padding">16dp</dimen>
 
-    <dimen name="button_padding_horizontal">24dp</dimen>
-    <dimen name="button_padding_vertical">12dp</dimen>
-    <dimen name="button_corner_radius">24dp</dimen>
+    <dimen name="button_padding_horizontal">18dp</dimen>
+    <dimen name="button_padding_vertical">10dp</dimen>
+    <dimen name="button_corner_radius">18dp</dimen>
 
     <dimen name="image_button_padding_horizontal">12dp</dimen>
     <dimen name="image_button_padding_vertical">12dp</dimen>

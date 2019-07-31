@@ -26,10 +26,10 @@
         app:layout_constraintHorizontal_bias="1"/>
 
     <ImageView
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:id="@+id/image_view_logo"
-        android:src="@drawable/logo_gradient_text"
+        android:src="@drawable/app_logo_raw"
         android:layout_marginTop="48dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +74,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linear_layout_coins"
-        android:layout_marginTop="48dp"/>
+        android:layout_marginTop="24dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_play"
-        android:layout_marginTop="14dp"/>
+        android:layout_marginTop="12dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_leaderboard"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="12dp"
         android:visibility="gone"
         tools:visibility="visible"/>
 
@@ -109,7 +109,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_moderate_reports"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="12dp"
         tools:visibility="visible"/>
 
     <Button
@@ -121,6 +121,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_settings"
-        android:layout_marginTop="14dp"/>
+        android:layout_marginTop="12dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
