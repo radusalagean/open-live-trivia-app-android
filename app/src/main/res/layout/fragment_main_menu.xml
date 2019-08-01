@@ -13,15 +13,28 @@
     android:clipToPadding="false"
     tools:context=".screen.mainmenu.MainMenuFragment">
 
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/image_view_project_link"
+        android:src="@drawable/github_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        android:contentDescription="@string/content_description_project_link"
+        android:background="?android:selectableItemBackgroundBorderless"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+
     <!--User Header-->
     <include
         layout="@layout/layout_header_user"
         android:id="@+id/layout_header_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/image_view_project_link"
         app:layout_constrainedWidth="true"
         app:layout_constraintHorizontal_bias="1"/>
 

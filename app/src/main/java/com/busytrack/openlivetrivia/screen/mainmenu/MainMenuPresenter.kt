@@ -30,7 +30,7 @@ class MainMenuPresenter(
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
-                    activityContract.showErrorMessage(R.string.message_unable_to_refresh_account_info)
+                    activityContract.showWarningMessage(R.string.message_unable_to_refresh_account_info)
                 }
             }))
     }

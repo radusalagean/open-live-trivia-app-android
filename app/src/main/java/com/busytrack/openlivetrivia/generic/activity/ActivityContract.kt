@@ -19,4 +19,5 @@ interface ActivityContract {
     fun handleSuccessfulFirebaseLogIn()
     fun handleFailedFirebaseLogIn(t: Throwable?)
     fun handleLogOut()
+    fun openLinkInBrowser(url: String)
 }

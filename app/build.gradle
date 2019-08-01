@@ -16,6 +16,8 @@ android {
         // Private Keys
         buildConfigField("String", "FIREBASE_SERVER_CLIENT_ID",
                 "\"" + openLiveTriviaFirebaseServerClientId + "\"")
+        buildConfigField("String", "APP_PROJECT_LINK",
+                "\"https://github.com/radusalagean/open-live-trivia-app-android\"")
     }
     buildTypes {
         release {

@@ -14,6 +14,14 @@
     <string name="message_registered">Registered successfully</string>
     <string name="message_logged_out">Logged out</string>
     <string name="message_unable_to_authenticate">Unable to authenticate with the server.\nYou are now in offline mode.</string>
+    <string name="message_failed_to_check_server_compatibility">Failed to check server compatibility</string>
+    <string name="dialog_title_incompatible_version">Incompatible version</string>
+    <string name="dialog_message_incompatible_version">The current app version is not compatible with the server anymore. Please update to the latest version.</string>
+    <string name="message_app_update_available">Warning: Please update the app to the latest version for improved experience</string>
+    <string name="dialog_title_register_disclaimer">Disclaimer</string>
+    <string name="dialog_message_register_disclaimer">This game was built for demonstrative purposes. It is free and open source. The server infrastructure was not built / configured for large scale usage. By registering, you accept the risk of losing any profile information or progress you made in the game, without prior notice.</string>
+    <string name="dialog_positive_register_disclaimer">Sounds good</string>
+    <string name="dialog_negative_register_disclaimer">No, thanks</string>
 
     <!--Main Menu-->
     <string name="play_button">Play</string>
@@ -23,6 +31,7 @@
     <string name="log_out_button">Log out</string>
     <string name="message_amount_won">You won %s points</string>
     <string name="message_amount_lost">You lost %s points</string>
+    <string name="content_description_project_link">Project link</string>
 
     <!--Game-->
     <string name="game_answer_attempt_hint">Type your answer attempt</string>
@@ -33,11 +42,26 @@
     <string name="game_entry_reported_successfully">Entry reported successfully</string>
     <string name="game_entry_already_reported">Entry already reported by you</string>
     <string name="game_entry_report_error">Entry report error</string>
+    <string name="game_dialog_title_rules">Game rules</string>
+    <string name="game_dialog_message_rules">
+\t- An entry is displayed every round\n
+\t- Every player has 3 free attempts available to submit the correct answer\n
+\t- Additional attempts will cost 1 point\n
+\t- The answers are case insensitive\n
+\t- Every 15 seconds, a new random character is revealed from the answer (defined as a split)\n
+\t- Entries range from 10 to 100 points in value (based on their difficulty)\n
+\t- Their value decreases as more characters are revealed\n
+\t- The first player to submit the correct answer wins the prize and the round is over\n
+\t- This is a real-time multiplayer game, be nice to each other 😉\n\n
+Hint: you can disable this dialog in the Settings screen</string>
+    <string name="game_dialog_positive_button_rules">Let\'s play</string>
+    <string name="game_dialog_negative_button_rules">Take me back</string>
 
     <!--Dialog-->
     <string name="dialog_positive">Yes</string>
     <string name="dialog_negative">No</string>
     <string name="dialog_dismiss">Dismiss</string>
+    <string name="dialog_exit">Exit</string>
     <string name="dialog_title_confirmation">Confirmation</string>
 
     <!--User-->
@@ -83,6 +107,7 @@
     <!--Preferences Titles-->
     <string name="pref_screen_category_display">Display</string>
     <string name="pref_screen_relative_time">Relative time</string>
+    <string name="pref_screen_show_rules_on_game_join">Show rules when joining the game</string>
     <string name="pref_screen_category_sound">Sound</string>
     <string name="pref_screen_winning_sounds">Winning sounds</string>
     <string name="pref_screen_losing_sounds">Losing sounds</string>

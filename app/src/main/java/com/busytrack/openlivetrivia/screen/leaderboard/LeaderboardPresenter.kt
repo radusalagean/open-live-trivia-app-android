@@ -49,7 +49,7 @@ class LeaderboardPresenter(
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
-                    activityContract.showErrorMessage(R.string.message_unable_to_refresh_leaderboard)
+                    activityContract.showWarningMessage(R.string.message_unable_to_refresh_leaderboard)
                     requestCachedLeaderboard()
                 }
             }))

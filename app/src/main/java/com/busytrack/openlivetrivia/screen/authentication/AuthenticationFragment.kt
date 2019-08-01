@@ -9,6 +9,7 @@ import androidx.core.content.res.ResourcesCompat
 
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
+import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.extension.setVisibleSoft
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
@@ -24,6 +25,9 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
 
     @Inject
     lateinit var authorizationManager: AuthorizationManager
+
+    @Inject
+    lateinit var dialogManager: DialogManager
 
     private val pagerAdapter = AuthenticationAdapter(this)
 
@@ -43,10 +47,7 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
 
     override fun onStart() {
         super.onStart()
-        if (authorizationManager.isUserAuthenticated()) {
-            // If a Google account was previously selected, authenticate with the backend
-            presenter.login()
-        }
+        presenter.checkServerCompatibility()
     }
 
     // BaseFragment implementation
@@ -130,7 +131,14 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
     }
 
     override fun onRegisterPressed(username: String) {
-        presenter.register(username)
+        dialogManager.showAlertDialog(
+            R.string.dialog_title_register_disclaimer,
+            R.string.dialog_message_register_disclaimer,
+            R.string.dialog_positive_register_disclaimer,
+            R.string.dialog_negative_register_disclaimer
+        ) { _, _ ->
+            presenter.register(username)
+        }
     }
 
     override fun onUsernameChanged(username: String) {

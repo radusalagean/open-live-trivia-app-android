@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.extension.unwrap
+import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 
 class DialogManager(private val context: Context) {
     /**
@@ -46,6 +48,25 @@ class DialogManager(private val context: Context) {
         AlertDialog.Builder(context).apply {
             setTitle(title)
             setItems(items, onClickListener)
+            show()
+        }
+    }
+
+    /**
+     * Show fatal alert dialog (will exit the app when dismissed)
+     */
+    fun showFatalAlertDialog(
+        title: Int,
+        message: Int
+    ) {
+        fun exitActivity() {
+            (context.unwrap() as BaseActivity).finish()
+        }
+        AlertDialog.Builder(context).apply {
+            setTitle(title)
+            setMessage(message)
+            setNeutralButton(R.string.dialog_exit) { _, _ -> exitActivity() }
+            setOnDismissListener { exitActivity() }
             show()
         }
     }

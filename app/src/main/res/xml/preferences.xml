@@ -4,6 +4,9 @@
         <SwitchPreference android:key="pref_relative_time"
             android:title="@string/pref_screen_relative_time"
             android:defaultValue="true"/>
+        <SwitchPreference android:key="pref_show_rules_on_game_join"
+            android:title="@string/pref_screen_show_rules_on_game_join"
+            android:defaultValue="true"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_screen_category_sound">
         <SwitchPreference android:key="pref_winning_sounds"

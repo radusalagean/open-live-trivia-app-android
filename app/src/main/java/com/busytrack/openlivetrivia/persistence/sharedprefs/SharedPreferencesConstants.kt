@@ -10,6 +10,7 @@ object SharedPreferencesConstants {
 
     // Settings
     const val PREF_RELATIVE_TIME = "pref_relative_time"
+    const val PREF_SHOW_RULES_ON_GAME_JOIN = "pref_show_rules_on_game_join"
     const val PREF_WINNING_SOUNDS = "pref_winning_sounds"
     const val PREF_LOSING_SOUNDS = "pref_losing_sounds"
     const val PREF_ATTEMPT_SOUNDS = "pref_attempt_sounds"

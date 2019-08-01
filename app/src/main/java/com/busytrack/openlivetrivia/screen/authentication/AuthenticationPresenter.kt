@@ -1,15 +1,20 @@
 package com.busytrack.openlivetrivia.screen.authentication
 
 import androidx.fragment.app.Fragment
+import com.busytrack.openlivetrivia.BuildConfig
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.auth.AuthorizationManager
+import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
 import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
 import com.busytrack.openlivetriviainterface.rest.model.OutgoingRegisterModel
+import com.busytrack.openlivetriviainterface.rest.model.SystemInfoModel
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableCompletableObserver
+import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
 import timber.log.Timber
 import java.net.HttpURLConnection
@@ -17,12 +22,45 @@ import java.net.HttpURLConnection
 class AuthenticationPresenter(
     model: AuthenticationMvp.Model,
     activityContract: ActivityContract,
-    private val authenticationManager: AuthenticationManager
+    private val authenticationManager: AuthenticationManager,
+    private val authorizationManager: AuthorizationManager,
+    private val dialogManager: DialogManager
 ) : BasePresenter<AuthenticationMvp.View, AuthenticationMvp.Model>(model, activityContract),
     AuthenticationMvp.Presenter {
 
     override fun initViewModel(fragment: Fragment) {
         model.initViewModel(fragment, AuthenticationViewModel::class.java)
+    }
+
+    override fun checkServerCompatibility() {
+        refreshing = true
+        disposer.add(model.getSystemInfo()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableObserver<SystemInfoModel>() {
+                override fun onNext(t: SystemInfoModel) {
+                    if (BuildConfig.VERSION_CODE < t.minAppVersionCode) {
+                        // The server is not compatible with this app version, show error dialog and exit
+                        dialogManager.showFatalAlertDialog(
+                            R.string.dialog_title_incompatible_version,
+                            R.string.dialog_message_incompatible_version
+                        )
+                        refreshing = false
+                        return
+                    } else if (BuildConfig.VERSION_CODE < t.latestAppVersionCode) {
+                        // The server is still compatible with this app version, but a newer app version is available
+                        activityContract.showWarningMessage(R.string.message_app_update_available)
+                    }
+                    onServerCompatibilityChecked()
+                }
+
+                override fun onError(e: Throwable) {
+                    Timber.e(e)
+                    activityContract.showWarningMessage(R.string.message_failed_to_check_server_compatibility)
+                    onServerCompatibilityChecked()
+                }
+
+                override fun onComplete() {}
+            }))
     }
 
     override fun firebaseLogIn() {
@@ -38,15 +76,16 @@ class AuthenticationPresenter(
         refreshing = true
         disposer.add(model.login()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object : ReactiveObserver<UserModel>(this) {
+            .subscribeWith(object : DisposableObserver<UserModel>() {
                 override fun onNext(t: UserModel) {
                     authenticationManager.setAuthenticatedUser(t)
                 }
 
                 override fun onError(e: Throwable) {
-                    super.onError(e)
+                    Timber.e(e)
                     if (e is HttpException && e.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                         // The selected Google account is not yet registered in the app
+                        refreshing = false
                         view?.showRegisterPage()
                     } else if (authenticationManager.getAuthenticatedUser() != null) {
                         // Other error, if user info was cached,
@@ -55,6 +94,7 @@ class AuthenticationPresenter(
                         showMainMenuScreen()
                     } else {
                         // fallback
+                        refreshing = false
                         activityContract.showErrorMessage(R.string.message_failed_to_log_in, e.message)
                     }
                 }
@@ -113,5 +153,14 @@ class AuthenticationPresenter(
     private fun showMainMenuScreen() {
         view?.removeFragment()
         activityContract.showMainMenuScreen()
+    }
+
+    private fun onServerCompatibilityChecked() {
+        if (authorizationManager.isUserAuthenticated()) {
+            // If a Google account was previously selected, authenticate with the backend
+            login()
+        } else {
+            refreshing = false
+        }
     }
 }

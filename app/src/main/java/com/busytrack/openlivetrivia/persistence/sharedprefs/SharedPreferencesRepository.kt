@@ -54,6 +54,9 @@ class SharedPreferencesRepository(
     fun isRelativeTimeEnabled() =
         sharedPreferences.getBoolean(SharedPreferencesConstants.PREF_RELATIVE_TIME, true)
 
+    fun isShowRulesOnGameJoinEnabled() =
+        sharedPreferences.getBoolean(SharedPreferencesConstants.PREF_SHOW_RULES_ON_GAME_JOIN, true)
+
     fun isWinningSoundsEnabled() =
         sharedPreferences.getBoolean(SharedPreferencesConstants.PREF_WINNING_SOUNDS, true)
 

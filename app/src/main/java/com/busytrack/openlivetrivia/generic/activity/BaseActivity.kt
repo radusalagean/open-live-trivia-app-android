@@ -2,6 +2,7 @@ package com.busytrack.openlivetrivia.generic.activity
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -207,6 +208,10 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
         getCurrentFragment()?.handleLogOut()
         popAllFragments()
         showAuthenticationScreen()
+    }
+
+    override fun openLinkInBrowser(url: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
     // InfoBar Contract

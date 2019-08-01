@@ -6,13 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.busytrack.openlivetrivia.BuildConfig
 
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
+import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
 import com.busytrack.openlivetrivia.sound.SoundManager
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_LONG
 import com.busytrack.openlivetrivia.view.COIN_DISPLAY_FORMAT
@@ -36,6 +39,12 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
 
     @Inject
     lateinit var soundManager: SoundManager
+
+    @Inject
+    lateinit var sharedPreferencesRepository: SharedPreferencesRepository
+
+    @Inject
+    lateinit var dialogManager: DialogManager
 
     // Lifecycle callbacks
 
@@ -68,8 +77,11 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     }
 
     override fun registerListeners() {
+        image_view_project_link.setOnClickListener {
+            activityContract.openLinkInBrowser(BuildConfig.APP_PROJECT_LINK)
+        }
         button_play.setOnClickListener {
-            activityContract.showGameScreen()
+            joinGame()
         }
         button_leaderboard.setOnClickListener {
             activityContract.showLeaderboardScreen()
@@ -86,6 +98,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     }
 
     override fun unregisterListeners() {
+        image_view_project_link.setOnLongClickListener(null)
         button_play.setOnClickListener(null)
         button_leaderboard.setOnClickListener(null)
         button_moderate_reports.setOnClickListener(null)
@@ -144,6 +157,23 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
                 } else {
                     View.GONE
                 }
+        }
+    }
+
+    // Private
+
+    private fun joinGame() {
+        if (sharedPreferencesRepository.isShowRulesOnGameJoinEnabled()) {
+            dialogManager.showAlertDialog(
+                R.string.game_dialog_title_rules,
+                R.string.game_dialog_message_rules,
+                R.string.game_dialog_positive_button_rules,
+                R.string.game_dialog_negative_button_rules
+            ) { _, _ ->
+                activityContract.showGameScreen()
+            }
+        } else {
+            activityContract.showGameScreen()
         }
     }
 
