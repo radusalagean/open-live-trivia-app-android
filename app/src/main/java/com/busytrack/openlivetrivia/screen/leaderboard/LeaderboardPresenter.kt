@@ -29,7 +29,7 @@ class LeaderboardPresenter(
 
     override fun requestLeaderboard(invalidate: Boolean) {
         if (invalidate) {
-            model.viewModel.clear()
+            model.viewModel.clearUsers()
             disposer.clear()
             loadingMoreContent = false
         }

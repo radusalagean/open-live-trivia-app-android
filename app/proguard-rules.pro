@@ -19,3 +19,30 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Contains the data models
+-keep class com.busytrack.openlivetriviainterface.** { *; }
+
+# Coroutines
+-dontwarn kotlinx.coroutines.**
+
+# OkHttp
+-dontwarn com.squareup.okhttp.**
+
+# Material Design
+-dontwarn android.support.design.**
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }
+
+# Android Architecture Components
+-keep class androidx.lifecycle.** {*;}
+
+# Firebase Crashlytics
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+-keep public class * extends java.lang.Exception
+
+# Other attributes
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable

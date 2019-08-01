@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -21,7 +22,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -70,6 +71,8 @@ dependencies {
     implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
     implementation "com.google.firebase:firebase-core:$firebasecoreVersion"
     implementation "com.google.firebase:firebase-auth:$firebaseauthVersion"
+    implementation "com.google.firebase:firebase-analytics:$firebaseanalyticsVersion"
+    implementation "com.crashlytics.sdk.android:crashlytics:$firebasecrashlyticsVersion"
     implementation "com.google.android.gms:play-services-auth:$playservicesauthVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "androidx.legacy:legacy-support-v4:$legacySupportVersion"

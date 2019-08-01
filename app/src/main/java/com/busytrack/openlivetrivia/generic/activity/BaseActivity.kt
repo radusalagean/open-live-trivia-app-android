@@ -119,7 +119,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     /**
      * Show a fragment
      */
-    protected fun <T : BaseFragment> showFragment(
+    private fun <T : BaseFragment> showFragment(
         fragment: T,
         addToBackStack: Boolean = true,
         backStackStateName: String? = null

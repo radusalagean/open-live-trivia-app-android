@@ -8,7 +8,7 @@ class LeaderboardViewModel : BaseViewModel() {
     var users = arrayListOf<UserModel>()
     var nextAvailablePage: Int? = null
 
-    fun clear() {
+    fun clearUsers() {
         users.clear()
         nextAvailablePage = null
     }
