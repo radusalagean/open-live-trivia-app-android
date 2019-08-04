@@ -1,10 +1,19 @@
 [![Build Status](https://travis-ci.org/radusalagean/open-live-trivia-app-android.svg?branch=master)](https://travis-ci.org/radusalagean/open-live-trivia-app-android)
+[![Latest Release](https://img.shields.io/github/release/radusalagean/open-live-trivia-app-android.svg)](https://github.com/radusalagean/open-live-trivia-app-android/releases)
 
 # Open Live Trivia (Android)
+![app_icon](app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png)
+
 **Client-side** part of the **Open Live Trivia** project. For the **server** repository, please check [this link](https://github.com/radusalagean/open-live-trivia-api).
 
+## Download
+[![Get it on Google Play](https://i.imgur.com/2LewwTZ.png)](https://play.google.com/store/apps/details?id=com.busytrack.openlivetrivia&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+
 ## Screenshots
-TODO
+![screenshot](https://lh3.googleusercontent.com/tEVsZS12aaCzkykI-i0KUkOvkuWOsD7tvAG6yGCp-pKWkHVwbrLwjDgGAZafQY9wUEM=w720-h310-rw)
+![screenshot](https://lh3.googleusercontent.com/CHtB2kby25SfkzCum9ihUMCyP7r19SuLVhWv_B3D_-R1Cs734t5poxwHQiCNP8V3Trk=w720-h310-rw)
+![screenshot](https://lh3.googleusercontent.com/WNBzGtB1-PLCI2x_kStLeDO8xsF4M2elEmgqksnqXpvbZ_jGkjadlMKQaHlVmQFLny8=w720-h310-rw)
+![screenshot](https://lh3.googleusercontent.com/3t3Jc0d9cdngQXgdlrsP0SRlBDnWj0bhCYa0x4EQKARL3Cs6oPV6_DKMsvpJXuh4CCNq=w720-h310-rw)
 
 ## Features
 Open Live Trivia is an online, real-time multiplayer trivia game. The game offers the ability to compete with other players by answering clues and questions provided by [jservice](http://jservice.io/). The main features are:
