@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import com.busytrack.openlivetrivia.BuildConfig
 
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.extension.setVisibleSoft
+import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
@@ -28,6 +30,9 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
 
     @Inject
     lateinit var dialogManager: DialogManager
+
+    @Inject
+    lateinit var activityContract: ActivityContract
 
     private val pagerAdapter = AuthenticationAdapter(this)
 
@@ -128,6 +133,10 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
             // Open the account selection dialog
             presenter.firebaseLogIn()
         }
+    }
+
+    override fun onPrivacyPolicyLinkPressed() {
+        activityContract.openLinkInBrowser(BuildConfig.APP_PRIVACY_POLICY_LINK)
     }
 
     override fun onRegisterPressed(username: String) {

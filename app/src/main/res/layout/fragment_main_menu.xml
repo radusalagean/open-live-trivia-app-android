@@ -11,7 +11,8 @@
     android:paddingStart="@dimen/screen_horizontal_padding"
     android:paddingEnd="@dimen/screen_horizontal_padding"
     android:clipToPadding="false"
-    tools:context=".screen.mainmenu.MainMenuFragment">
+    tools:context=".screen.mainmenu.MainMenuFragment"
+    tools:ignore="MissingPrefix">
 
     <ImageView
         android:layout_width="32dp"
@@ -135,5 +136,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_settings"
         android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/privacy_policy_link"
+        android:text="@string/privacy_policy"
+        fontPath="fonts/NunitoSans-LightItalic.ttf"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_view_version"
+        tools:text="v1.0.1"
+        fontPath="fonts/NunitoSans-Light.ttf"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

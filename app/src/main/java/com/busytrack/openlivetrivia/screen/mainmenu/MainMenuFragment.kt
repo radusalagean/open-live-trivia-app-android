@@ -70,6 +70,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
             // Thus, there won't be any need for progress bars (silent operation)
             updateAccountInfo(it)
         }
+        text_view_version.text = "v${BuildConfig.VERSION_NAME}"
     }
 
     override fun disposeViews() {
@@ -95,6 +96,9 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
         button_log_out.setOnClickListener {
             authenticationManager.signOut()
         }
+        privacy_policy_link.setOnClickListener {
+            activityContract.openLinkInBrowser(BuildConfig.APP_PRIVACY_POLICY_LINK)
+        }
     }
 
     override fun unregisterListeners() {
@@ -104,6 +108,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
         button_moderate_reports.setOnClickListener(null)
         button_settings.setOnClickListener(null)
         button_log_out.setOnClickListener(null)
+        privacy_policy_link.setOnClickListener(null)
     }
 
     override fun loadData() {

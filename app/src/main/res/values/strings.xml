@@ -3,7 +3,6 @@
 
     <!--Authentication-->
     <string name="log_in_button">Log in</string>
-    <string name="log_in_hint">Your personal Google account information won\'t be accessed by the app. You will be able to customize your in-game identity with a display name of your choice, when registering a new account.</string>
     <string name="register_button">Register</string>
     <string name="register_select_another_account"><u>Wrong account?\nSelect a different Google account.</u></string>
     <string name="username_hint">Username</string>
@@ -125,5 +124,8 @@ Hint: you can disable this dialog in the Settings screen</string>
 
     <!--Preference keys-->
     <string name="pref_key_delete_account" translatable="false">pref_delete_account</string>
+
+    <!--Privacy Policy-->
+    <string name="privacy_policy"><u>Privacy Policy</u></string>
 
 </resources>
