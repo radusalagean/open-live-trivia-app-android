@@ -6,12 +6,15 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import com.busytrack.openlivetrivia.R
 
+/**
+ * Answer-specific TextView, handles correct and incorrect answers
+ */
 class AnswerTextView(
     context: Context,
     attributeSet: AttributeSet
 ) : AppCompatTextView(context, attributeSet) {
 
-    var defaultTextColor = textColors
+    private var defaultTextColor = textColors
 
     fun reveal() {
         setTextColor(ResourcesCompat.getColor(

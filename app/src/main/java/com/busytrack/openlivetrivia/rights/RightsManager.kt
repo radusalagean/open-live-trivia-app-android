@@ -13,6 +13,9 @@ class RightsManager(
     private val dialogManager: DialogManager
 ) {
 
+    /**
+     * Called when the authenticated ADMIN successfully changes the rights level of another user
+     */
     fun triggerRightsChange(
         userModel: UserModel,
         upgradeToModCallback: (userModel: UserModel) -> Unit,

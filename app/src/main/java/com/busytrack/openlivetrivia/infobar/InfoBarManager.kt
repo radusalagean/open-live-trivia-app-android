@@ -5,6 +5,9 @@ import java.util.*
 
 /**
  * Responsible for managing [InfoBar] message queue
+ *
+ * Role: Handles showing enqueued messages while waiting for the auto dismissal of any previously shown message, thus
+ * avoiding the flooding of messages on the screen
  */
 class InfoBarManager {
 

@@ -64,11 +64,17 @@ class SocketHub {
         }
     }
 
+    /**
+     * Register an event listener, when the Activity / Fragment is started
+     */
     fun registerEventListener(listener: SocketEventListener, handler: Handler) {
         Timber.d("registerEventListener")
         registeredSocketListeners.put(listener, handler)
     }
 
+    /**
+     * Unregister an event listener, when the Activity / Fragment is stopped
+     */
     fun unregisterEventListener(listener: SocketEventListener) {
         Timber.d("unregisterEventListener")
         registeredSocketListeners.remove(listener)
@@ -78,15 +84,24 @@ class SocketHub {
         registeredSocketListeners.clear()
     }
 
+    /**
+     * Connect to the server, when the Activity / Fragment is started
+     */
     fun connect() {
         socket.connect()
     }
 
+    /**
+     * Disconnect from the server, when the Activity / Fragment is stopped
+     */
     fun disconnect() {
         socket.disconnect()
         socket.close()
     }
 
+    /**
+     * As soon as the app is connected to the server, authenticate
+     */
     fun authenticate(idToken: String) {
         val model = OutgoingAuthenticationModel(idToken)
         socket.emit(SocketOutgoingEvent.AUTHENTICATION.eventName, gson.toJsonObject(model))

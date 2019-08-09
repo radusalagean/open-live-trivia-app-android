@@ -8,6 +8,9 @@ import kotlin.math.min
 
 const val DISPLAYED_REPORTERS_COUNT = 3
 
+/**
+ * TextView implementation which handles displaying the latest reporters of invalid entries
+ */
 class ReportersTextView(
     context: Context,
     attributeSet: AttributeSet

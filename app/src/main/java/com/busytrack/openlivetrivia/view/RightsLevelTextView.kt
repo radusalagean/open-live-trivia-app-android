@@ -7,6 +7,9 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
 
+/**
+ * TextView implementation which displays the rights level badge, based on the [rightsLevel] value
+ */
 class RightsLevelTextView(
     context: Context,
     attributeSet: AttributeSet

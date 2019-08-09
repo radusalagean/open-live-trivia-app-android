@@ -14,6 +14,9 @@ const val TYPE_ERROR = 1
 const val TYPE_WARN = 2
 const val TYPE_INFO = 3
 
+/**
+ * A custom info bar, similar in behavior to the Android SnackBar
+ */
 class InfoBar(
     parent: ViewGroup,
     content: InfoBarView

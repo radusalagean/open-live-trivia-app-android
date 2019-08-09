@@ -28,6 +28,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     open lateinit var infoBarManager: InfoBarManager
 
+    // Dagger2 Activity Component lazy initialization
     val activityComponent: ActivityComponent by lazy {
         (application as OpenLiveTriviaApp).applicationComponent
             .newActivityComponent(ActivityModule(this))
@@ -88,9 +89,14 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     }
 
     override fun attachBaseContext(newBase: Context?) {
+        // Step required for custom fonts implementation w/ calligraphy lib
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase!!))
     }
 
+    /**
+     * First, pass the event to the current fragment
+     * If it's not handled there, let the activity handle it
+     */
     override fun onBackPressed() {
         getCurrentFragment()?.let {
             if (!it.onBackPressed()) {
@@ -168,6 +174,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     override fun showMainMenuScreen() {
         var mainMenuFragment: BaseFragment? = null
+        // If the main menu fragment is already in the back stack, use it
         supportFragmentManager.findFragmentByTag(MainMenuFragment::class.java.name)?.let {
             mainMenuFragment = it as BaseFragment
         }
@@ -216,6 +223,9 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     // InfoBar Contract
 
+    /**
+     * Call in order to display an [InfoBar] message immediately
+     */
     override fun showInfoBarNow(
         infoBarConfiguration: InfoBarConfiguration,
         callback: BaseTransientBottomBar.BaseCallback<InfoBar>
@@ -231,6 +241,9 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     // Abstract methods
 
+    /**
+     * Override to handle the event in the concrete Activity class
+     */
     abstract fun handleGoogleSignInResult(resultCode: Int, data: Intent?)
 
     /**
@@ -240,6 +253,9 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     // Private
 
+    /**
+     * Enqueue the [InfoBar] message
+     */
     private fun enqueueMessage(message: Int, args: Any?, type: Int) {
         val string = if (args == null) getString(message) else getString(message, args)
         getCurrentFragment()?.let {

@@ -5,7 +5,6 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
 
-
 class VibrationManager(
     private val vibrator: Vibrator,
     private val sharedPreferencesRepository: SharedPreferencesRepository

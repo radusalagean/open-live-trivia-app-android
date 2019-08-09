@@ -78,7 +78,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:$playservicesauthVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "androidx.legacy:legacy-support-v4:$legacySupportVersion"
-    implementation "io.github.inflationx:calligraphy3:$caligraphy3Version"
+    implementation "io.github.inflationx:calligraphy3:$calligraphy3Version"
     implementation "io.github.inflationx:viewpump:$viewpumpVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

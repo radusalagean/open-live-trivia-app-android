@@ -2,10 +2,12 @@ package com.busytrack.openlivetrivia.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
-import com.busytrack.openlivetrivia.R
 
+/**
+ * TextView implementation which is able to keep the players count and easily increment / decrement the count based on
+ * peer presence events (leave / join), received from the server
+ */
 class PlayersTextView(
     context: Context,
     attributeSet: AttributeSet

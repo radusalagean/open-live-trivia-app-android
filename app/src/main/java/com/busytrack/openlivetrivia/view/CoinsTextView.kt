@@ -13,6 +13,10 @@ import kotlin.math.sign
 const val COIN_DISPLAY_FORMAT = "%.2f"
 private const val ANIMATION_DELAY = 50L // Milliseconds
 
+/**
+ * Coin-indicator TextView which is able to compute the difference from old and new values and animate the transition
+ * between the values
+ */
 class CoinsTextView(
     context: Context,
     attributeSet: AttributeSet

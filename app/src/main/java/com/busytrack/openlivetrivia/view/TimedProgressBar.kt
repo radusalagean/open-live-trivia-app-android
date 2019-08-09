@@ -10,6 +10,9 @@ import com.busytrack.openlivetrivia.R
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * Custom view which displays the graphical representation of the elapsed split time
+ */
 class TimedProgressBar(
     context: Context,
     attributeSet: AttributeSet
@@ -20,7 +23,7 @@ class TimedProgressBar(
         get() = Dispatchers.IO
     private var timerJob: Job? = null
 
-    var progressPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private var progressPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = ContextCompat.getColor(context, R.color.colorAccent)
     }
     private var progress = 0

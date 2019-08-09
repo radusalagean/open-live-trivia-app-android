@@ -6,6 +6,9 @@ import android.content.IntentFilter
 // Sent when time-specific settings are changed
 const val ACTION_RELATIVE_TIME_RELOAD = "com.busytrack.openlivetrivia.ACTION_RELATIVE_TIME_RELOAD"
 
+/**
+ * A wrapper for [TimeTickReceiver], which also handles Time and Time Zone changes from the phone settings
+ */
 class TimeAwareReceiver(listener: Listener) : TimeTickReceiver(listener) {
     override fun getIntentFilter(): IntentFilter =
         super.getIntentFilter().apply {

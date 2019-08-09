@@ -28,6 +28,9 @@ import com.busytrack.openlivetriviainterface.socket.SocketHub
 import dagger.Module
 import dagger.Provides
 
+/**
+ * Dagger2 Module which provides Model and Presenter instances for each Screen type
+ */
 @Module
 class MvpModule {
 

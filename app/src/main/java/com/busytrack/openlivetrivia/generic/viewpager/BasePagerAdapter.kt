@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 
+/**
+ * Base PagerAdapter class, handles item instantiation and destruction details
+ */
 abstract class BasePagerAdapter(
     private val pagerViewListener: PagerViewListener
 ): PagerAdapter() {

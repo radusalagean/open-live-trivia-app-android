@@ -6,7 +6,9 @@ import android.content.IntentFilter
 import android.content.Intent
 import timber.log.Timber
 
-
+/**
+ * Base class for all broadcast receivers, covers registering and unregistering implementation details
+ */
 abstract class BaseBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Timber.tag(javaClass.simpleName).d("onReceive($intent)")

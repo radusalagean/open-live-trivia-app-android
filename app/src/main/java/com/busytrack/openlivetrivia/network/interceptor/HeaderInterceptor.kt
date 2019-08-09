@@ -12,6 +12,7 @@ class HeaderInterceptor(private val authorizationManager: AuthorizationManager) 
             if (authorizationManager.isUserAuthenticated()) {
                 authorizationManager.getIdToken()?.let { idToken ->
                     //Timber.w("idToken: $idToken")
+                    // Add the Firebase IdToken to all REST requests
                     addHeader(HEADER_KEY_AUTHORIZATION, idToken)
                 }
             }

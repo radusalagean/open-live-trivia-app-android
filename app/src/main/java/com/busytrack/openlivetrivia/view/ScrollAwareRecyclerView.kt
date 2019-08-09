@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 const val THRESHOLD = 1000
 
 /**
- * Used for paginated content
+ * Used for paginated content, will trigger loading of the next page
  */
 class ScrollAwareRecyclerView(
     context: Context,

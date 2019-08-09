@@ -4,6 +4,9 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Recycler View Item Decoration (adds horizontal and vertical padding to items)
+ */
 class ListItemDecoration(
     private val left: Int,
     private val top: Int,

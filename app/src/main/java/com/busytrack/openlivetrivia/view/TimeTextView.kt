@@ -12,6 +12,9 @@ import java.util.*
 import com.google.android.gms.common.util.Strings
 import javax.inject.Inject
 
+/**
+ * TextView implementation which is aware of the preferred in-app date and time format
+ */
 open class TimeTextView(
     context: Context,
     attributeSet: AttributeSet
