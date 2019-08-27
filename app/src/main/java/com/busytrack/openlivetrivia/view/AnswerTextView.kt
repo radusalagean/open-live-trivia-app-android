@@ -11,7 +11,7 @@ import com.busytrack.openlivetrivia.R
  */
 class AnswerTextView(
     context: Context,
-    attributeSet: AttributeSet
+    attributeSet: AttributeSet? = null
 ) : AppCompatTextView(context, attributeSet) {
 
     private var defaultTextColor = textColors

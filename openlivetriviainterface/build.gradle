@@ -59,7 +59,7 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test:runner:$runnerVersion"
+    androidTestImplementation "androidx.test:runner:$androidxTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 }
 repositories {
