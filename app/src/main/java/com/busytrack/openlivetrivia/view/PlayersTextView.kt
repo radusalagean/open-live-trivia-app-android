@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatTextView
  */
 class PlayersTextView(
     context: Context,
-    attributeSet: AttributeSet
+    attributeSet: AttributeSet? = null
 ) : AppCompatTextView(context, attributeSet) {
 
     var playersCount: Int = 0

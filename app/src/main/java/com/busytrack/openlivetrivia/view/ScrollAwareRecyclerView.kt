@@ -11,7 +11,7 @@ const val THRESHOLD = 1000
  */
 class ScrollAwareRecyclerView(
     context: Context,
-    attributeSet: AttributeSet
+    attributeSet: AttributeSet? = null
 ) : RecyclerView(context, attributeSet) {
 
     var listener: Listener? = null

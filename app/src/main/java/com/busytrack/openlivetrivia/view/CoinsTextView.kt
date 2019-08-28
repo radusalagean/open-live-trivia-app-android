@@ -5,8 +5,6 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import com.busytrack.openlivetrivia.extension.cutTo
 import kotlinx.coroutines.*
-import java.lang.IllegalStateException
-import kotlin.coroutines.CoroutineContext
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
@@ -19,13 +17,12 @@ private const val ANIMATION_DELAY = 50L // Milliseconds
  */
 class CoinsTextView(
     context: Context,
-    attributeSet: AttributeSet
+    attributeSet: AttributeSet? = null
 ) : AppCompatTextView(context, attributeSet), CoroutineScope {
 
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Default
+    override var coroutineContext = Dispatchers.Default
 
-    private var animateJob: Job? = null
+    var animateJob: Job? = null
 
     var coins: Double? = null
         private set
@@ -58,10 +55,8 @@ class CoinsTextView(
     }
 
     private fun assertCoinsInitialized() {
-        if (coins == null) {
-            throw IllegalStateException(
-                "Unable to compute diff of uninitialized base value. Assign 'coins' with a value first"
-            )
+        checkNotNull(coins) {
+            "Unable to compute diff of uninitialized base value. Assign 'coins' with a value first"
         }
     }
 

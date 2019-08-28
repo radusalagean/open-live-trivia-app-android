@@ -13,7 +13,7 @@ const val DISPLAYED_REPORTERS_COUNT = 3
  */
 class ReportersTextView(
     context: Context,
-    attributeSet: AttributeSet
+    attributeSet: AttributeSet? = null
 ) : AppCompatTextView(context, attributeSet) {
 
     private val prefix = context.getString(R.string.reporter_prefix)

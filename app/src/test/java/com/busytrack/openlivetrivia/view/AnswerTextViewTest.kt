@@ -2,14 +2,14 @@ package com.busytrack.openlivetrivia.view
 
 import android.content.res.ColorStateList
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.busytrack.openlivetrivia.R
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 
-@RunWith(RobolectricTestRunner::class)
+@RunWith(AndroidJUnit4::class)
 class AnswerTextViewTest {
 
     // Subject under test
@@ -25,7 +25,7 @@ class AnswerTextViewTest {
     }
 
     @Test
-    fun reveal_TextColor() {
+    fun reveal_textColor() {
         view.reveal()
 
         assertThat(view.currentTextColor).isEqualTo(view.resources.getColor(
@@ -35,7 +35,7 @@ class AnswerTextViewTest {
     }
 
     @Test
-    fun correct_TextColor() {
+    fun correct_textColor() {
         view.correct()
 
         assertThat(view.currentTextColor).isEqualTo(view.resources.getColor(
@@ -45,7 +45,7 @@ class AnswerTextViewTest {
     }
 
     @Test
-    fun resetState_TextColor() {
+    fun resetState_textColor() {
         view.resetState()
 
         assertThat(view.currentTextColor).isEqualTo(defaultTextColor.defaultColor)

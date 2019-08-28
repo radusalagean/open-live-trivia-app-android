@@ -12,7 +12,7 @@ import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
  */
 class RightsLevelTextView(
     context: Context,
-    attributeSet: AttributeSet
+    attributeSet: AttributeSet? = null
 ) : AppCompatTextView(context, attributeSet, R.style.rights_level) {
 
     var rightsLevel: UserRightsLevel? = null

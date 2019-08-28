@@ -17,7 +17,7 @@ import javax.inject.Inject
  */
 open class TimeTextView(
     context: Context,
-    attributeSet: AttributeSet
+    attributeSet: AttributeSet? = null
 ) : AppCompatTextView(context, attributeSet) {
 
     private var prefix: String? = null

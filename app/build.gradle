@@ -28,6 +28,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
     flavorDimensions "environment"
     productFlavors {
         dev {
@@ -106,8 +115,16 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
 
+    // Coroutines test
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
     // Core library
     testImplementation "androidx.test:core:$androidxTestVersion"
+
+    // Extensions
+    testImplementation "androidx.test:core-ktx:$androidxTestVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$androidxJunitExtVersion"
 
     // AndroidJUnitRunner and JUnit Rules
     testImplementation "androidx.test:runner:$androidxTestVersion"
@@ -117,6 +134,7 @@ dependencies {
     testImplementation "androidx.test.ext:junit:$androidxJunitExtVersion"
     testImplementation "androidx.test.ext:truth:$androidxTruthExtVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
+    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
 
     // Espresso dependencies
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"

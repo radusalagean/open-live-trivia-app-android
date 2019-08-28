@@ -81,6 +81,7 @@ ext {
     androidxJunitExtVersion = '1.1.1'
     androidxTruthExtVersion = '1.2.0'
     truthVersion = '0.44'
+    hamcrestVersion = '2.1'
     espressoVersion = '3.2.0'
     mockitoVersion = '3.0.0'
     robolectricVersion = '4.3'
