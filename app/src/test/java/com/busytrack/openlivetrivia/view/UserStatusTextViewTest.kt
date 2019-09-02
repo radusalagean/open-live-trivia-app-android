@@ -1,6 +1,5 @@
 package com.busytrack.openlivetrivia.view
 
-import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.busytrack.openlivetrivia.R
@@ -21,8 +20,7 @@ class UserStatusTextViewTest {
     @Before
     fun init() {
         view = UserStatusTextView(ApplicationProvider.getApplicationContext())
-        val sharedPreferences = mock(SharedPreferences::class.java)
-        view.sharedPreferencesRepository = spy(SharedPreferencesRepository(sharedPreferences))
+        view.sharedPreferencesRepository = mock(SharedPreferencesRepository::class.java)
     }
 
     @Test

@@ -1,6 +1,5 @@
 package com.busytrack.openlivetrivia.vibration
 
-import android.content.SharedPreferences
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -16,7 +15,6 @@ import org.mockito.Mockito.*
 class VibrationManagerTest {
 
     private lateinit var vibrator: Vibrator
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
     private lateinit var vibrationManager: VibrationManager
@@ -24,8 +22,7 @@ class VibrationManagerTest {
     @Before
     fun setUp() {
         vibrator = mock(Vibrator::class.java)
-        sharedPreferences = mock(SharedPreferences::class.java)
-        sharedPreferencesRepository = spy(SharedPreferencesRepository(sharedPreferences))
+        sharedPreferencesRepository = mock(SharedPreferencesRepository::class.java)
         vibrationManager = VibrationManager(vibrator, sharedPreferencesRepository)
     }
 

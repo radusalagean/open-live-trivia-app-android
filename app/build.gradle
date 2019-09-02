@@ -113,6 +113,7 @@ dependencies {
 
     // Mock
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitokotlinVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
 
     // Coroutines test

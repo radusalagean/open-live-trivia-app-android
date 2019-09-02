@@ -14,7 +14,7 @@ class RightsManager(
 ) {
 
     /**
-     * Called when the authenticated ADMIN successfully changes the rights level of another user
+     * Called when the authenticated user attempts to change the rights level of another user
      */
     fun triggerRightsChange(
         userModel: UserModel,

@@ -2,6 +2,7 @@ package com.busytrack.openlivetrivia.sound
 
 import android.content.Context
 import android.media.MediaPlayer
+import androidx.annotation.VisibleForTesting
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
 
@@ -10,32 +11,32 @@ class SoundManager(
     private val sharedPreferencesRepository: SharedPreferencesRepository
 ) {
 
-    private val wonPlayer = MediaPlayer.create(context, R.raw.won)
-    private val lostPlayer = MediaPlayer.create(context, R.raw.lost)
-    private val attemptPlayer = MediaPlayer.create(context, R.raw.attempt)
-    private val splitPlayer = MediaPlayer.create(context, R.raw.split)
+    @VisibleForTesting val wonPlayer: MediaPlayer? = MediaPlayer.create(context, R.raw.won)
+    @VisibleForTesting val lostPlayer: MediaPlayer? = MediaPlayer.create(context, R.raw.lost)
+    @VisibleForTesting val attemptPlayer: MediaPlayer? = MediaPlayer.create(context, R.raw.attempt)
+    @VisibleForTesting val splitPlayer: MediaPlayer? = MediaPlayer.create(context, R.raw.split)
 
     fun won() {
         if (sharedPreferencesRepository.isWinningSoundsEnabled()) {
-            wonPlayer.start()
+            wonPlayer?.start()
         }
     }
 
     fun lost() {
         if (sharedPreferencesRepository.isLosingSoundsEnabled()) {
-            lostPlayer.start()
+            lostPlayer?.start()
         }
     }
 
     fun attempt() {
         if (sharedPreferencesRepository.isAttemptSoundsEnabled()) {
-            attemptPlayer.start()
+            attemptPlayer?.start()
         }
     }
 
     fun split() {
         if (sharedPreferencesRepository.isSplitSoundsEnabled()) {
-            splitPlayer.start()
+            splitPlayer?.start()
         }
     }
 }

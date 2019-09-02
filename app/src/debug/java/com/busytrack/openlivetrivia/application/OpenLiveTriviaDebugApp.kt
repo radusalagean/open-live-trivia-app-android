@@ -1,6 +1,6 @@
 package com.busytrack.openlivetrivia.application
 
-import android.os.Build
+import com.busytrack.openlivetrivia.extension.isRobolectricUnitTest
 import com.facebook.stetho.Stetho
 import timber.log.Timber
 
@@ -13,8 +13,3 @@ class OpenLiveTriviaDebugApp : OpenLiveTriviaApp() {
         }
     }
 }
-
-/**
- * Returns true if the current session is a Robolectric test one, false otherwise
- */
-fun isRobolectricUnitTest() = "robolectric" == Build.FINGERPRINT

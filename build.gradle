@@ -84,5 +84,6 @@ ext {
     hamcrestVersion = '2.1'
     espressoVersion = '3.2.0'
     mockitoVersion = '3.0.0'
+    mockitokotlinVersion = '2.1.0'
     robolectricVersion = '4.3'
 }
