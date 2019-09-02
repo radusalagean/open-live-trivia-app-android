@@ -108,7 +108,7 @@ open class TimeTextView(
         } else {
             val date = Date(time)
             val stringDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)
-            val stringTime = DateFormat.getTimeInstance(DateFormat.MEDIUM).format(date)
+            val stringTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(date)
             return "$stringDate $stringTime"
         }
     }
