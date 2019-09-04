@@ -8,6 +8,7 @@ import com.busytrack.openlivetrivia.auth.AuthorizationManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
 import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
+import com.busytrack.openlivetrivia.test.EspressoRoundIdlingResource
 import com.busytrack.openlivetriviainterface.rest.model.MessageModel
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.SocketHub
@@ -25,7 +26,19 @@ class GamePresenter(
 ) : BasePresenter<GameMvp.View, GameMvp.Model>(model, activityContract),
     GameMvp.Presenter,
     SocketEventListener,
-    CoroutineScope {
+    CoroutineScope,
+    EspressoRoundIdlingResource.Contract {
+
+    override var view: GameMvp.View?
+        get() = super.view
+        set(value) {
+            super.view = value
+            if (value != null) {
+                EspressoRoundIdlingResource.contract = this
+            } else {
+                EspressoRoundIdlingResource.contract = null
+            }
+        }
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Default
@@ -125,6 +138,7 @@ class GamePresenter(
 
     override fun onConnecting() {
         view?.onConnecting()
+        refreshing = true
     }
 
     override fun onConnectionError() {
@@ -147,6 +161,8 @@ class GamePresenter(
         view?.updateGameState(model)
         this.model.gameState = model.gameState
         this.model.entryReported = model.entryReported
+        refreshing = false
+        checkAndNotifyOngoingRound()
     }
 
     override fun onPeerJoin(model: PresenceModel) {
@@ -175,6 +191,7 @@ class GamePresenter(
         view?.updateRound(model)
         this.model.gameState = GameState.SPLIT
         this.model.entryReported = false
+        checkAndNotifyOngoingRound()
     }
 
     override fun onSplit(model: SplitModel) {
@@ -201,5 +218,21 @@ class GamePresenter(
 
     override fun onPeerLeft(model: PresenceModel) {
         view?.updatePeerLeft(model)
+    }
+
+    // EspressoGlobalIdlingResource implementation
+
+    override var idlingResourceInitialized: Boolean = false
+
+    // EspressoRoundIdlingResource.Callback
+
+    override fun isRoundOngoing(): Boolean = getGameState()?.let { it == GameState.SPLIT } ?: false
+
+    // Private implementation
+
+    private fun checkAndNotifyOngoingRound() {
+        if (this.model.gameState == GameState.SPLIT) {
+            EspressoRoundIdlingResource.resourceCallback?.onTransitionToIdle()
+        }
     }
 }

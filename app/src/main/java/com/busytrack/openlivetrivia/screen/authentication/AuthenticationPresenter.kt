@@ -163,4 +163,8 @@ class AuthenticationPresenter(
             refreshing = false
         }
     }
+
+    // EspressoGlobalIdlingResource implementation
+
+    override var idlingResourceInitialized: Boolean = true
 }

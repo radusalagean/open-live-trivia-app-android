@@ -34,4 +34,8 @@ class SettingsPresenter(
                 }
             }))
     }
+
+    // EspressoGlobalIdlingResource implementation
+
+    override var idlingResourceInitialized: Boolean = true
 }

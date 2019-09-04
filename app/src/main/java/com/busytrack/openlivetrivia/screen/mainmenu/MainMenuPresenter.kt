@@ -34,4 +34,8 @@ class MainMenuPresenter(
                 }
             }))
     }
+
+    // EspressoGlobalIdlingResource implementation
+
+    override var idlingResourceInitialized: Boolean = true
 }

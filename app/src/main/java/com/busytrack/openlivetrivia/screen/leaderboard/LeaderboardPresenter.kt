@@ -129,4 +129,8 @@ class LeaderboardPresenter(
             })
         )
     }
+
+    // EspressoGlobalIdlingResource implementation
+
+    override var idlingResourceInitialized: Boolean = false
 }

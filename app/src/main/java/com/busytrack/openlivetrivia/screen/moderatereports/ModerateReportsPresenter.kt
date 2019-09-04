@@ -23,14 +23,20 @@ class ModerateReportsPresenter(
 
     override var refreshingReportedEntries: Boolean = false
         set(value) {
-            field = value
             view?.setReportedEntriesRefreshingIndicator(value)
+            if (value != field) {
+                handleCounterByLoadingState(value)
+            }
+            field = value
         }
 
     override var refreshingBannedEntries: Boolean = false
         set(value) {
-            field = value
             view?.setBannedEntriesRefreshingIndicator(value)
+            if (value != field) {
+                handleCounterByLoadingState(value)
+            }
+            field = value
         }
 
     override var loadingMoreReportedEntries: Boolean = false
@@ -213,4 +219,8 @@ class ModerateReportsPresenter(
                 }
             }))
     }
+
+    // EspressoGlobalIdlingResource implementation
+
+    override var idlingResourceInitialized: Boolean = false
 }

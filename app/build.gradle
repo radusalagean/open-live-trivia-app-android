@@ -66,6 +66,7 @@ android {
         unitTests {
             includeAndroidResources = true // For Robolectric
         }
+        animationsDisabled = true
     }
 }
 
@@ -122,17 +123,23 @@ dependencies {
 
     // Core library
     testImplementation "androidx.test:core:$androidxTestVersion"
+    androidTestImplementation "androidx.test:core:$androidxTestVersion"
 
     // Extensions
+    testImplementation "androidx.test.ext:junit:$androidxJunitExtVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitExtVersion"
     testImplementation "androidx.test:core-ktx:$androidxTestVersion"
+    androidTestImplementation "androidx.test:core-ktx:$androidxTestVersion"
     testImplementation "androidx.test.ext:junit-ktx:$androidxJunitExtVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidxJunitExtVersion"
 
     // AndroidJUnitRunner and JUnit Rules
     testImplementation "androidx.test:runner:$androidxTestVersion"
+    androidTestImplementation "androidx.test:runner:$androidxTestVersion"
     testImplementation "androidx.test:rules:$androidxTestVersion"
+    androidTestImplementation "androidx.test:rules:$androidxTestVersion"
 
     // Assertions
-    testImplementation "androidx.test.ext:junit:$androidxJunitExtVersion"
     testImplementation "androidx.test.ext:truth:$androidxTruthExtVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
@@ -144,6 +151,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
     androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 
     // The following Espresso dependency can be either "implementation"
     // or "androidTestImplementation", depending on whether you want the
