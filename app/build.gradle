@@ -115,6 +115,11 @@ dependencies {
     // Mock
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitokotlinVersion"
+    testImplementation "org.powermock:powermock-core:$powermockVersion"
+    testImplementation "org.powermock:powermock-module-junit4:$powermockVersion"
+    testImplementation "org.powermock:powermock-module-junit4-rule:$powermockVersion"
+    testImplementation "org.powermock:powermock-api-mockito2:$powermockVersion"
+    testImplementation "org.powermock:powermock-classloading-xstream:$powermockVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
 
     // Coroutines test
