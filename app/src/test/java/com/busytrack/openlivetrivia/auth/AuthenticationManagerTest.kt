@@ -5,28 +5,20 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
+import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.tasks.Task
+import com.google.common.truth.Truth.assertThat
 import com.google.firebase.auth.FirebaseAuth
 import com.nhaarman.mockitokotlin2.inOrder
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
-import org.powermock.core.classloader.annotations.PowerMockIgnore
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.rule.PowerMockRule
 
-@PowerMockIgnore("org.mockito.*", "org.robolectric.*", "android.*", "androidx.*", "org.powermock.*")
-@PrepareForTest(GoogleSignIn::class)
 @RunWith(AndroidJUnit4::class)
 class AuthenticationManagerTest {
 
@@ -37,15 +29,8 @@ class AuthenticationManagerTest {
 
     private lateinit var authenticationManager: AuthenticationManager
 
-    @get:Rule
-    val rule = PowerMockRule()
-
-    @Mock
-    lateinit var googleSignInAccountTask: Task<GoogleSignInAccount>
-
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
         sharedPreferencesRepository = mock(SharedPreferencesRepository::class.java)
         googleSignInClient = spy(GoogleSignIn.getClient(
             ApplicationProvider.getApplicationContext<Context>(),
@@ -98,14 +83,28 @@ class AuthenticationManagerTest {
         verify(activityContract, never()).handleLogOut()
     }
 
-//    @Test
-//    fun validIntentPassed_handleGoogleSignInSuccess_continuesWithFirebaseAuthentication() {
-//        PowerMockito.mockStatic(GoogleSignIn::class.java)
-//        `when`(GoogleSignIn.getSignedInAccountFromIntent(ArgumentMatchers.any(Intent::class.java)))
-//            .thenReturn(googleSignInAccountTask)
-//
-//        authenticationManager.handleGoogleSignInSuccess(mock(Intent::class.java))
-//
-//        verify(firebaseAuth).signInWithCredential(com.nhaarman.mockitokotlin2.any())
-//    }
+    @Test
+    fun handleGoogleSignInFailure_failureIsHandled() {
+        authenticationManager.handleGoogleSignInFailure(-1)
+
+        verify(activityContract).handleFailedFirebaseLogIn(com.nhaarman.mockitokotlin2.any())
+    }
+
+    @Test
+    fun setAuthenticatedUser_authenticatedUserIsPersisted() {
+        val user = mock(UserModel::class.java)
+        authenticationManager.setAuthenticatedUser(user)
+
+        verify(sharedPreferencesRepository).updateAuthenticatedAccount(user)
+    }
+
+    @Test
+    fun getAuthenticatedUser_authenticatedUserIsReturned() {
+        val user = mock(UserModel::class.java)
+        doReturn(user).`when`(sharedPreferencesRepository).getAuthenticatedAccount()
+
+        val returnedUser = authenticationManager.getAuthenticatedUser()
+
+        assertThat(user).isSameInstanceAs(returnedUser)
+    }
 }
