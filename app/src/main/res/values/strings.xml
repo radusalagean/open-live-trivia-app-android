@@ -128,4 +128,10 @@ Hint: you can disable this dialog in the Settings screen</string>
     <!--Privacy Policy-->
     <string name="privacy_policy"><u>Privacy Policy</u></string>
 
+    <!--Unit Test Resources-->
+    <string name="test_dialog_title" translatable="false">Title</string>
+    <string name="test_dialog_message" translatable="false">Message</string>
+    <string name="test_dialog_positive_button" translatable="false">Positive</string>
+    <string name="test_dialog_negative_button" translatable="false">Negative</string>
+
 </resources>

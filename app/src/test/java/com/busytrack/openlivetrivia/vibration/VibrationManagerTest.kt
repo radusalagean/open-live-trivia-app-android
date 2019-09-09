@@ -4,7 +4,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
-import com.busytrack.openlivetrivia.setSdkVersion
+import com.busytrack.openlivetrivia.test.setSdkVersion
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

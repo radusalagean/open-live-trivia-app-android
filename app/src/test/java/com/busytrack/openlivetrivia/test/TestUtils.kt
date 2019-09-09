@@ -1,4 +1,4 @@
-package com.busytrack.openlivetrivia
+package com.busytrack.openlivetrivia.test
 
 import android.os.Build
 import org.mockito.internal.util.reflection.FieldSetter

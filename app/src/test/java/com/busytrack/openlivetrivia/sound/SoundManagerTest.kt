@@ -3,7 +3,7 @@ package com.busytrack.openlivetrivia.sound
 import android.media.MediaPlayer
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.busytrack.openlivetrivia.assignFieldToTarget
+import com.busytrack.openlivetrivia.test.assignFieldToTarget
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
 import org.junit.Before
 
