@@ -166,15 +166,21 @@ class DialogManagerTest {
 
     @Test
     fun showListAlertDialog_dialogIsShown() {
-        dialogManager.showListAlertDialog(
-            R.string.test_dialog_title,
-            emptyArray(),
-            mockCb
-        )
+        try {
+            println(">> 1")
+            dialogManager.showListAlertDialog(
+                R.string.test_dialog_title,
+                emptyArray(),
+                mockCb
+            )
+            println(">> 2")
 
-        val alertDialog = getLatestAlertDialog()
-
-        assertThat(alertDialog.isShowing).isTrue()
+            val alertDialog = getLatestAlertDialog()
+            println(">> 3")
+            assertThat(alertDialog.isShowing).isTrue()
+        } catch (e: Exception) {
+            println(">> Exception: $e ${e.message} TRACE: ${e.stackTrace.joinToString()}")
+        }
     }
 
     @Test
