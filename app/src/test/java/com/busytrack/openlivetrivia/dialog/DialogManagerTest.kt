@@ -54,6 +54,7 @@ class DialogManagerTest {
 
     @After
     fun tearDown() {
+        activityScenario.close()
     }
 
     // Basic Alert Dialog (with Dismiss button)

@@ -32,6 +32,7 @@ class GameplayTest {
     @After
     fun tearDown() {
         IdlingRegistry.getInstance().unregister(EspressoGlobalIdlingResource)
+        activityScenario.close()
     }
 
     @Test
