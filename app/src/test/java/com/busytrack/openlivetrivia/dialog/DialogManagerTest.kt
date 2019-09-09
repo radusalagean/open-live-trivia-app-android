@@ -166,21 +166,15 @@ class DialogManagerTest {
 
     @Test
     fun showListAlertDialog_dialogIsShown() {
-        try {
-            println(">> 1")
-            dialogManager.showListAlertDialog(
-                R.string.test_dialog_title,
-                emptyArray(),
-                mockCb
-            )
-            println(">> 2")
+        dialogManager.showListAlertDialog(
+            R.string.test_dialog_title,
+            emptyArray(),
+            mockCb
+        )
 
-            val alertDialog = getLatestAlertDialog()
-            println(">> 3")
-            assertThat(alertDialog.isShowing).isTrue()
-        } catch (e: Exception) {
-            println(">> Exception: $e ${e.message} TRACE: ${e.stackTrace.joinToString()}")
-        }
+        val alertDialog = getLatestAlertDialog()
+
+        assertThat(alertDialog.isShowing).isTrue()
     }
 
     @Test
@@ -202,33 +196,22 @@ class DialogManagerTest {
     }
 
     @Test
-    fun listAlertDialogIsDisplayed_clickOnItems() {
+    fun listAlertDialogIsDisplayed_clickOnItems_correctOrder() {
         val items = arrayOf("Item 1", "Item 2", "Item 3")
-        println("> 1")
         val listener = TestDialogClickListener()
-        try {
-            dialogManager.showListAlertDialog(
-                R.string.test_dialog_title,
-                items,
-                listener::onClick
-            )
-            println("> 2")
+        dialogManager.showListAlertDialog(
+            R.string.test_dialog_title,
+            items,
+            listener::onClick
+        )
 
-            val shadowAlertDialog = getShadowAlertDialog()
-            println("> 3")
-            shadowAlertDialog.run {
-                println("> 4")
-                clickOnItem(2)
-                println("> 5")
-                clickOnItem(0)
-                println("> 6")
-                clickOnItem(1)
-            }
-            println("> 7")
-            assertThat(listener.clickHistory).containsExactly(2, 0, 1).inOrder()
-        } catch (e: Exception) {
-            println(">> Exception: $e ${e.message} TRACE: ${e.stackTrace.joinToString()}")
+        val shadowAlertDialog = getShadowAlertDialog()
+        shadowAlertDialog.run {
+            clickOnItem(2)
+            clickOnItem(0)
+            clickOnItem(1)
         }
+        assertThat(listener.clickHistory).containsExactly(2, 0, 1).inOrder()
     }
 
     // Fatal Alert Dialog (will exit the app when dismissed)
