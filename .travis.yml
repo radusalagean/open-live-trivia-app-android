@@ -35,8 +35,7 @@ before_script:
 
 script:
 #  - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m clean build
-  - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m testProdDebugUnitTest --full-stacktrace
-  - cat ~/build/radusalagean/open-live-trivia-app-android/app/build/reports/tests/testProdDebugUnitTest/index.html
+  - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m testProdDebugUnitTest
 
 after_script:
   - rm -vf ./app/google-services.json
