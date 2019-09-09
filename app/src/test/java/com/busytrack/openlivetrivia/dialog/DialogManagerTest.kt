@@ -198,21 +198,31 @@ class DialogManagerTest {
     @Test
     fun listAlertDialogIsDisplayed_clickOnItems_itemsAreClickedInCorrectOrder() {
         val items = arrayOf("Item 1", "Item 2", "Item 3")
+        println("1")
         val listener = TestDialogClickListener()
-        dialogManager.showListAlertDialog(
-            R.string.test_dialog_title,
-            items,
-            listener::onClick
-        )
+        try {
+            dialogManager.showListAlertDialog(
+                R.string.test_dialog_title,
+                items,
+                listener::onClick
+            )
+            println("2")
 
-        val shadowAlertDialog = getShadowAlertDialog()
-        shadowAlertDialog.run {
-            clickOnItem(2)
-            clickOnItem(0)
-            clickOnItem(1)
+            val shadowAlertDialog = getShadowAlertDialog()
+            println("3")
+            shadowAlertDialog.run {
+                println("4")
+                clickOnItem(2)
+                println("5")
+                clickOnItem(0)
+                println("6")
+                clickOnItem(1)
+            }
+            println("7")
+            assertThat(listener.clickHistory).containsExactly(2, 0, 1).inOrder()
+        } catch (e: Exception) {
+            println(">> Exception: $e ${e.message} TRACE: ${e.stackTrace.joinToString()}")
         }
-
-        assertThat(listener.clickHistory).containsExactly(2, 0, 1).inOrder()
     }
 
     // Fatal Alert Dialog (will exit the app when dismissed)
