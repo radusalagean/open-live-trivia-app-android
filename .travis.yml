@@ -34,8 +34,7 @@ before_script:
   - echo openLiveTriviaFirebaseServerClientId=$FIREBASE_SERVER_CLIENT_ID >> ~/.gradle/gradle.properties
 
 script:
-#  - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m clean build
-  - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m testDevDebugUnitTest
+  - ./gradlew -Dorg.gradle.jvmargs=-Xmx1536m clean buildProdRelease
 
 after_script:
   - rm -vf ./app/google-services.json
