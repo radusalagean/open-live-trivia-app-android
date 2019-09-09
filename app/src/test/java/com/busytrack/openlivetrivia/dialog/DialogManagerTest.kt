@@ -138,7 +138,11 @@ class DialogManagerTest {
         val alertDialog = getLatestAlertDialog()
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick()
 
-        assertThat(listener.clickHistory.filter { it == AlertDialog.BUTTON_POSITIVE }.size == 1)
+        assertThat(
+            listener.clickHistory.filter {
+                it == AlertDialog.BUTTON_POSITIVE
+            }.size
+        ).isEqualTo(1)
     }
 
     @Test

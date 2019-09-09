@@ -66,6 +66,13 @@ android {
         unitTests {
             includeAndroidResources = true // For Robolectric
         }
+        unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen {false}
+                showStandardStreams = true
+            }
+        }
         animationsDisabled = true
     }
 }
