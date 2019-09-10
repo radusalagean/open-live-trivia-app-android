@@ -1,5 +1,6 @@
 package com.busytrack.openlivetrivia.infobar
 
+import androidx.annotation.VisibleForTesting
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import java.util.*
 
@@ -14,7 +15,7 @@ class InfoBarManager {
     private val messageQueue: Queue<InfoBarConfiguration> = LinkedList()
     private var infoBarContract: InfoBarContract? = null
 
-    private val callback = object : BaseTransientBottomBar.BaseCallback<InfoBar>() {
+    @VisibleForTesting val callback = object : BaseTransientBottomBar.BaseCallback<InfoBar>() {
         override fun onDismissed(transientBottomBar: InfoBar?, event: Int) {
             messageQueue.poll()
             processNextMessage()
@@ -28,7 +29,7 @@ class InfoBarManager {
         }
     }
 
-    fun processNextMessage() {
+    private fun processNextMessage() {
         if (messageQueue.peek() != null && infoBarContract != null) {
             val nextMessage = messageQueue.peek()
             infoBarContract?.showInfoBarNow(nextMessage, callback)
