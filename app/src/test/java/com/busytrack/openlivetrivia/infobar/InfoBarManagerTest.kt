@@ -141,8 +141,8 @@ class InfoBarManagerTest {
         // Resume quickly, without giving enough time for the message to expire
         infoBarManager.resume(infoBarContract)
 
-        // The Message should be displayed again (2 times in total:
-        //  once before pause and once after resume
+        // The Message should be displayed again
+        //  (2 times in total: once before pause and once after resume)
         verify(infoBarContract, times(2)).showInfoBarNow(eq(config1), any())
     }
 
@@ -161,7 +161,7 @@ class InfoBarManagerTest {
         // Resume the manager
         infoBarManager.resume(infoBarContract)
 
-        // The message should not be displayed exactly one time (before the manager is paused)
+        // The message should be displayed exactly one time (before the manager is paused)
         verify(infoBarContract, times(1)).showInfoBarNow(eq(config1), any())
     }
 }
