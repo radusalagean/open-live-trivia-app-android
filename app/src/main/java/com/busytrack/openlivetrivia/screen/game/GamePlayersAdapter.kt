@@ -35,7 +35,7 @@ class GamePlayersAdapter(
 
     override fun getItemCount() = players.size
 
-    fun initializePlayers(players: PlayerListModel) {
+    fun initializePlayers(players: PlayerListModel) { // TODO test
         this.players.clear()
         this.players.addAll(players.players)
         notifyDataSetChanged()

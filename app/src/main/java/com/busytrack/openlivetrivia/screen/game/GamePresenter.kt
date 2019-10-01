@@ -18,7 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class GamePresenter(
+class GamePresenter( // TODO test
     model: GameMvp.Model,
     activityContract: ActivityContract,
     private val socketHub: SocketHub,

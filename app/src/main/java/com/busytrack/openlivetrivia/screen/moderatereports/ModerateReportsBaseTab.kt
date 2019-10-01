@@ -7,7 +7,7 @@ import com.busytrack.openlivetrivia.generic.viewpager.PagerViewListener
 import com.busytrack.openlivetrivia.view.ScrollAwareRecyclerView
 import com.busytrack.openlivetriviainterface.rest.model.EntryReportModel
 
-abstract class ModerateReportsBaseTab(
+abstract class ModerateReportsBaseTab( // TODO test
     listItemContract: ModerateReportsItemContract,
     protected val tabContract: ModerateReportsTabContract
 ) : PagerViewListener {

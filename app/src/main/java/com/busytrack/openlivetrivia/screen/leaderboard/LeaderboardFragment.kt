@@ -20,7 +20,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItemContract,
-    ScrollAwareRecyclerView.Listener {
+    ScrollAwareRecyclerView.Listener { // TODO test
 
     @Inject
     lateinit var presenter: LeaderboardMvp.Presenter

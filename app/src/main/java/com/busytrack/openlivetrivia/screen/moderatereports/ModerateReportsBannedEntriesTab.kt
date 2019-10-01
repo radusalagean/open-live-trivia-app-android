@@ -29,11 +29,11 @@ class ModerateReportsBannedEntriesTab(
         rootView = null
     }
 
-    override fun setRefreshIndicatorState(refreshing: Boolean) {
+    override fun setRefreshIndicatorState(refreshing: Boolean) { // TODO test
         rootView?.swipe_refresh_banned_entries?.isRefreshing = refreshing
     }
 
-    override fun syncState() {
+    override fun syncState() { // TODO test
         rootView?.apply {
             swipe_refresh_banned_entries?.isRefreshing = refreshing
         }

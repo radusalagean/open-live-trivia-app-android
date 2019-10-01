@@ -5,7 +5,7 @@ import com.busytrack.openlivetrivia.network.NetworkRepository
 import com.busytrack.openlivetriviainterface.socket.model.GameState
 import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
 
-class GameModel(
+class GameModel( // TODO test
     private val networkRepository: NetworkRepository
 ) : BaseModel<GameViewModel>(), GameMvp.Model {
 

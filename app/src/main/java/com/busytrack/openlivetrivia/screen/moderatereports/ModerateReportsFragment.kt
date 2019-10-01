@@ -20,7 +20,7 @@ import javax.inject.Inject
 class ModerateReportsFragment : BaseFragment(),
     ModerateReportsMvp.View,
     PagerViewListener,
-    ModerateReportsItemContract {
+    ModerateReportsItemContract { // TODO test
 
     @Inject
     lateinit var presenter: ModerateReportsMvp.Presenter

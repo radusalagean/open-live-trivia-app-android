@@ -27,7 +27,7 @@ import javax.inject.Inject
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
-class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
+class MainMenuFragment : BaseFragment(), MainMenuMvp.View { // TODO test
     @Inject
     lateinit var presenter: MainMenuMvp.Presenter
 

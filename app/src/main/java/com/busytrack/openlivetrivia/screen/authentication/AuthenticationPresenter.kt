@@ -19,7 +19,7 @@ import retrofit2.HttpException
 import timber.log.Timber
 import java.net.HttpURLConnection
 
-class AuthenticationPresenter(
+class AuthenticationPresenter( // TODO test
     model: AuthenticationMvp.Model,
     activityContract: ActivityContract,
     private val authenticationManager: AuthenticationManager,

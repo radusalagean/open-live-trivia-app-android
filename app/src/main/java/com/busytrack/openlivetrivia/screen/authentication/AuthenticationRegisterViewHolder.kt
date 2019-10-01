@@ -15,7 +15,7 @@ class AuthenticationRegisterViewHolder(
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            contract.onUsernameChanged(s.toString())
+            contract.onUsernameChanged(s.toString()) // TODO test
         }
 
         override fun afterTextChanged(s: Editable?) {}

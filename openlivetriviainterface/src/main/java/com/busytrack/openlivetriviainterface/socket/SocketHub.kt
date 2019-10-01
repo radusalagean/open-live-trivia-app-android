@@ -12,7 +12,7 @@ import io.socket.client.IO
 import io.socket.client.Socket
 import timber.log.Timber
 
-class SocketHub {
+class SocketHub { // TODO test
     private val gson = Gson()
     private val socket: Socket = IO.socket(ROOT_DOMAIN, IO.Options().apply {
         secure = SOCKET_IO_SECURE_CONNECTION

@@ -10,7 +10,7 @@ import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesCon
 import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
 import java.util.*
 
-class SharedPreferencesRepository(
+class SharedPreferencesRepository( // TODO test
     private val sharedPreferences: SharedPreferences
 ) {
 

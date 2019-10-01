@@ -8,7 +8,7 @@ import com.busytrack.openlivetriviainterface.socket.model.AttemptModel
 import kotlinx.android.synthetic.main.item_attempt_peer.view.*
 import kotlinx.android.synthetic.main.layout_attempt.view.*
 
-class GamePeerAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView) {
+class GamePeerAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView) { // TODO test
     fun bind(model: AttemptModel) {
         with(itemView) {
             attempt_text_view_username.visibility = View.VISIBLE

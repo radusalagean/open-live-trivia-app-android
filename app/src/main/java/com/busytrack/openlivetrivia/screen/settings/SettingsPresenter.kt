@@ -9,7 +9,7 @@ import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
 import com.busytrack.openlivetriviainterface.rest.model.MessageModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class SettingsPresenter(
+class SettingsPresenter( // TODO test
     model: SettingsMvp.Model,
     activityContract: ActivityContract,
     private val authenticationManager: AuthenticationManager

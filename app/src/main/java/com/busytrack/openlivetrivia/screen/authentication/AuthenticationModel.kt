@@ -8,7 +8,7 @@ import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 
-class AuthenticationModel(
+class AuthenticationModel( // TODO test
     private val networkRepository: NetworkRepository
 ) : BaseModel<AuthenticationViewModel>(), AuthenticationMvp.Model {
 

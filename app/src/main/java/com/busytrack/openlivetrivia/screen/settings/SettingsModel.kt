@@ -5,7 +5,7 @@ import com.busytrack.openlivetrivia.network.NetworkRepository
 import com.busytrack.openlivetriviainterface.rest.model.MessageModel
 import io.reactivex.Observable
 
-class SettingsModel(
+class SettingsModel( // TODO test
     private val networkRepository: NetworkRepository
 ) : BaseModel<SettingsViewModel>(), SettingsMvp.Model {
 

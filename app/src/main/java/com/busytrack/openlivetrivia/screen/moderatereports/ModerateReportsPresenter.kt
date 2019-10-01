@@ -11,7 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableObserver
 import timber.log.Timber
 
-class ModerateReportsPresenter(
+class ModerateReportsPresenter( // TODO test
     model: ModerateReportsMvp.Model,
     activityContract: ActivityContract
 ) : BasePresenter<ModerateReportsMvp.View, ModerateReportsMvp.Model>(model, activityContract),

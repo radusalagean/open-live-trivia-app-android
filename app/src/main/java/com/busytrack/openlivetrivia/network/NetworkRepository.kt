@@ -3,7 +3,7 @@ package com.busytrack.openlivetrivia.network
 import com.busytrack.openlivetriviainterface.rest.OpenLiveTriviaApiService
 import com.busytrack.openlivetriviainterface.rest.model.*
 
-class NetworkRepository(private val openLiveTriviaApiService: OpenLiveTriviaApiService) {
+class NetworkRepository(private val openLiveTriviaApiService: OpenLiveTriviaApiService) { // TODO test
 
     // Users
 

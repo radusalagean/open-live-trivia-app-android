@@ -55,7 +55,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean { // TODO test
         if (preference?.key == getString(R.string.pref_key_delete_account)) {
             dialogManager.showAlertDialog(
                 titleResId = R.string.dialog_delete_account_title,

@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.layout_register.*
 import kotlinx.android.synthetic.main.layout_register.view.*
 import javax.inject.Inject
 
-class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, AuthenticationContract {
+class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, AuthenticationContract { // TODO test
     @Inject
     lateinit var presenter: AuthenticationMvp.Presenter
 

@@ -43,7 +43,7 @@ import kotlin.coroutines.CoroutineContext
 
 class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptContract,
     PopupMenu.OnMenuItemClickListener, GamePlayerContract
-{
+{ // TODO test
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO

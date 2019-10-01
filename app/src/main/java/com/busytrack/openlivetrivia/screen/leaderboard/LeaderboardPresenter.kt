@@ -11,7 +11,7 @@ import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class LeaderboardPresenter(
+class LeaderboardPresenter( // TODO test
     model: LeaderboardMvp.Model,
     activityContract: ActivityContract
 ) : BasePresenter<LeaderboardMvp.View, LeaderboardMvp.Model>(model, activityContract),

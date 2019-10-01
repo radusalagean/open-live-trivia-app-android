@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.busytrack.openlivetrivia.R
 import kotlinx.android.synthetic.main.layout_attempt.view.*
 
-abstract class GameAttemptViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+abstract class GameAttemptViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) { // TODO test
     private var defaultBackground: Drawable = itemView.attempt_frame_layout.background
     private var defaultUsernameTextColor: ColorStateList = itemView.attempt_text_view_username.textColors
     private var defaultAttemptTextColor: ColorStateList = itemView.attempt_text_view_attempt.textColors

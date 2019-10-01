@@ -18,7 +18,7 @@ data class UserEntity(
     @ColumnInfo(name = Users.COL_JOINED) val joined: Long
 ) {
 
-    companion object {
+    companion object { // TODO test
         fun fromUserModel(u: UserModel): UserEntity =
             UserEntity(
                 u.userId,
