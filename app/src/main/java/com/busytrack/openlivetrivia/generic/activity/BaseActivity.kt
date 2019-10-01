@@ -54,12 +54,12 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     override fun onResume() {
         Timber.tag(logTag).v("-A-> onResume()")
         super.onResume()
-        infoBarManager.resume(this) // TODO test
+        infoBarManager.resume(this)
     }
 
     override fun onPause() {
         Timber.tag(logTag).v("-A-> onPause()")
-        infoBarManager.pause() // TODO test
+        infoBarManager.pause()
         super.onPause()
     }
 
@@ -110,7 +110,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     /**
      * Adds a default fragment if no fragment is present for the specified container
      */
-    protected fun addDefaultFragmentIfNecessary() { // TODO test
+    protected fun addDefaultFragmentIfNecessary() {
         val currentFragment = getCurrentFragment()
         if (currentFragment == null) {
             val defaultFragment = getDefaultFragment()
@@ -125,7 +125,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     /**
      * Show a fragment
      */
-    private fun <T : BaseFragment> showFragment( // TODO test
+    protected fun <T : BaseFragment> showFragment(
         fragment: T,
         addToBackStack: Boolean = true,
         backStackStateName: String? = null
@@ -148,23 +148,23 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     // Activity contract implementation
 
-    override fun showInfoMessage(message: Int, args: Any?) { // TODO test
-        enqueueMessage(message, args, TYPE_INFO)
+    override fun showInfoMessage(message: Int, vararg args: Any?) {
+        enqueueMessage(TYPE_INFO, message, *args)
     }
 
-    override fun showWarningMessage(message: Int, args: Any?) { // TODO test
-        enqueueMessage(message, args, TYPE_WARN)
+    override fun showWarningMessage(message: Int, vararg args: Any?) {
+        enqueueMessage(TYPE_WARN, message, *args)
     }
 
-    override fun showErrorMessage(message: Int, args: Any?) { // TODO test
-        enqueueMessage(message, args, TYPE_ERROR)
+    override fun showErrorMessage(message: Int, vararg args: Any?) {
+        enqueueMessage(TYPE_ERROR, message, *args)
     }
 
-    override fun triggerGoogleSignIn(intent: Intent) { // TODO test
+    override fun triggerGoogleSignIn(intent: Intent) {
         startActivityForResult(intent, GOOGLE_LOG_IN_REQUEST_CODE)
     }
 
-    override fun popAllFragments() { // TODO test
+    override fun popAllFragments() {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
@@ -172,7 +172,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
         showFragment(AuthenticationFragment.newInstance(), addToBackStack = false)
     }
 
-    override fun showMainMenuScreen() { // TODO test
+    override fun showMainMenuScreen() {
         var mainMenuFragment: BaseFragment? = null
         // If the main menu fragment is already in the back stack, use it
         supportFragmentManager.findFragmentByTag(MainMenuFragment::class.java.name)?.let {
@@ -193,23 +193,23 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
         showFragment(ModerateReportsFragment.newInstance())
     }
 
-    override fun showSettingsFragment() {
+    override fun showSettingsScreen() {
         showFragment(SettingsFragment.newInstance())
     }
 
-    override fun handleSuccessfulFirebaseLogIn() { // TODO test
+    override fun handleSuccessfulFirebaseLogIn() {
         showInfoMessage(R.string.message_logged_in_successfully)
         // Pass the event to the current fragment
         getCurrentFragment()?.handleSuccessfulFirebaseSignIn()
     }
 
-    override fun handleFailedFirebaseLogIn(t: Throwable?) { // TODO test
+    override fun handleFailedFirebaseLogIn(t: Throwable?) {
         showErrorMessage(R.string.message_failed_to_log_in, t?.message)
         // Pass the event to the current fragment
         getCurrentFragment()?.handleFailedFirebaseSignIn(t)
     }
 
-    override fun handleLogOut() { // TODO test
+    override fun handleLogOut() {
         showInfoMessage(R.string.message_logged_out)
         // Pass the event to the current fragment
         getCurrentFragment()?.handleLogOut()
@@ -226,7 +226,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     /**
      * Call in order to display an [InfoBar] message immediately
      */
-    override fun showInfoBarNow( // TODO test
+    override fun showInfoBarNow(
         infoBarConfiguration: InfoBarConfiguration,
         callback: BaseTransientBottomBar.BaseCallback<InfoBar>
     ) {
@@ -256,8 +256,8 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     /**
      * Enqueue the [InfoBar] message
      */
-    private fun enqueueMessage(message: Int, args: Any?, type: Int) { // TODO test
-        val string = if (args == null) getString(message) else getString(message, args)
+    private fun enqueueMessage(type: Int, message: Int, vararg args: Any?) {
+        val string = if (args.isEmpty()) getString(message) else getString(message, *args)
         getCurrentFragment()?.let {
             infoBarManager.enqueueMessage(InfoBarConfiguration(string, type))
         }

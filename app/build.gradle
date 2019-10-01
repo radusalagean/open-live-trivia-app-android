@@ -123,8 +123,8 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
 
     // Mock
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    debugImplementation "org.mockito:mockito-core:$mockitoVersion"
+    debugImplementation "org.mockito:mockito-inline:$mockitoVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitokotlinVersion"
     testImplementation "org.powermock:powermock-core:$powermockVersion"
     testImplementation "org.powermock:powermock-module-junit4:$powermockVersion"

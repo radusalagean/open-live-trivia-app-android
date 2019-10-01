@@ -133,5 +133,6 @@ Hint: you can disable this dialog in the Settings screen</string>
     <string name="test_dialog_message" translatable="false">Message</string>
     <string name="test_dialog_positive_button" translatable="false">Positive</string>
     <string name="test_dialog_negative_button" translatable="false">Negative</string>
+    <string name="test_info_message" translatable="false">This is a test info message: %s %s</string>
 
 </resources>

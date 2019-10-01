@@ -1,6 +1,14 @@
 package com.busytrack.openlivetrivia.test
 
+import android.content.Context
 import android.os.Build
+import androidx.test.core.app.ApplicationProvider
+import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doReturn
+import org.mockito.Mockito
 import org.mockito.internal.util.reflection.FieldSetter
 import org.robolectric.util.ReflectionHelpers
 
@@ -20,4 +28,15 @@ fun assignFieldToTarget(target: Any, targetFieldName: String, source: Any?) {
         target.javaClass.getDeclaredField(targetFieldName),
         source
     )
+}
+
+/**
+ * Configures Firebase for Robolectric tests
+ */
+fun setUpFirebase() {
+    val firebaseAppMock = Mockito.mock(FirebaseApp::class.java)
+    doReturn(Mockito.mock(FirebaseAuth::class.java))
+        .`when`(firebaseAppMock).get<FirebaseAuth>(any())
+    (ApplicationProvider.getApplicationContext<Context>() as OpenLiveTriviaApp)
+        .firebaseAppMock = firebaseAppMock
 }

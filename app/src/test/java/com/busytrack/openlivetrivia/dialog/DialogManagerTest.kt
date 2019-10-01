@@ -11,6 +11,7 @@ import com.busytrack.openlivetrivia.activity.MainActivity
 import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
 import com.busytrack.openlivetrivia.test.ShadowAlertController
 import com.busytrack.openlivetrivia.test.ShadowAlertDialog
+import com.busytrack.openlivetrivia.test.setUpFirebase
 import com.google.common.truth.Truth.assertThat
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -39,12 +40,7 @@ class DialogManagerTest {
 
     @Before
     fun setUp() {
-        val firebaseAppMock = mock(FirebaseApp::class.java)
-        doReturn(mock(FirebaseAuth::class.java))
-            .`when`(firebaseAppMock).get<FirebaseAuth>(any())
-        (ApplicationProvider.getApplicationContext<Context>() as OpenLiveTriviaApp)
-            .firebaseAppMock = firebaseAppMock
-
+        setUpFirebase()
         activityScenario = ActivityScenario.launch(MainActivity::class.java)
         activityScenario.onActivity {
             dialogManager = DialogManager(it)

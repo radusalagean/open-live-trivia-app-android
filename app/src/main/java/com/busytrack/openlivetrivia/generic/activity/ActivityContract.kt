@@ -12,17 +12,17 @@ interface ActivityContract {
     /**
      * Show an on-screen message through the [InfoBar] ([TYPE_INFO] level)
      */
-    fun showInfoMessage(message: Int, args: Any? = null)
+    fun showInfoMessage(message: Int, vararg args: Any? = emptyArray())
 
     /**
      * Show an on-screen message through the [InfoBar] ([TYPE_WARN] level)
      */
-    fun showWarningMessage(message: Int, args: Any? = null)
+    fun showWarningMessage(message: Int, vararg args: Any? = emptyArray())
 
     /**
      * Show an on-screen message through the [InfoBar] ([TYPE_ERROR] level)
      */
-    fun showErrorMessage(message: Int, args: Any? = null)
+    fun showErrorMessage(message: Int, vararg args: Any? = emptyArray())
 
     /**
      * Start the Google Sign In flow
@@ -46,7 +46,7 @@ interface ActivityContract {
     fun showGameScreen()
     fun showLeaderboardScreen()
     fun showModerateReportsScreen()
-    fun showSettingsFragment()
+    fun showSettingsScreen()
 
     /**
      * Called when the Firebase authentication is successful

@@ -12,6 +12,8 @@
                 android:name="firebase_crashlytics_collection_enabled"
                 android:value="false" />
 
+        <!--Used for unit testing with Robolectric-->
+        <activity android:name=".generic.activity.BaseActivityImpl" />
     </application>
 
 </manifest>

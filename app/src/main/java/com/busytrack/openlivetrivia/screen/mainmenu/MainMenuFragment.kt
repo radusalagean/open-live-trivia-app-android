@@ -91,7 +91,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View { // TODO test
             activityContract.showModerateReportsScreen()
         }
         button_settings.setOnClickListener {
-            activityContract.showSettingsFragment()
+            activityContract.showSettingsScreen()
         }
         button_log_out.setOnClickListener {
             authenticationManager.signOut()
