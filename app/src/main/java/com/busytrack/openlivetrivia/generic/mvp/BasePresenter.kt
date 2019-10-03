@@ -9,7 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicInteger
 
-abstract class BasePresenter<T : BaseMvp.View, S : BaseMvp.Model<*>>( // TODO test
+abstract class BasePresenter<T : BaseMvp.View, S : BaseMvp.Model<*>>(
     protected val model: S,
     protected val activityContract: ActivityContract
 ) : BaseMvp.Presenter<T>, ReactiveListener, EspressoIdlingContract {

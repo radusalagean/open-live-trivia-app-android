@@ -132,6 +132,7 @@ dependencies {
     testImplementation "org.powermock:powermock-api-mockito2:$powermockVersion"
     testImplementation "org.powermock:powermock-classloading-xstream:$powermockVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
 
     // Coroutines test
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
