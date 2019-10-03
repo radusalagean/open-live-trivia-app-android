@@ -24,7 +24,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
         Timber.tag(logTag).d("-F-> onCreate($savedInstanceState)")
         super.onCreate(savedInstanceState)
         // Init view model
-        getPresenter<BaseFragment>().initViewModel(this) // TODO test
+        getPresenter<BaseFragment>().initViewModel(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,7 +32,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // TODO test
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Timber.tag(logTag).d("-F-> onViewCreated($view, $savedInstanceState)")
         super.onViewCreated(view, savedInstanceState)
         initViews()
@@ -55,7 +55,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
     override fun onResume() {
         Timber.tag(logTag).d("-F-> onResume()")
         super.onResume()
-        setRefreshingIndicator(getPresenter<BaseFragment>().refreshing) // TODO test
+        setRefreshingIndicator(getPresenter<BaseFragment>().refreshing)
     }
 
     override fun onPause() {
@@ -70,11 +70,11 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
 
     override fun onStop() {
         Timber.tag(logTag).d("-F-> onStop()")
-        getPresenter<BaseFragment>().dispose() // TODO test
+        getPresenter<BaseFragment>().dispose()
         super.onStop()
     }
 
-    override fun onDestroyView() { // TODO test
+    override fun onDestroyView() {
         Timber.tag(logTag).d("-F-> onDestroyView()")
         getPresenter<BaseFragment>().view = null
         unregisterListeners()
@@ -98,11 +98,11 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
         // Empty implementation
     }
 
-    override fun popBackStack() { // TODO test
+    override fun popBackStack() {
         fragmentManager?.popBackStack()
     }
 
-    override fun removeFragment() { // TODO test
+    override fun removeFragment() {
         fragmentManager?.findFragmentByTag(javaClass.name)?.let {
             fragmentManager?.beginTransaction()?.remove(it)?.commit()
         }
@@ -165,14 +165,14 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
     /**
      * Override to handle the event in specific fragments
      */
-    open fun handleLogOut() { // TODO test
+    open fun handleLogOut() {
         removeFragment()
     }
 
     /**
      * Override to return the presenter
      */
-    protected abstract fun <T : BaseMvp.View> getPresenter(): Presenter<T>
+    abstract fun <T : BaseMvp.View> getPresenter(): Presenter<T>
 
     /**
      * Override to implement fragment-specific behavior on back press
