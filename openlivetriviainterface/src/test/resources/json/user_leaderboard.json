@@ -1,0 +1,26 @@
+{
+  "page": 2,
+  "pages": 2,
+  "itemsCount": 22,
+  "perPage": 20,
+  "items": [
+    {
+      "_id": "5d1f2968a93b8d38b87750d4",
+      "rights": 2,
+      "coins": 100,
+      "lastSeen": "2019-07-05T10:41:44.203Z",
+      "joined": "2019-07-05T10:41:44.203Z",
+      "username": "Some user",
+      "playing": false
+    },
+    {
+      "_id": "5d1f2968a93b8d38b87750d5",
+      "rights": 0,
+      "coins": 1050.2,
+      "lastSeen": "2019-07-05T10:44:44.000Z",
+      "joined": "2019-07-05T10:44:44.000Z",
+      "username": "Some other user",
+      "playing": true
+    }
+  ]
+}

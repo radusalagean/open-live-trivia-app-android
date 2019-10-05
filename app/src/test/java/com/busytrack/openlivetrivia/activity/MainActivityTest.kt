@@ -55,7 +55,7 @@ class MainActivityTest {
         activityScenario.onActivity {
             val responseIntent = prepareGoogleSignInTest(it, success = true)
 
-            verify(it.authenticationManager, times(1))
+            verify(it.authenticationManager)
                 .handleGoogleSignInSuccess(eq(responseIntent))
             verifyNoMoreInteractions(it.authenticationManager)
         }
@@ -66,7 +66,7 @@ class MainActivityTest {
         activityScenario.onActivity {
             prepareGoogleSignInTest(it, success = false)
 
-            verify(it.authenticationManager, times(1))
+            verify(it.authenticationManager)
                 .handleGoogleSignInFailure(any())
             verifyNoMoreInteractions(it.authenticationManager)
         }

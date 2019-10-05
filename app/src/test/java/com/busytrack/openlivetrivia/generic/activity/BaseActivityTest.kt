@@ -41,7 +41,7 @@ class BaseActivityTest {
         activityScenario.moveToState(Lifecycle.State.RESUMED)
 
         activityScenario.onActivity {
-            verify(it.infoBarManager, times(1)).resume(it)
+            verify(it.infoBarManager).resume(it)
         }
     }
 
@@ -51,7 +51,7 @@ class BaseActivityTest {
         activityScenario.moveToState(Lifecycle.State.STARTED)
 
         activityScenario.onActivity {
-            verify(it.infoBarManager, times(1)).pause()
+            verify(it.infoBarManager).pause()
         }
     }
 
@@ -64,7 +64,7 @@ class BaseActivityTest {
 
             spyActivity.showInfoMessage(R.string.test_info_message, "arg1", "arg2")
 
-            verify(spyActivity.infoBarManager, times(1))
+            verify(spyActivity.infoBarManager)
                 .enqueueMessage(
                     eq(InfoBarConfiguration(
                         "This is a test info message: arg1 arg2",
@@ -83,7 +83,7 @@ class BaseActivityTest {
 
             spyActivity.showWarningMessage(R.string.test_info_message, "arg1", "arg2")
 
-            verify(spyActivity.infoBarManager, times(1))
+            verify(spyActivity.infoBarManager)
                 .enqueueMessage(
                     eq(InfoBarConfiguration(
                         "This is a test info message: arg1 arg2",
@@ -102,7 +102,7 @@ class BaseActivityTest {
 
             spyActivity.showErrorMessage(R.string.test_info_message, "arg1", "arg2")
 
-            verify(spyActivity.infoBarManager, times(1))
+            verify(spyActivity.infoBarManager)
                 .enqueueMessage(
                     eq(InfoBarConfiguration(
                         "This is a test info message: arg1 arg2",
@@ -178,7 +178,7 @@ class BaseActivityTest {
             it.handleSuccessfulFirebaseLogIn()
 
             // Verify behavior
-            verify(spyFragment, times(1))
+            verify(spyFragment)
                 .handleSuccessfulFirebaseSignIn()
         }
     }
@@ -193,7 +193,7 @@ class BaseActivityTest {
             it.handleFailedFirebaseLogIn(throwable)
 
             // Verify behavior
-            verify(spyFragment, times(1))
+            verify(spyFragment)
                 .handleFailedFirebaseSignIn(eq(throwable))
         }
     }
@@ -207,7 +207,7 @@ class BaseActivityTest {
             it.handleLogOut()
 
             // Verify behavior
-            verify(spyFragment, times(1)).handleLogOut()
+            verify(spyFragment).handleLogOut()
         }
     }
 

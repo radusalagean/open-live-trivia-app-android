@@ -8,11 +8,11 @@ import java.util.*
 data class UserModel(
     @SerializedName("_id") val userId: String,
     @SerializedName("username") val username: String,
-    @SerializedName("rights") val rights: UserRightsLevel?,
-    @SerializedName("coins") val coins: Double?,
-    @SerializedName("lastSeen") val lastSeen: Date?,
-    @SerializedName("playing") val playing: Boolean,
-    @SerializedName("joined") val joined: Date?
+    @SerializedName("rights") val rights: UserRightsLevel? = null,
+    @SerializedName("coins") val coins: Double? = null,
+    @SerializedName("lastSeen") val lastSeen: Date? = null,
+    @SerializedName("playing") val playing: Boolean = false,
+    @SerializedName("joined") val joined: Date? = null
 ) {
 
     companion object {

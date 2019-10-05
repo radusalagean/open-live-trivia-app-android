@@ -34,7 +34,7 @@ class InfoBarManagerTest {
         infoBarManager.enqueueMessage(config)
 
         // The message should be displayed once
-        verify(infoBarContract, times(1)).showInfoBarNow(eq(config), any())
+        verify(infoBarContract).showInfoBarNow(eq(config), any())
     }
 
     @Test
@@ -162,6 +162,6 @@ class InfoBarManagerTest {
         infoBarManager.resume(infoBarContract)
 
         // The message should be displayed exactly one time (before the manager is paused)
-        verify(infoBarContract, times(1)).showInfoBarNow(eq(config1), any())
+        verify(infoBarContract).showInfoBarNow(eq(config1), any())
     }
 }

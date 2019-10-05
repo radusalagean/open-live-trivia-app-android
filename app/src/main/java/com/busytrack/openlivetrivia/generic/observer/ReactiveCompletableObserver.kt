@@ -5,7 +5,7 @@ import io.reactivex.observers.DisposableCompletableObserver
 /**
  * A general completable observer used to handle specific events through a listener
  */
-class ReactiveCompletableObserver( // TODO test
+class ReactiveCompletableObserver(
     private val listener: ReactiveListener
 ) : DisposableCompletableObserver() {
 

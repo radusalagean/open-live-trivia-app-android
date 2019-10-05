@@ -8,7 +8,7 @@ import androidx.viewpager.widget.PagerAdapter
 /**
  * Base PagerAdapter class, handles item instantiation and destruction details
  */
-abstract class BasePagerAdapter( // TODO test
+abstract class BasePagerAdapter(
     private val pagerViewListener: PagerViewListener
 ): PagerAdapter() {
 

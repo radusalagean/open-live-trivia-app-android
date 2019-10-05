@@ -1,0 +1,23 @@
+{
+  "page": 3,
+  "pages": 3,
+  "itemsCount": 21,
+  "perPage": 10,
+  "items": [
+    {
+      "reporters": [
+        {
+          "_id": "5d1f2968a93b8d38b87750d4",
+          "username": "Some user"
+        }
+      ],
+      "banned": false,
+      "_id": "5d1f379a78c6e7342c49488e",
+      "lastReported": "2019-07-05T11:42:18.216Z",
+      "entryId": 34770,
+      "category": "category",
+      "clue": "Clue text",
+      "answer": "Answer text"
+    }
+  ]
+}

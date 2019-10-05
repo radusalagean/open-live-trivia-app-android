@@ -46,7 +46,7 @@ class BasePresenterTest {
     fun should_updateViewRefreshingIndicator_when_refreshingValueIsChanged() {
         basePresenter.refreshing = true
 
-        verify(basePresenter.view, times(1))!!.setRefreshingIndicator(eq(true))
+        verify(basePresenter.view)!!.setRefreshingIndicator(eq(true))
     }
 
     @Test

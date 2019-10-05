@@ -51,6 +51,8 @@ dependencies {
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
     implementation "com.google.code.gson:gson:$gsonVersion"
@@ -58,9 +60,39 @@ dependencies {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
+
+    // JUnit
     testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test:runner:$androidxTestVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+
+    // Mock
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitokotlinVersion"
+    testImplementation "org.powermock:powermock-core:$powermockVersion"
+    testImplementation "org.powermock:powermock-module-junit4:$powermockVersion"
+    testImplementation "org.powermock:powermock-module-junit4-rule:$powermockVersion"
+    testImplementation "org.powermock:powermock-api-mockito2:$powermockVersion"
+    testImplementation "org.powermock:powermock-classloading-xstream:$powermockVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+
+    // Core library
+    testImplementation "androidx.test:core:$androidxTestVersion"
+
+    // Extensions
+    testImplementation "androidx.test.ext:junit:$androidxJunitExtVersion"
+    testImplementation "androidx.test:core-ktx:$androidxTestVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$androidxJunitExtVersion"
+
+    // AndroidJUnitRunner and JUnit Rules
+    testImplementation "androidx.test:runner:$androidxTestVersion"
+    testImplementation "androidx.test:rules:$androidxTestVersion"
+
+    // Assertions
+    testImplementation "androidx.test.ext:truth:$androidxTruthExtVersion"
+    testImplementation "com.google.truth:truth:$truthVersion"
+    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
 }
 repositories {
     mavenCentral()

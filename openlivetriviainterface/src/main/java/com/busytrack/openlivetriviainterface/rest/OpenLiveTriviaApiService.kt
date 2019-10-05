@@ -5,7 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.*
 
-interface OpenLiveTriviaApiService { // TODO test (Mock Web Server)
+interface OpenLiveTriviaApiService {
 
     // Users
 

@@ -6,7 +6,7 @@ import io.reactivex.observers.DisposableObserver
 /**
  * A general observer used to handle specific events through a listener
  */
-abstract class ReactiveObserver<T>( // TODO test
+abstract class ReactiveObserver<T>(
     private val listener: ReactiveListener
 ) : DisposableObserver<T>() {
 

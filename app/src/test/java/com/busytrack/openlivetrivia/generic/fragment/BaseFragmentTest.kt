@@ -38,7 +38,7 @@ class BaseFragmentTest {
 
     @Test
     fun should_initializeViewModel_when_fragmentIsResumed() {
-        verify(baseFragment.mockPresenter, times(1))
+        verify(baseFragment.mockPresenter)
             .initViewModel(eq(baseFragment))
     }
 
@@ -57,6 +57,6 @@ class BaseFragmentTest {
     @Test
     fun should_callDisposeOnPresenter_when_fragmentIsStopped() {
         activityScenario.moveToState(Lifecycle.State.CREATED)
-        verify(baseFragment.mockPresenter, times(1)).dispose()
+        verify(baseFragment.mockPresenter).dispose()
     }
 }
