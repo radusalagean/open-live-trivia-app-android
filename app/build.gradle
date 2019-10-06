@@ -118,6 +118,10 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
+    implementation ("io.socket:socket.io-client:$socketioVersion") {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
 
     // JUnit
     testImplementation "junit:junit:$junitVersion"

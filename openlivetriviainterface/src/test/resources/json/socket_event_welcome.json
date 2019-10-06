@@ -1,0 +1,23 @@
+{
+  "gameState": 1,
+  "userCoins": 100,
+  "entryId": 121885,
+  "category": "we governed that state",
+  "clue": "Pat Brown,Pete Wilson",
+  "answer": "C____o___a",
+  "currentValue": 14,
+  "elapsedSplitSeconds": 7,
+  "totalSplitSeconds": 15,
+  "freeAttemptsLeft": 2,
+  "entryReported": false,
+  "players": 1,
+  "attempts": [
+    {
+      "userId": "5d1f2052a93b8d38b87750d3",
+      "username": "Radu",
+      "message": "test attempt",
+      "correct": false,
+      "correctAnswer": ""
+    }
+  ]
+}
