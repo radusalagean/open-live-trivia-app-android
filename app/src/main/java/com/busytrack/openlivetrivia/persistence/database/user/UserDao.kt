@@ -10,7 +10,7 @@ import com.busytrack.openlivetrivia.persistence.database.DatabaseConstants.Users
  * Data Access Object for the users table.
  */
 @Dao
-interface UserDao { // TODO test
+interface UserDao {
 
     @Query("DELETE FROM ${Users.TABLE_NAME}")
     fun clear()
