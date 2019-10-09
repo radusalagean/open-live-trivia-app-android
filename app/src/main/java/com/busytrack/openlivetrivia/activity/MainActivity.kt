@@ -20,7 +20,6 @@ class MainActivity : BaseActivity() {
     // Lifecycle callbacks
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        activityComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         addDefaultFragmentIfNecessary()
@@ -41,4 +40,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun getDefaultFragment() = AuthenticationFragment.newInstance()
+
+    override fun injectDependencies() {
+        activityComponent.inject(this)
+    }
 }

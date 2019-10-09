@@ -20,7 +20,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItemContract,
-    ScrollAwareRecyclerView.Listener { // TODO test
+    ScrollAwareRecyclerView.Listener {
 
     @Inject
     lateinit var presenter: LeaderboardMvp.Presenter
@@ -31,11 +31,6 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
     private var leaderboardAdapter: LeaderboardAdapter? = null
 
     // Lifecycle callbacks
-
-    override fun onAttach(context: Context) {
-        (this.context as BaseActivity).activityComponent.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -127,6 +122,12 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
     override fun setRefreshingIndicator(refreshing: Boolean) {
         leaderboard_swipe_refresh_layout.isRefreshing = refreshing
     }
+
+    override fun injectDependencies() {
+        (this.context as BaseActivity).activityComponent.inject(this)
+    }
+
+    // Private
 
     private fun triggerFullRefresh() {
         leaderboardAdapter?.clearList()

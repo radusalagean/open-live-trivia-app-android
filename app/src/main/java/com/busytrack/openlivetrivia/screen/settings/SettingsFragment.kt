@@ -1,6 +1,5 @@
 package com.busytrack.openlivetrivia.screen.settings
 
-import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.preference.Preference
@@ -18,11 +17,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var dialogManager: DialogManager
-
-    override fun onAttach(context: Context) {
-        (this.context as BaseActivity).activityComponent.inject(this)
-        super.onAttach(context)
-    }
 
     // BaseFragment implementation
 
@@ -55,7 +49,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean { // TODO test
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         if (preference?.key == getString(R.string.pref_key_delete_account)) {
             dialogManager.showAlertDialog(
                 titleResId = R.string.dialog_delete_account_title,
@@ -67,6 +61,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return true
         }
         return super.onPreferenceTreeClick(preference)
+    }
+
+    // BaseFragment implementation
+
+    override fun injectDependencies() {
+        (this.context as BaseActivity).activityComponent.inject(this)
     }
 
     companion object {

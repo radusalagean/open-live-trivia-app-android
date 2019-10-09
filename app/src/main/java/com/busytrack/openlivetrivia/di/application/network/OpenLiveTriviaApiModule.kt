@@ -1,6 +1,7 @@
 package com.busytrack.openlivetrivia.di.application.network
 
 import com.busytrack.openlivetrivia.di.application.ApplicationScope
+import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
 import com.busytrack.openlivetrivia.network.NAMED_BASE_URL
 import com.busytrack.openlivetrivia.network.NAMED_HEADER_INTERCEPTOR
 import com.busytrack.openlivetrivia.network.NAMED_LOGGING_INTERCEPTOR
@@ -9,7 +10,6 @@ import com.busytrack.openlivetriviainterface.BuildConfig.*
 import com.busytrack.openlivetriviainterface.rest.OpenLiveTriviaApiService
 import dagger.Module
 import dagger.Provides
-import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -40,9 +40,10 @@ class OpenLiveTriviaApiModule : ApiModuleContract<OpenLiveTriviaApiService> {
     @ApplicationScope
     override fun provideRetrofit(
         @Named(NAMED_BASE_URL) baseUrl: String,
+        schedulerProvider: BaseSchedulerProvider,
         okHttpClient: OkHttpClient
     ): Retrofit = Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(schedulerProvider.io()))
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

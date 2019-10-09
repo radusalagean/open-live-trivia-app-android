@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.layout_register.*
 import kotlinx.android.synthetic.main.layout_register.view.*
 import javax.inject.Inject
 
-class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, AuthenticationContract { // TODO test
+open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, AuthenticationContract {
     @Inject
     lateinit var presenter: AuthenticationMvp.Presenter
 
@@ -37,11 +37,6 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
     private val pagerAdapter = AuthenticationAdapter(this)
 
     // Lifecycle callbacks
-
-    override fun onAttach(context: Context) {
-        (this.context as BaseActivity).activityComponent.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,6 +93,10 @@ class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Authentic
         presenter as BaseMvp.Presenter<T>
 
     override fun getInfoBarContainer(): ViewGroup = authentication_root_view
+
+    override fun injectDependencies() {
+        (this.context as BaseActivity).activityComponent.inject(this)
+    }
 
     // Mvp Implementation
 

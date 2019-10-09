@@ -9,23 +9,24 @@ import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
 import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
+import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
 import com.busytrack.openlivetriviainterface.rest.model.OutgoingRegisterModel
 import com.busytrack.openlivetriviainterface.rest.model.SystemInfoModel
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
 import timber.log.Timber
 import java.net.HttpURLConnection
 
-class AuthenticationPresenter( // TODO test
+class AuthenticationPresenter(
     model: AuthenticationMvp.Model,
     activityContract: ActivityContract,
+    schedulerProvider: BaseSchedulerProvider,
     private val authenticationManager: AuthenticationManager,
     private val authorizationManager: AuthorizationManager,
     private val dialogManager: DialogManager
-) : BasePresenter<AuthenticationMvp.View, AuthenticationMvp.Model>(model, activityContract),
+) : BasePresenter<AuthenticationMvp.View, AuthenticationMvp.Model>(model, activityContract, schedulerProvider),
     AuthenticationMvp.Presenter {
 
     override fun initViewModel(fragment: Fragment) {
@@ -35,7 +36,7 @@ class AuthenticationPresenter( // TODO test
     override fun checkServerCompatibility() {
         refreshing = true
         disposer.add(model.getSystemInfo()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<SystemInfoModel>() {
                 override fun onNext(t: SystemInfoModel) {
                     if (BuildConfig.VERSION_CODE < t.minAppVersionCode) {
@@ -75,7 +76,7 @@ class AuthenticationPresenter( // TODO test
     override fun login() {
         refreshing = true
         disposer.add(model.login()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<UserModel>() {
                 override fun onNext(t: UserModel) {
                     authenticationManager.setAuthenticatedUser(t)
@@ -111,7 +112,7 @@ class AuthenticationPresenter( // TODO test
         val registerModel = OutgoingRegisterModel(username)
         disposer.add(
             model.registerUser(registerModel)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulerProvider.main())
                 .subscribeWith(object : ReactiveObserver<UserModel>(this) {
                     override fun onNext(t: UserModel) {
                         authenticationManager.setAuthenticatedUser(t)
@@ -133,7 +134,7 @@ class AuthenticationPresenter( // TODO test
     override fun checkUsernameAvailability(username: String) {
         disposer.add(
             model.checkUsernameAvailability(username)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulerProvider.main())
                 .subscribeWith(object : DisposableCompletableObserver() {
                     override fun onError(e: Throwable) {
                         Timber.e(e)

@@ -16,7 +16,7 @@ class ResizeAwareRecyclerView(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         if (oldh > h) {
-            adapter?.let { scrollToPosition(it.itemCount - 1) } // TODO check if needs further work
+            adapter?.let { scrollToPosition(it.itemCount - 1) }
         }
     }
 }

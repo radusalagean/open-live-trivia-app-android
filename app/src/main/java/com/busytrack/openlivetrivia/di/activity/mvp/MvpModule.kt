@@ -4,6 +4,7 @@ import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
+import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
 import com.busytrack.openlivetrivia.network.NetworkRepository
 import com.busytrack.openlivetrivia.persistence.database.DatabaseRepository
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationModel
@@ -44,11 +45,13 @@ class MvpModule {
     fun provideAuthenticationPresenter(
         model: AuthenticationMvp.Model,
         activityContract: ActivityContract,
+        schedulerProvider: BaseSchedulerProvider,
         authenticationManager: AuthenticationManager,
         authorizationManager: AuthorizationManager,
         dialogManager: DialogManager
     ): AuthenticationMvp.Presenter =
-        AuthenticationPresenter(model, activityContract, authenticationManager, authorizationManager, dialogManager)
+        AuthenticationPresenter(model, activityContract, schedulerProvider,
+            authenticationManager, authorizationManager, dialogManager)
 
     // Main Menu Screen
 
@@ -60,9 +63,10 @@ class MvpModule {
     fun provideMainMenuPresenter(
         model: MainMenuMvp.Model,
         activityContract: ActivityContract,
+        schedulerProvider: BaseSchedulerProvider,
         authenticationManager: AuthenticationManager
     ): MainMenuMvp.Presenter =
-        MainMenuPresenter(model, activityContract, authenticationManager)
+        MainMenuPresenter(model, activityContract, schedulerProvider, authenticationManager)
 
     // Game Screen
 
@@ -74,10 +78,11 @@ class MvpModule {
     fun provideGamePresenter(
         model: GameMvp.Model,
         activityContract: ActivityContract,
+        schedulerProvider: BaseSchedulerProvider,
         socketHub: SocketHub,
         authorizationManager: AuthorizationManager
     ): GameMvp.Presenter =
-        GamePresenter(model, activityContract, socketHub, authorizationManager)
+        GamePresenter(model, activityContract, schedulerProvider, socketHub, authorizationManager)
 
     // Leaderboard Screen
 
@@ -91,9 +96,10 @@ class MvpModule {
     @Provides
     fun provideLeaderboardPresenter(
         model: LeaderboardMvp.Model,
-        activityContract: ActivityContract
+        activityContract: ActivityContract,
+        schedulerProvider: BaseSchedulerProvider
     ): LeaderboardMvp.Presenter =
-        LeaderboardPresenter(model, activityContract)
+        LeaderboardPresenter(model, activityContract, schedulerProvider)
 
     // Moderate Reports Screen
 
@@ -105,8 +111,10 @@ class MvpModule {
     @Provides
     fun provideModerateReportsPresenter(
         model: ModerateReportsMvp.Model,
-        activityContract: ActivityContract
-    ): ModerateReportsMvp.Presenter = ModerateReportsPresenter(model, activityContract)
+        activityContract: ActivityContract,
+        schedulerProvider: BaseSchedulerProvider
+    ): ModerateReportsMvp.Presenter = ModerateReportsPresenter(model, activityContract,
+        schedulerProvider)
 
     // Settings Screen
 
@@ -118,6 +126,8 @@ class MvpModule {
     fun provideSettingsPresenter(
         model: SettingsMvp.Model,
         activityContract: ActivityContract,
+        schedulerProvider: BaseSchedulerProvider,
         authenticationManager: AuthenticationManager
-    ): SettingsMvp.Presenter = SettingsPresenter(model, activityContract, authenticationManager)
+    ): SettingsMvp.Presenter = SettingsPresenter(model, activityContract, schedulerProvider,
+        authenticationManager)
 }

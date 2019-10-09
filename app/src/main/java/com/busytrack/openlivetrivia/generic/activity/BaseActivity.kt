@@ -38,6 +38,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.tag(logTag).v("-A-> onCreate($savedInstanceState)")
+        injectDependencies()
         super.onCreate(savedInstanceState)
     }
 
@@ -250,6 +251,13 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
      * Override to specify the default fragment to be added with the [addDefaultFragmentIfNecessary] method
      */
     protected abstract fun getDefaultFragment(): BaseFragment
+
+    /**
+     * Override to inject dependencies
+     */
+    protected open fun injectDependencies() {
+        // empty implementation
+    }
 
     // Private
 

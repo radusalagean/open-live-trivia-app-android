@@ -17,6 +17,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
 
     override fun onAttach(context: Context) {
         Timber.tag(logTag).d("-F-> onAttach($context)")
+        injectDependencies()
         super.onAttach(context)
     }
 
@@ -144,7 +145,7 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
      * Called during the [Fragment.onViewCreated] lifecycle method,
      * override to restore data saved in the instance state bundle
      */
-    protected fun restoreInstanceState(savedInstanceState: Bundle) {
+    protected open fun restoreInstanceState(savedInstanceState: Bundle) {
         // empty implementation
     }
 
@@ -185,4 +186,11 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
      * Override to return the preferred container for info messages
      */
     abstract fun getInfoBarContainer(): ViewGroup
+
+    /**
+     * Override to inject dependencies
+     */
+    protected open fun injectDependencies() {
+        // empty implementation
+    }
 }

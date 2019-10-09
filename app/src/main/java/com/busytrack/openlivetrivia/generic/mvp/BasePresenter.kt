@@ -3,6 +3,8 @@ package com.busytrack.openlivetrivia.generic.mvp
 import androidx.test.espresso.IdlingResource
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.observer.ReactiveListener
+import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
+import com.busytrack.openlivetrivia.generic.scheduler.SchedulerProvider
 import com.busytrack.openlivetrivia.test.EspressoIdlingContract
 import com.busytrack.openlivetrivia.test.EspressoGlobalIdlingResource
 import io.reactivex.disposables.CompositeDisposable
@@ -11,7 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger
 
 abstract class BasePresenter<T : BaseMvp.View, S : BaseMvp.Model<*>>(
     protected val model: S,
-    protected val activityContract: ActivityContract
+    protected val activityContract: ActivityContract,
+    protected val schedulerProvider: BaseSchedulerProvider
 ) : BaseMvp.Presenter<T>, ReactiveListener, EspressoIdlingContract {
 
     // Mvp Implementation

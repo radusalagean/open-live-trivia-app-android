@@ -8,22 +8,23 @@ import com.busytrack.openlivetrivia.auth.AuthorizationManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
 import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
+import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
 import com.busytrack.openlivetrivia.test.EspressoRoundIdlingResource
 import com.busytrack.openlivetriviainterface.rest.model.MessageModel
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.SocketHub
 import com.busytrack.openlivetriviainterface.socket.event.SocketEventListener
 import com.busytrack.openlivetriviainterface.socket.model.*
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class GamePresenter( // TODO test
     model: GameMvp.Model,
     activityContract: ActivityContract,
+    schedulerProvider: BaseSchedulerProvider,
     private val socketHub: SocketHub,
     private val authorizationManager: AuthorizationManager
-) : BasePresenter<GameMvp.View, GameMvp.Model>(model, activityContract),
+) : BasePresenter<GameMvp.View, GameMvp.Model>(model, activityContract, schedulerProvider),
     GameMvp.Presenter,
     SocketEventListener,
     CoroutineScope,
@@ -84,7 +85,7 @@ class GamePresenter( // TODO test
 
     override fun upgradeToMod(user: UserModel) {
         disposer.add(model.upgradeToMod(user.userId)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
                 override fun onNext(t: MessageModel) {
                     activityContract.showInfoMessage(
@@ -104,7 +105,7 @@ class GamePresenter( // TODO test
 
     override fun downgradeToRegular(user: UserModel) {
         disposer.add(model.downgradeToRegular(user.userId)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
                 override fun onNext(t: MessageModel) {
                     activityContract.showInfoMessage(

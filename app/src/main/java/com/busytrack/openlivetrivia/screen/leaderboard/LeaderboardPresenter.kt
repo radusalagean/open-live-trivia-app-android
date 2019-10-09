@@ -5,16 +5,16 @@ import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
 import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
+import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
 import com.busytrack.openlivetriviainterface.rest.model.MessageModel
 import com.busytrack.openlivetriviainterface.rest.model.PaginatedResponseModel
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class LeaderboardPresenter( // TODO test
     model: LeaderboardMvp.Model,
-    activityContract: ActivityContract
-) : BasePresenter<LeaderboardMvp.View, LeaderboardMvp.Model>(model, activityContract),
+    activityContract: ActivityContract,
+    schedulerProvider: BaseSchedulerProvider
+) : BasePresenter<LeaderboardMvp.View, LeaderboardMvp.Model>(model, activityContract, schedulerProvider),
     LeaderboardMvp.Presenter {
 
     private var loadingMoreContent = false
@@ -41,7 +41,7 @@ class LeaderboardPresenter( // TODO test
         }
         refreshing = true
         disposer.add(model.initLeaderboard()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : ReactiveObserver<PaginatedResponseModel<UserModel>>(this) {
                 override fun onNext(t: PaginatedResponseModel<UserModel>) {
                     view?.updateLeaderboard(model.viewModel.users)
@@ -58,8 +58,8 @@ class LeaderboardPresenter( // TODO test
     private fun requestCachedLeaderboard() {
         refreshing = true
         disposer.add(model.getCachedLeaderboard()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : ReactiveObserver<List<UserModel>>(this) {
                 override fun onNext(t: List<UserModel>) {
                     view?.updateLeaderboard(model.viewModel.users)
@@ -72,7 +72,7 @@ class LeaderboardPresenter( // TODO test
         if (loadingMoreContent || model.viewModel.nextAvailablePage == null) return
         loadingMoreContent = true
         disposer.add(model.getNextLeaderboardPage()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : ReactiveObserver<PaginatedResponseModel<UserModel>>(this) {
                 override fun onNext(t: PaginatedResponseModel<UserModel>) {
                     view?.updateLeaderboard(model.viewModel.users)
@@ -92,7 +92,7 @@ class LeaderboardPresenter( // TODO test
 
     override fun upgradeToMod(user: UserModel) {
         disposer.add(model.upgradeToMod(user.userId)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
                 override fun onNext(t: MessageModel) {
                     activityContract.showInfoMessage(
@@ -112,7 +112,7 @@ class LeaderboardPresenter( // TODO test
 
     override fun downgradeToRegular(user: UserModel) {
         disposer.add(model.downgradeToRegular(user.userId)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
                 override fun onNext(t: MessageModel) {
                     activityContract.showInfoMessage(

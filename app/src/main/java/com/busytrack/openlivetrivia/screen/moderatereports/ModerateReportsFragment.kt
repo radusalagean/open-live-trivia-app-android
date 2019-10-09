@@ -20,7 +20,7 @@ import javax.inject.Inject
 class ModerateReportsFragment : BaseFragment(),
     ModerateReportsMvp.View,
     PagerViewListener,
-    ModerateReportsItemContract { // TODO test
+    ModerateReportsItemContract {
 
     @Inject
     lateinit var presenter: ModerateReportsMvp.Presenter
@@ -57,11 +57,6 @@ class ModerateReportsFragment : BaseFragment(),
     )
 
     // Fragment lifecycle
-
-    override fun onAttach(context: Context) {
-        (this.context as BaseActivity).activityComponent.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -147,6 +142,10 @@ class ModerateReportsFragment : BaseFragment(),
         presenter as BaseMvp.Presenter<T>
 
     override fun getInfoBarContainer(): ViewGroup = moderate_reports_root_view
+
+    override fun injectDependencies() {
+        (this.context as BaseActivity).activityComponent.inject(this)
+    }
 
     // Mvp Implementation
 

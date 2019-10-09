@@ -6,14 +6,15 @@ import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
 import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
+import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 
 class MainMenuPresenter( // TODO test
     model: MainMenuMvp.Model,
     activityContract: ActivityContract,
+    schedulerProvider: BaseSchedulerProvider,
     private val authenticationManager: AuthenticationManager
-) : BasePresenter<MainMenuMvp.View, MainMenuMvp.Model>(model, activityContract), MainMenuMvp.Presenter {
+) : BasePresenter<MainMenuMvp.View, MainMenuMvp.Model>(model, activityContract, schedulerProvider), MainMenuMvp.Presenter {
 
     override fun initViewModel(fragment: Fragment) {
         model.initViewModel(fragment, MainMenuViewModel::class.java)
@@ -21,7 +22,7 @@ class MainMenuPresenter( // TODO test
 
     override fun requestMyAccountInfo() {
         disposer.add(model.getMe()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : ReactiveObserver<UserModel>(this) {
                 override fun onNext(t: UserModel) {
                     authenticationManager.setAuthenticatedUser(t)

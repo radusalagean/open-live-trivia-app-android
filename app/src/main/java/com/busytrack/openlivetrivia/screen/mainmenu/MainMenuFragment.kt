@@ -27,7 +27,7 @@ import javax.inject.Inject
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
-class MainMenuFragment : BaseFragment(), MainMenuMvp.View { // TODO test
+class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     @Inject
     lateinit var presenter: MainMenuMvp.Presenter
 
@@ -47,11 +47,6 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View { // TODO test
     lateinit var dialogManager: DialogManager
 
     // Lifecycle callbacks
-
-    override fun onAttach(context: Context) {
-        (this.context as BaseActivity).activityComponent.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -120,6 +115,10 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View { // TODO test
         presenter as BaseMvp.Presenter<T>
 
     override fun getInfoBarContainer(): ViewGroup = main_menu_root_layout
+
+    override fun injectDependencies() {
+        (this.context as BaseActivity).activityComponent.inject(this)
+    }
 
     // Mvp Implementation
 

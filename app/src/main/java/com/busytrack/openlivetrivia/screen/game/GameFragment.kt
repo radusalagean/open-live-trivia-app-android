@@ -1,6 +1,5 @@
 package com.busytrack.openlivetrivia.screen.game
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -41,9 +40,9 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptContract,
+open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptContract,
     PopupMenu.OnMenuItemClickListener, GamePlayerContract
-{ // TODO test
+{
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
@@ -101,11 +100,6 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     }
 
     // Lifecycle callbacks
-
-    override fun onAttach(context: Context) {
-        (this.context as BaseActivity).activityComponent.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -422,6 +416,10 @@ class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptCo
     }
 
     override fun getInfoBarContainer(): ViewGroup = game_root_view
+
+    override fun injectDependencies() {
+        (this.context as BaseActivity).activityComponent.inject(this)
+    }
 
     // Private
 

@@ -4,17 +4,18 @@ import androidx.fragment.app.Fragment
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.mvp.BasePresenter
+import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
 import com.busytrack.openlivetriviainterface.rest.model.EntryReportModel
 import com.busytrack.openlivetriviainterface.rest.model.MessageModel
 import com.busytrack.openlivetriviainterface.rest.model.PaginatedResponseModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableObserver
 import timber.log.Timber
 
 class ModerateReportsPresenter( // TODO test
     model: ModerateReportsMvp.Model,
-    activityContract: ActivityContract
-) : BasePresenter<ModerateReportsMvp.View, ModerateReportsMvp.Model>(model, activityContract),
+    activityContract: ActivityContract,
+    schedulerProvider: BaseSchedulerProvider
+) : BasePresenter<ModerateReportsMvp.View, ModerateReportsMvp.Model>(model, activityContract, schedulerProvider),
     ModerateReportsMvp.Presenter {
 
     override fun initViewModel(fragment: Fragment) {
@@ -65,7 +66,7 @@ class ModerateReportsPresenter( // TODO test
         }
         refreshingReportedEntries = true
         disposer.add(model.initReportedEntries()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<PaginatedResponseModel<EntryReportModel>>() {
                 override fun onNext(t: PaginatedResponseModel<EntryReportModel>) {
                     view?.updateReportedEntries(model.viewModel.reportedEntries)
@@ -98,7 +99,7 @@ class ModerateReportsPresenter( // TODO test
         }
         refreshingBannedEntries = true
         disposer.add(model.initBannedEntries()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<PaginatedResponseModel<EntryReportModel>>() {
                 override fun onNext(t: PaginatedResponseModel<EntryReportModel>) {
                     view?.updateBannedEntries(model.viewModel.bannedEntries)
@@ -120,7 +121,7 @@ class ModerateReportsPresenter( // TODO test
         if (loadingMoreReportedEntries || model.viewModel.nextAvailablePageReportedEntries == null) return
         loadingMoreReportedEntries = true
         disposer.add(model.getNextReportedEntriesPage()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<PaginatedResponseModel<EntryReportModel>>() {
                 override fun onNext(t: PaginatedResponseModel<EntryReportModel>) {
                     view?.updateReportedEntries(model.viewModel.reportedEntries)
@@ -142,7 +143,7 @@ class ModerateReportsPresenter( // TODO test
         if (loadingMoreBannedEntries || model.viewModel.nextAvailablePageBannedEntries == null) return
         loadingMoreBannedEntries = true
         disposer.add(model.getNextBannedEntriesPage()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<PaginatedResponseModel<EntryReportModel>>() {
                 override fun onNext(t: PaginatedResponseModel<EntryReportModel>) {
                     view?.updateBannedEntries(model.viewModel.bannedEntries)
@@ -162,7 +163,7 @@ class ModerateReportsPresenter( // TODO test
 
     override fun banEntry(entry: EntryReportModel) {
         disposer.add(model.banEntry(entry.reportId)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<MessageModel>() {
                 override fun onNext(t: MessageModel) {
                     requestReportedEntries(true)
@@ -182,7 +183,7 @@ class ModerateReportsPresenter( // TODO test
 
     override fun unbanEntry(entry: EntryReportModel) {
         disposer.add(model.unbanEntry(entry.reportId)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<MessageModel>() {
                 override fun onNext(t: MessageModel) {
                     requestReportedEntries(true)
@@ -202,7 +203,7 @@ class ModerateReportsPresenter( // TODO test
 
     override fun dismissReport(entry: EntryReportModel) {
         disposer.add(model.dismissReport(entry.reportId)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<MessageModel>() {
                 override fun onNext(t: MessageModel) {
                     requestReportedEntries(true)

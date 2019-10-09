@@ -58,6 +58,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     lintOptions {
         disable 'InvalidPackage'
         disable 'SetTextI18n'
@@ -118,6 +121,9 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
+    implementation "androidx.fragment:fragment:$fragmentVersion"
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    implementation "androidx.fragment:fragment-testing:$fragmentVersion"
     implementation ("io.socket:socket.io-client:$socketioVersion") {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'

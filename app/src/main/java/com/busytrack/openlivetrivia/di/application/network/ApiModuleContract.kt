@@ -1,5 +1,6 @@
 package com.busytrack.openlivetrivia.di.application.network
 
+import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -27,7 +28,11 @@ interface ApiModuleContract<T> {
     /**
      * Provide the {@link Retrofit} instance
      */
-    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient): Retrofit
+    fun provideRetrofit(
+        baseUrl: String,
+        schedulerProvider: BaseSchedulerProvider,
+        okHttpClient: OkHttpClient
+    ): Retrofit
 
     /**
      * Provide the API Service of type {@link T}

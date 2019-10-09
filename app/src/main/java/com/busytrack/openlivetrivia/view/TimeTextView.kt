@@ -78,6 +78,9 @@ open class TimeTextView(
         timestamp = null
     }
 
+    /**
+     * <!> TODO rewrite logic
+     */
     private fun getTimeString(time: Long): String {
         if (sharedPreferencesRepository.isRelativeTimeEnabled()) {
             val currentTime = System.currentTimeMillis()
@@ -86,24 +89,28 @@ open class TimeTextView(
                 return "Negative time" // TODO move all hardcoded strings to strings.xml
             if (currentTime - time < 1000)
                 return "Just now"
-            val delta = (currentTime - time) / 1000
-            if (delta in 0 until 60)
-                return "A few seconds ago"
-            else if (delta in 60 until 60 * 60) {
-                dividedTime = delta / 60
-                return if (dividedTime == 1L) "$dividedTime minute ago" else "$dividedTime minutes ago"
-            } else if (delta in 60 * 60 until 24 * 60 * 60) {
-                dividedTime = delta / (60 * 60)
-                return if (dividedTime == 1L) "$dividedTime hour ago" else "$dividedTime hours ago"
-            } else if (delta in 24 * 60 * 60 until 30 * 24 * 60 * 60) {
-                dividedTime = delta / (24 * 60 * 60)
-                return if (dividedTime == 1L) "$dividedTime day ago" else "$dividedTime days ago"
-            } else if (delta in 30 * 24 * 60 * 60 until 12 * 30 * 24 * 60 * 60) {
-                dividedTime = delta / (30 * 24 * 60 * 60)
-                return if (dividedTime == 1L) "$dividedTime month ago" else "$dividedTime months ago"
-            } else {
-                dividedTime = delta / (12 * 30 * 24 * 60 * 60)
-                return if (dividedTime == 1L) "$dividedTime year ago" else "$dividedTime years ago"
+            when (val delta = (currentTime - time) / 1000) {
+                in 0 until 60 -> return "A few seconds ago"
+                in 60 until 60 * 60 -> {
+                    dividedTime = delta / 60
+                    return if (dividedTime == 1L) "$dividedTime minute ago" else "$dividedTime minutes ago"
+                }
+                in 60 * 60 until 24 * 60 * 60 -> {
+                    dividedTime = delta / (60 * 60)
+                    return if (dividedTime == 1L) "$dividedTime hour ago" else "$dividedTime hours ago"
+                }
+                in 24 * 60 * 60 until 30 * 24 * 60 * 60 -> {
+                    dividedTime = delta / (24 * 60 * 60)
+                    return if (dividedTime == 1L) "$dividedTime day ago" else "$dividedTime days ago"
+                }
+                in 30 * 24 * 60 * 60 until 12 * 30 * 24 * 60 * 60 -> {
+                    dividedTime = delta / (30 * 24 * 60 * 60)
+                    return if (dividedTime == 1L) "$dividedTime month ago" else "$dividedTime months ago"
+                }
+                else -> {
+                    dividedTime = delta / (12 * 30 * 24 * 60 * 60)
+                    return if (dividedTime == 1L) "$dividedTime year ago" else "$dividedTime years ago"
+                }
             }
         } else {
             val date = Date(time)
