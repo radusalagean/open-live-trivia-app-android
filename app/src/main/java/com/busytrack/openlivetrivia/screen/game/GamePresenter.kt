@@ -18,7 +18,7 @@ import com.busytrack.openlivetriviainterface.socket.model.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class GamePresenter( // TODO test
+class GamePresenter(
     model: GameMvp.Model,
     activityContract: ActivityContract,
     schedulerProvider: BaseSchedulerProvider,
@@ -127,9 +127,7 @@ class GamePresenter( // TODO test
 
     override fun onConnected() {
         launch {
-            socketHub.authenticate(async {
-                authorizationManager.getIdToken()
-            }.await()!!)
+            socketHub.authenticate(authorizationManager.getIdToken()!!)
         }
     }
 

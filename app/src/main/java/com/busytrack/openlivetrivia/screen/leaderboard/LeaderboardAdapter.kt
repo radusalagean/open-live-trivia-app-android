@@ -12,7 +12,7 @@ class LeaderboardAdapter(
     private val leaderboardItemContract: LeaderboardItemContract,
     private var users: ArrayList<UserModel?>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-    DynamicLoadAdapter<UserModel> { // TODO test
+    DynamicLoadAdapter<UserModel> {
 
     init {
         setHasStableIds(true)

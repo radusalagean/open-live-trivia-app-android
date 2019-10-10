@@ -4,7 +4,7 @@ import android.view.View
 import com.busytrack.openlivetriviainterface.socket.model.AttemptModel
 import kotlinx.android.synthetic.main.layout_attempt.view.*
 
-class GameOwnAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView) { // TODO test
+class GameOwnAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView) {
     fun bind(model: AttemptModel, contract: GameAttemptContract) {
         itemView.setOnClickListener {
             contract.onAttemptClicked(model.message)

@@ -11,7 +11,7 @@ import io.reactivex.Observable
 class LeaderboardModel(
     private val networkRepository: NetworkRepository,
     private val databaseRepository: DatabaseRepository
-) : BaseModel<LeaderboardViewModel>(), LeaderboardMvp.Model { // TODO test
+) : BaseModel<LeaderboardViewModel>(), LeaderboardMvp.Model {
 
     override fun initLeaderboard(): Observable<PaginatedResponseModel<UserModel>> =
         networkRepository.getLeaderboard()

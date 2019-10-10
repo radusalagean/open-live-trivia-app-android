@@ -42,7 +42,7 @@ class LeaderboardUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
         }
     }
 
-    private fun handlePodium(position: Int = 0) { // TODO test
+    private fun handlePodium(position: Int = 0) {
         val background = when(position) {
             1 -> R.drawable.text_view_user_coin_indicator_gold_background
             2 -> R.drawable.text_view_user_coin_indicator_silver_background

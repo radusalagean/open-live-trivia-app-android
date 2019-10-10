@@ -9,7 +9,7 @@ import com.busytrack.openlivetriviainterface.socket.model.AttemptModel
 private const val ATTEMPT_TYPE_OWN = 0
 private const val ATTEMPT_TYPE_PEER = 1
 
-class GameAttemptsAdapter( // TODO test
+class GameAttemptsAdapter(
     private val contract: GameAttemptContract,
     private val attempts: ArrayList<AttemptModel>,
     private val authenticatedUserId: String

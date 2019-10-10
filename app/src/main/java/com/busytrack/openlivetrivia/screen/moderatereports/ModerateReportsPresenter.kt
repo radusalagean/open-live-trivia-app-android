@@ -11,7 +11,7 @@ import com.busytrack.openlivetriviainterface.rest.model.PaginatedResponseModel
 import io.reactivex.observers.DisposableObserver
 import timber.log.Timber
 
-class ModerateReportsPresenter( // TODO test
+class ModerateReportsPresenter(
     model: ModerateReportsMvp.Model,
     activityContract: ActivityContract,
     schedulerProvider: BaseSchedulerProvider
@@ -166,8 +166,7 @@ class ModerateReportsPresenter( // TODO test
             .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<MessageModel>() {
                 override fun onNext(t: MessageModel) {
-                    requestReportedEntries(true)
-                    requestBannedEntries(true)
+                    initAllLists()
                 }
 
                 override fun onError(e: Throwable) {
@@ -186,8 +185,7 @@ class ModerateReportsPresenter( // TODO test
             .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<MessageModel>() {
                 override fun onNext(t: MessageModel) {
-                    requestReportedEntries(true)
-                    requestBannedEntries(true)
+                    initAllLists()
                 }
 
                 override fun onError(e: Throwable) {
@@ -206,8 +204,7 @@ class ModerateReportsPresenter( // TODO test
             .observeOn(schedulerProvider.main())
             .subscribeWith(object : DisposableObserver<MessageModel>() {
                 override fun onNext(t: MessageModel) {
-                    requestReportedEntries(true)
-                    requestBannedEntries(true)
+                    initAllLists()
                 }
 
                 override fun onError(e: Throwable) {
@@ -219,6 +216,11 @@ class ModerateReportsPresenter( // TODO test
                     activityContract.showInfoMessage(R.string.message_report_dismissed)
                 }
             }))
+    }
+
+    private fun initAllLists() {
+        requestReportedEntries(true)
+        requestBannedEntries(true)
     }
 
     // EspressoGlobalIdlingResource implementation

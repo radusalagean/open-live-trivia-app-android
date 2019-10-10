@@ -7,7 +7,7 @@ import com.busytrack.openlivetriviainterface.rest.model.MessageModel
 import com.busytrack.openlivetriviainterface.rest.model.PaginatedResponseModel
 import io.reactivex.Observable
 
-class ModerateReportsModel( // TODO test
+class ModerateReportsModel(
     private val networkRepository: NetworkRepository
 ) : BaseModel<ModerateReportsViewModel>(), ModerateReportsMvp.Model {
 

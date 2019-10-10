@@ -30,11 +30,11 @@ class ModerateReportsReportedEntriesTab(
         rootView = null
     }
 
-    override fun setRefreshIndicatorState(refreshing: Boolean) { // TODO test
+    override fun setRefreshIndicatorState(refreshing: Boolean) {
         rootView?.swipe_refresh_reported_entries?.isRefreshing = refreshing
     }
 
-    override fun syncState() { // TODO test
+    override fun syncState() {
         rootView?.apply {
             swipe_refresh_reported_entries?.isRefreshing = refreshing
         }

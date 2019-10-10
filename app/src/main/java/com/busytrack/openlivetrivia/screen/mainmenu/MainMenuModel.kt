@@ -7,7 +7,7 @@ import io.reactivex.Observable
 
 class MainMenuModel(
     private val networkRepository: NetworkRepository
-) : BaseModel<MainMenuViewModel>(), MainMenuMvp.Model { // TODO test
+) : BaseModel<MainMenuViewModel>(), MainMenuMvp.Model {
 
     override fun getMe(): Observable<UserModel> =
         networkRepository.getMe()

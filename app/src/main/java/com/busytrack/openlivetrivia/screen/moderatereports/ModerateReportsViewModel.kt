@@ -3,7 +3,7 @@ package com.busytrack.openlivetrivia.screen.moderatereports
 import com.busytrack.openlivetrivia.generic.viewmodel.BaseViewModel
 import com.busytrack.openlivetriviainterface.rest.model.EntryReportModel
 
-class ModerateReportsViewModel : BaseViewModel() { // TODO test
+class ModerateReportsViewModel : BaseViewModel() {
 
     var reportedEntries = arrayListOf<EntryReportModel>()
     var bannedEntries = arrayListOf<EntryReportModel>()

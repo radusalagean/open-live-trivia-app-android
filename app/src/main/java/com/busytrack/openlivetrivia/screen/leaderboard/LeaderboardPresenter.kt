@@ -10,7 +10,7 @@ import com.busytrack.openlivetriviainterface.rest.model.MessageModel
 import com.busytrack.openlivetriviainterface.rest.model.PaginatedResponseModel
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 
-class LeaderboardPresenter( // TODO test
+class LeaderboardPresenter(
     model: LeaderboardMvp.Model,
     activityContract: ActivityContract,
     schedulerProvider: BaseSchedulerProvider

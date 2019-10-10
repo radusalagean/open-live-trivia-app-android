@@ -5,7 +5,7 @@ import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.generic.viewpager.BasePagerAdapter
 import com.busytrack.openlivetrivia.generic.viewpager.PagerViewListener
 
-class ModerateReportsPagerAdapter( // TODO test
+class ModerateReportsPagerAdapter(
     private val context: Context,
     pagerViewListener: PagerViewListener
 ) : BasePagerAdapter(pagerViewListener) {

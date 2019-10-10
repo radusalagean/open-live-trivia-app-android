@@ -9,7 +9,7 @@ import com.busytrack.openlivetrivia.generic.observer.ReactiveObserver
 import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
 import com.busytrack.openlivetriviainterface.rest.model.MessageModel
 
-class SettingsPresenter( // TODO test
+class SettingsPresenter(
     model: SettingsMvp.Model,
     activityContract: ActivityContract,
     schedulerProvider: BaseSchedulerProvider,

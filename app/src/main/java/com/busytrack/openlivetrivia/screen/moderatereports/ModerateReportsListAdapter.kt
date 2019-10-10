@@ -10,7 +10,7 @@ import com.busytrack.openlivetriviainterface.rest.model.EntryReportModel
 import kotlinx.android.synthetic.main.item_reported_entry.view.*
 import kotlinx.android.synthetic.main.layout_base_entry.view.*
 
-class ModerateReportsListAdapter( // TODO test
+class ModerateReportsListAdapter(
     private val reports: ArrayList<EntryReportModel?> = arrayListOf(),
     private val contract: ModerateReportsItemContract
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
