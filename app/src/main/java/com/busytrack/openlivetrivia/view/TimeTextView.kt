@@ -7,9 +7,9 @@ import com.busytrack.openlivetrivia.broadcastreceiver.TimeAwareReceiver
 import com.busytrack.openlivetrivia.broadcastreceiver.TimeTickReceiver
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
+import com.google.android.gms.common.util.Strings
 import java.text.DateFormat
 import java.util.*
-import com.google.android.gms.common.util.Strings
 import javax.inject.Inject
 
 /**

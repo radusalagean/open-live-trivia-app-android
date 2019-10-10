@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
-import timber.log.Timber
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp.Presenter
+import timber.log.Timber
 
 abstract class BaseFragment : Fragment(), BaseMvp.View {
     private val logTag = javaClass.simpleName

@@ -1,12 +1,10 @@
 package com.busytrack.openlivetrivia.screen.leaderboard
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
@@ -16,7 +14,6 @@ import com.busytrack.openlivetrivia.rights.RightsManager
 import com.busytrack.openlivetrivia.view.ScrollAwareRecyclerView
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import kotlinx.android.synthetic.main.fragment_leaderboard.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItemContract,

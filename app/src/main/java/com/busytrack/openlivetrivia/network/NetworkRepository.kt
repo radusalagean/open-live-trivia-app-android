@@ -1,7 +1,7 @@
 package com.busytrack.openlivetrivia.network
 
 import com.busytrack.openlivetriviainterface.rest.OpenLiveTriviaApiService
-import com.busytrack.openlivetriviainterface.rest.model.*
+import com.busytrack.openlivetriviainterface.rest.model.OutgoingRegisterModel
 
 class NetworkRepository(private val openLiveTriviaApiService: OpenLiveTriviaApiService) {
 

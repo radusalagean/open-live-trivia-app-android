@@ -2,11 +2,11 @@ package com.busytrack.openlivetrivia.persistence.sharedprefs
 
 import android.content.SharedPreferences
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_COINS
-import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_ID
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_JOINED
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_RIGHTS
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesConstants.PREF_ACCOUNT_USERNAME
+import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
 import java.util.*
 

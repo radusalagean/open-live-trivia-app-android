@@ -1,11 +1,9 @@
 package com.busytrack.openlivetrivia.screen.moderatereports
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract

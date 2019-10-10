@@ -4,9 +4,8 @@ import androidx.test.espresso.IdlingResource
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.observer.ReactiveListener
 import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
-import com.busytrack.openlivetrivia.generic.scheduler.SchedulerProvider
-import com.busytrack.openlivetrivia.test.EspressoIdlingContract
 import com.busytrack.openlivetrivia.test.EspressoGlobalIdlingResource
+import com.busytrack.openlivetrivia.test.EspressoIdlingContract
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicInteger

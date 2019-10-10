@@ -2,7 +2,10 @@ package com.busytrack.openlivetrivia.generic.activity
 
 import android.content.Intent
 import androidx.annotation.IdRes
-import com.busytrack.openlivetrivia.infobar.*
+import com.busytrack.openlivetrivia.infobar.InfoBar
+import com.busytrack.openlivetrivia.infobar.TYPE_ERROR
+import com.busytrack.openlivetrivia.infobar.TYPE_INFO
+import com.busytrack.openlivetrivia.infobar.TYPE_WARN
 
 /**
  * The contract that open Activity-specific functionality to other components

@@ -2,8 +2,8 @@ package com.busytrack.openlivetrivia.generic.broadcastreceiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.IntentFilter
 import android.content.Intent
+import android.content.IntentFilter
 import timber.log.Timber
 
 /**

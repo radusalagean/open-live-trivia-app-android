@@ -10,7 +10,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import timber.log.Timber
-import java.lang.Exception
 
 class AuthenticationManager(
     private val sharedPreferencesRepository: SharedPreferencesRepository,

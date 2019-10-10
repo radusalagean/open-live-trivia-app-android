@@ -1,13 +1,11 @@
 package com.busytrack.openlivetrivia.screen.authentication
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import com.busytrack.openlivetrivia.BuildConfig
-
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
 import com.busytrack.openlivetrivia.dialog.DialogManager

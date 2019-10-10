@@ -11,8 +11,6 @@ import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
 import com.busytrack.openlivetrivia.di.activity.ActivityComponent
 import com.busytrack.openlivetrivia.di.activity.ActivityModule
-import io.github.inflationx.viewpump.ViewPumpContextWrapper
-import timber.log.Timber
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.infobar.*
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
@@ -22,6 +20,8 @@ import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
 import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsFragment
 import com.busytrack.openlivetrivia.screen.settings.SettingsFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import timber.log.Timber
 
 abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarContract {
     private val logTag : String = javaClass.simpleName

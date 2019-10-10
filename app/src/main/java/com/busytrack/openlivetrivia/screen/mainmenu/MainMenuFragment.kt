@@ -1,13 +1,11 @@
 package com.busytrack.openlivetrivia.screen.mainmenu
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.busytrack.openlivetrivia.BuildConfig
-
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.dialog.DialogManager

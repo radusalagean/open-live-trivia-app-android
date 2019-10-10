@@ -16,8 +16,6 @@
 
 package com.busytrack.openlivetrivia.generic.settings;
 
-import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP_PREFIX;
-
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
@@ -40,10 +38,27 @@ import androidx.annotation.XmlRes;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.preference.*;
+import androidx.preference.DialogPreference;
+import androidx.preference.EditTextPreference;
+import androidx.preference.EditTextPreferenceDialogFragmentCompat;
+import androidx.preference.ListPreference;
+import androidx.preference.ListPreferenceDialogFragmentCompat;
+import androidx.preference.MultiSelectListPreference;
+import androidx.preference.MultiSelectListPreferenceDialogFragmentCompat;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceGroupAdapter;
+import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceRecyclerViewAccessibilityDelegate;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.PreferenceViewHolder;
+import androidx.preference.R;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment;
+
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP_PREFIX;
 
 /**
  * A PreferenceFragmentCompat is the entry point to using the Preference library. This

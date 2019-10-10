@@ -6,7 +6,8 @@ import com.busytrack.openlivetrivia.network.NAMED_BASE_URL
 import com.busytrack.openlivetrivia.network.NAMED_HEADER_INTERCEPTOR
 import com.busytrack.openlivetrivia.network.NAMED_LOGGING_INTERCEPTOR
 import com.busytrack.openlivetrivia.network.NAMED_STETHO_INTERCEPTOR
-import com.busytrack.openlivetriviainterface.BuildConfig.*
+import com.busytrack.openlivetriviainterface.BuildConfig.API_PATH
+import com.busytrack.openlivetriviainterface.BuildConfig.ROOT_DOMAIN
 import com.busytrack.openlivetriviainterface.rest.OpenLiveTriviaApiService
 import dagger.Module
 import dagger.Provides
