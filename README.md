@@ -44,8 +44,16 @@ Found a bug in the app? Please open an [issue](https://github.com/radusalagean/o
 - [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - Kotlin implementation of [coroutines](https://en.wikipedia.org/wiki/Coroutine)
 - [Calligraphy](https://github.com/InflationX/Calligraphy/) - Custom fonts support lib
 - [Shimmer](https://github.com/facebook/shimmer-android) - Shimmer effects on Android Views
-- [Stetho](http://facebook.github.io/stetho/) - Debugging
-- [Timber](https://github.com/JakeWharton/timber) - Logging (Android Logcat wrapper)
+- [Stetho](http://facebook.github.io/stetho/) (**Debug variant only**) - Debugging
+- [Timber](https://github.com/JakeWharton/timber) (**Debug variant only**) - Logging (Android Logcat wrapper)
+- [JUnit4](https://junit.org/junit4/) (**Test dependency**) - Allows writing and running unit tests on the local machine
+- [Mockito](https://github.com/mockito/mockito) (**Test dependency**) - Mocking and stubbing dependencies in isolated unit tests
+- [Mockito-Kotlin](https://github.com/nhaarman/mockito-kotlin) (**Test dependency**) - Mockito wrapper optimized for Kotlin
+- [Robolectric](https://github.com/robolectric/robolectric) (**Test dependency**) - Android-related framework components in unit tests
+- [Mockk](https://mockk.io/) (**Test dependency**) - Mocks static Kotlin Objects (and more)
+- [MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver) (**Test dependency**) - Testing network calls
+- [Google Truth](https://github.com/google/truth) (**Test dependency**) - Improved assertions
+- [Espresso](https://developer.android.com/training/testing/espresso) (**Test dependency**) - UI tests
 
 ## License
 Apache License 2.0, see the [LICENSE](LICENSE) file for details.
