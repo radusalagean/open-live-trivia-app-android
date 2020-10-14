@@ -1,3 +1,5 @@
+**Update October 14, 2020:** Both the server and the client app are now retired. Feel free to use the sources if you want to deploy your own server-client configuration of this project.
+
 [![Build Status](https://travis-ci.org/radusalagean/open-live-trivia-app-android.svg?branch=master)](https://travis-ci.org/radusalagean/open-live-trivia-app-android)
 [![Latest Release](https://img.shields.io/github/release/radusalagean/open-live-trivia-app-android.svg)](https://github.com/radusalagean/open-live-trivia-app-android/releases)
 
@@ -5,9 +7,6 @@
 ![app_icon](app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png)
 
 **Client-side** part of the **Open Live Trivia** project. For the **server** repository, please check [this link](https://github.com/radusalagean/open-live-trivia-api).
-
-## Download
-[![Get it on Google Play](https://i.imgur.com/2LewwTZ.png)](https://play.google.com/store/apps/details?id=com.busytrack.openlivetrivia&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
 
 ## Screenshots
 ![screenshot](https://lh3.googleusercontent.com/tEVsZS12aaCzkykI-i0KUkOvkuWOsD7tvAG6yGCp-pKWkHVwbrLwjDgGAZafQY9wUEM=w720-h310-rw)
