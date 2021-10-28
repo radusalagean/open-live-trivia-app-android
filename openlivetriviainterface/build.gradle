@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "SOCKET_IO_PATH", "\"/open-live-trivia-api/socket.io\"")
         buildConfigField("String", "API_PATH", "\"/open-live-trivia-api/v1/\"")
@@ -47,7 +45,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -93,7 +90,4 @@ dependencies {
     testImplementation "androidx.test.ext:truth:$androidxTruthExtVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
-}
-repositories {
-    mavenCentral()
 }

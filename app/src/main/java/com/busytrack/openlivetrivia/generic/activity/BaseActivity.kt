@@ -47,7 +47,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
         super.onStart()
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         Timber.tag(logTag).v("-A-> onRestoreInstanceState($savedInstanceState)")
         super.onRestoreInstanceState(savedInstanceState)
     }
