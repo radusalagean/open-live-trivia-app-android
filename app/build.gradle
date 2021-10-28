@@ -5,7 +5,21 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
+def userHome = System.getProperty("user.home")
+def globalGradleDir = new File(userHome + "/.gradle")
+def keystorePropertiesFile = new File(globalGradleDir.absolutePath + "/keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['openLiveTriviaKeyAlias']
+            keyPassword keystoreProperties['openLiveTriviaKeyPassword']
+            storeFile new File(globalGradleDir.absolutePath + "/" + keystoreProperties['openLiveTriviaStoreFile'])
+            storePassword keystoreProperties['openLiveTriviaStorePassword']
+        }
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.busytrack.openlivetrivia"
@@ -24,6 +38,7 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.config
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
