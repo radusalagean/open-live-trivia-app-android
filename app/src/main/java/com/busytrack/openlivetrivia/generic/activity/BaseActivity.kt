@@ -4,11 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
+import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.auth.SignInResult
+import com.busytrack.openlivetrivia.auth.SignInResultContract
 import com.busytrack.openlivetrivia.di.activity.ActivityComponent
 import com.busytrack.openlivetrivia.di.activity.ActivityModule
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
@@ -26,7 +30,11 @@ import timber.log.Timber
 abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarContract {
     private val logTag : String = javaClass.simpleName
 
-    open lateinit var infoBarManager: InfoBarManager
+    abstract var authenticationManager: AuthenticationManager
+    abstract var infoBarManager: InfoBarManager
+    abstract var signInResultContract: SignInResultContract
+
+    private lateinit var signInResultLauncher: ActivityResultLauncher<Intent>
 
     // Dagger2 Activity Component lazy initialization
     val activityComponent: ActivityComponent by lazy {
@@ -39,6 +47,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.tag(logTag).v("-A-> onCreate($savedInstanceState)")
         injectDependencies()
+        registerForActivityResults()
         super.onCreate(savedInstanceState)
     }
 
@@ -80,14 +89,6 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     }
 
     // Other activity callbacks
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Timber.tag(logTag).v("-A-> onActivityResult($requestCode, $resultCode, $data)")
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            GOOGLE_LOG_IN_REQUEST_CODE -> handleGoogleSignInResult(resultCode, data)
-        }
-    }
 
     override fun attachBaseContext(newBase: Context?) {
         // Step required for custom fonts implementation w/ calligraphy lib
@@ -162,7 +163,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     }
 
     override fun triggerGoogleSignIn(intent: Intent) {
-        startActivityForResult(intent, GOOGLE_LOG_IN_REQUEST_CODE)
+        signInResultLauncher.launch(intent)
     }
 
     override fun popAllFragments() {
@@ -243,11 +244,6 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     // Abstract methods
 
     /**
-     * Override to handle the event in the concrete Activity class
-     */
-    abstract fun handleGoogleSignInResult(resultCode: Int, data: Intent?)
-
-    /**
      * Override to specify the default fragment to be added with the [addDefaultFragmentIfNecessary] method
      */
     protected abstract fun getDefaultFragment(): BaseFragment
@@ -268,6 +264,17 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
         val string = if (args.isEmpty()) getString(message) else getString(message, *args)
         getCurrentFragment()?.let {
             infoBarManager.enqueueMessage(InfoBarConfiguration(string, type))
+        }
+    }
+
+    private fun registerForActivityResults() {
+        signInResultLauncher = registerForActivityResult(signInResultContract) {
+            when (it) {
+                is SignInResult.Success ->
+                    authenticationManager.handleGoogleSignInSuccess(it.intent)
+                is SignInResult.Failure ->
+                    authenticationManager.handleGoogleSignInFailure(it.resultCode)
+            }
         }
     }
 }

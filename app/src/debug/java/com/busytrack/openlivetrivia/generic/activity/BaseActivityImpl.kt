@@ -1,8 +1,9 @@
 package com.busytrack.openlivetrivia.generic.activity
 
-import android.content.Intent
 import android.os.Bundle
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.auth.SignInResultContract
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragmentImpl
 import com.busytrack.openlivetrivia.infobar.InfoBarManager
@@ -17,15 +18,17 @@ import org.mockito.Mockito.mock
  */
 class BaseActivityImpl : BaseActivity() {
 
-    override var infoBarManager: InfoBarManager = mock(InfoBarManager::class.java)
+    override var authenticationManager: AuthenticationManager =
+        mock(AuthenticationManager::class.java)
+    override var infoBarManager: InfoBarManager =
+        mock(InfoBarManager::class.java)
+    override var signInResultContract: SignInResultContract =
+        mock(SignInResultContract::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base_test)
         addDefaultFragmentIfNecessary()
-    }
-
-    override fun handleGoogleSignInResult(resultCode: Int, data: Intent?) {
     }
 
     override fun getDefaultFragment(): BaseFragment {

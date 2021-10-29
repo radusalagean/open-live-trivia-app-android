@@ -1,6 +1,7 @@
 package com.busytrack.openlivetrivia.di.activity.auth
 
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.auth.SignInResultContract
 import com.busytrack.openlivetrivia.di.activity.ActivityScope
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
@@ -24,4 +25,8 @@ class AuthenticationModule {
         firebaseAuth,
         activityContract
     )
+
+    @Provides
+    @ActivityScope
+    fun provideSignInResultContract(): SignInResultContract = SignInResultContract()
 }

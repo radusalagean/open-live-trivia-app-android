@@ -1,10 +1,9 @@
 package com.busytrack.openlivetrivia.activity
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.auth.SignInResultContract
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.infobar.InfoBarManager
 import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
@@ -12,10 +11,13 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
     @Inject
-    lateinit var authenticationManager: AuthenticationManager
+    override lateinit var authenticationManager: AuthenticationManager
 
     @Inject
     override lateinit var infoBarManager: InfoBarManager
+
+    @Inject
+    override lateinit var signInResultContract: SignInResultContract
 
     // Lifecycle callbacks
 
@@ -30,14 +32,6 @@ class MainActivity : BaseActivity() {
     override fun getFragmentContainerId() = R.id.fragment_container
 
     // BaseActivity implementation
-
-    override fun handleGoogleSignInResult(resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            authenticationManager.handleGoogleSignInSuccess(data)
-        } else {
-            authenticationManager.handleGoogleSignInFailure(resultCode)
-        }
-    }
 
     override fun getDefaultFragment() = AuthenticationFragment.newInstance()
 
