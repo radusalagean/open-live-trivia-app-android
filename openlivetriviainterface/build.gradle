@@ -22,7 +22,7 @@ android {
     productFlavors {
         dev {
             dimension "environment"
-            buildConfigField("String", "ROOT_DOMAIN", "\"http://192.168.0.130:3006\"") // TODO create script to get PC ip
+            buildConfigField("String", "ROOT_DOMAIN", "\"http://$openLiveTriviaDevServerIp:$openLiveTriviaDevServerPort\"")
             buildConfigField("boolean", "SOCKET_IO_SECURE_CONNECTION", "false")
         }
         prod {
