@@ -23,16 +23,14 @@ class AuthenticationManager(
     }
 
     /**
-     * [silent] sign out is suitable for cases where we don't want the usual activity handling of the event
+     * [silent] don't show log out message
      */
     fun signOut(silent: Boolean = false) {
         firebaseAuth.signOut()
         googleSignInClient.signOut()
         googleSignInClient.revokeAccess()
         sharedPreferencesRepository.clearAuthenticatedAccount()
-        if (!silent) {
-            activityContract.handleLogOut()
-        }
+        if (!silent) activityContract.showLogOutMessage()
     }
 
     fun handleGoogleSignInSuccess(data: Intent?) {

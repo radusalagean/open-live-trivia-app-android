@@ -10,7 +10,7 @@ import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.generic.settings.PreferenceFragmentCompat
 import javax.inject.Inject
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment : PreferenceFragmentCompat(), SettingsMvp.View {
 
     @Inject
     lateinit var presenter: SettingsMvp.Presenter
@@ -43,6 +43,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun getInfoBarContainer(): ViewGroup =
         view!! as ViewGroup
 
+    override fun injectDependencies() {
+        (this.context as BaseActivity).activityComponent.inject(this)
+    }
+
+    // Mvp Implementation
+
+    override fun showAuthenticationScreen() {
+        navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthenticationFragment())
+    }
+
     // PreferenceFragmentCompat implementation
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -61,15 +71,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return true
         }
         return super.onPreferenceTreeClick(preference)
-    }
-
-    // BaseFragment implementation
-
-    override fun injectDependencies() {
-        (this.context as BaseActivity).activityComponent.inject(this)
-    }
-
-    companion object {
-        fun newInstance() = SettingsFragment()
     }
 }

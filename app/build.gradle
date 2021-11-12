@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 def userHome = System.getProperty("user.home")
 def globalGradleDir = new File(userHome + "/.gradle")
@@ -110,6 +111,8 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics:$firebaseanalyticsVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-rxjava2:$roomVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation "androidx.preference:preference:$preferenceVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
@@ -159,6 +162,9 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "io.mockk:mockk:$mockkVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+
+    // Navigation test
+    androidTestImplementation "androidx.navigation:navigation-testing:$navigationVersion"
 
     // Coroutines test
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"

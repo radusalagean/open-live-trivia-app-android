@@ -38,20 +38,6 @@ interface ActivityContract {
     @IdRes fun getFragmentContainerId(): Int
 
     /**
-     * Pop all fragments from the back stack
-     */
-    fun popAllFragments()
-
-    // Show specific screens
-
-    fun showAuthenticationScreen()
-    fun showMainMenuScreen()
-    fun showGameScreen()
-    fun showLeaderboardScreen()
-    fun showModerateReportsScreen()
-    fun showSettingsScreen()
-
-    /**
      * Called when the Firebase authentication is successful
      */
     fun handleSuccessfulFirebaseLogIn()
@@ -64,7 +50,7 @@ interface ActivityContract {
     /**
      * Called when an authenticated user logged out
      */
-    fun handleLogOut()
+    fun showLogOutMessage()
 
     /**
      * Helper method which opens the passed [url] in the default web browser

@@ -6,8 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
@@ -17,12 +15,6 @@ import com.busytrack.openlivetrivia.di.activity.ActivityComponent
 import com.busytrack.openlivetrivia.di.activity.ActivityModule
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.infobar.*
-import com.busytrack.openlivetrivia.screen.authentication.AuthenticationFragment
-import com.busytrack.openlivetrivia.screen.game.GameFragment
-import com.busytrack.openlivetrivia.screen.leaderboard.LeaderboardFragment
-import com.busytrack.openlivetrivia.screen.mainmenu.MainMenuFragment
-import com.busytrack.openlivetrivia.screen.moderatereports.ModerateReportsFragment
-import com.busytrack.openlivetrivia.screen.settings.SettingsFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import timber.log.Timber
@@ -109,44 +101,10 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     // Base methods
 
-    /**
-     * Adds a default fragment if no fragment is present for the specified container
-     */
-    protected fun addDefaultFragmentIfNecessary() {
-        val currentFragment = getCurrentFragment()
-        if (currentFragment == null) {
-            val defaultFragment = getDefaultFragment()
-            Timber.d("No fragment was previously attached, attaching %s as starting point", defaultFragment)
-            showFragment(defaultFragment, false, null)
-        }
-    }
-
     fun getCurrentFragment() =
-        supportFragmentManager.findFragmentById(getFragmentContainerId()) as BaseFragment?
-
-    /**
-     * Show a fragment
-     */
-    protected fun <T : BaseFragment> showFragment(
-        fragment: T,
-        addToBackStack: Boolean = true,
-        backStackStateName: String? = null
-    ) {
-        // Make sure the fragment is not already in the foreground
-        with(getCurrentFragment()) {
-            if (this != null && javaClass == fragment.javaClass) {
-                Timber.d("Attempting to open an unnecessary fragment, skipping request!")
-                return
-            }
-        }
-        supportFragmentManager.beginTransaction().apply {
-            replace(getFragmentContainerId(), fragment, fragment.javaClass.name)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            if (addToBackStack) {
-                addToBackStack(backStackStateName)
-            }
-        }.commit()
-    }
+        supportFragmentManager.findFragmentById(getFragmentContainerId())
+            ?.childFragmentManager?.fragments
+            ?.firstOrNull { it is BaseFragment && it.isVisible } as? BaseFragment
 
     // Activity contract implementation
 
@@ -166,39 +124,6 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
         signInResultLauncher.launch(intent)
     }
 
-    override fun popAllFragments() {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
-
-    override fun showAuthenticationScreen() {
-        showFragment(AuthenticationFragment.newInstance(), addToBackStack = false)
-    }
-
-    override fun showMainMenuScreen() {
-        var mainMenuFragment: BaseFragment? = null
-        // If the main menu fragment is already in the back stack, use it
-        supportFragmentManager.findFragmentByTag(MainMenuFragment::class.java.name)?.let {
-            mainMenuFragment = it as BaseFragment
-        }
-        showFragment(mainMenuFragment ?: MainMenuFragment.newInstance(), addToBackStack = false)
-    }
-
-    override fun showGameScreen() {
-        showFragment(GameFragment.newInstance())
-    }
-
-    override fun showLeaderboardScreen() {
-        showFragment(LeaderboardFragment.newInstance())
-    }
-
-    override fun showModerateReportsScreen() {
-        showFragment(ModerateReportsFragment.newInstance())
-    }
-
-    override fun showSettingsScreen() {
-        showFragment(SettingsFragment.newInstance())
-    }
-
     override fun handleSuccessfulFirebaseLogIn() {
         showInfoMessage(R.string.message_logged_in_successfully)
         // Pass the event to the current fragment
@@ -211,12 +136,8 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
         getCurrentFragment()?.handleFailedFirebaseSignIn(t)
     }
 
-    override fun handleLogOut() {
+    override fun showLogOutMessage() {
         showInfoMessage(R.string.message_logged_out)
-        // Pass the event to the current fragment
-        getCurrentFragment()?.handleLogOut()
-        popAllFragments()
-        showAuthenticationScreen()
     }
 
     override fun openLinkInBrowser(url: String) {
@@ -242,11 +163,6 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     }
 
     // Abstract methods
-
-    /**
-     * Override to specify the default fragment to be added with the [addDefaultFragmentIfNecessary] method
-     */
-    protected abstract fun getDefaultFragment(): BaseFragment
 
     /**
      * Override to inject dependencies

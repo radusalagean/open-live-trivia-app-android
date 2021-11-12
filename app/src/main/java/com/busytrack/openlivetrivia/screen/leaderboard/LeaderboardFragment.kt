@@ -130,8 +130,4 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
         leaderboardAdapter?.clearList()
         presenter.requestLeaderboard(invalidate = true)
     }
-
-    companion object {
-        fun newInstance() = LeaderboardFragment()
-    }
 }

@@ -152,8 +152,7 @@ class AuthenticationPresenter(
     }
 
     private fun showMainMenuScreen() {
-        view?.removeFragment()
-        activityContract.showMainMenuScreen()
+        view?.showMainMenuScreen()
     }
 
     private fun onServerCompatibilityChecked() {

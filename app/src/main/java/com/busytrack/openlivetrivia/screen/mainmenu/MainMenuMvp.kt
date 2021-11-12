@@ -11,6 +11,12 @@ interface MainMenuMvp {
 
     interface View : BaseMvp.View {
         fun updateAccountInfo(userModel: UserModel)
+        // Screens
+        fun showGameScreen()
+        fun showLeaderboardScreen()
+        fun showModerateReportsScreen()
+        fun showSettingsScreen()
+        fun showAuthenticationScreen()
     }
 
     interface Presenter : BaseMvp.Presenter<View> {

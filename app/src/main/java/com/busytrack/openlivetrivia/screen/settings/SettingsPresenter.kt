@@ -28,6 +28,7 @@ class SettingsPresenter(
                 override fun onNext(t: MessageModel) {
                     authenticationManager.signOut()
                     activityContract.showInfoMessage(R.string.message_account_deleted)
+                    view?.showAuthenticationScreen()
                 }
 
                 override fun onError(e: Throwable) {

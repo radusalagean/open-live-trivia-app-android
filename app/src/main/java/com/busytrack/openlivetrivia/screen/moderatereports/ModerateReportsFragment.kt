@@ -170,8 +170,4 @@ class ModerateReportsFragment : BaseFragment(),
     override fun updateBannedEntriesLoadMoreState(loading: Boolean) {
         bannedEntriesTab.loadingMore = loading
     }
-
-    companion object {
-        fun newInstance() = ModerateReportsFragment()
-    }
 }

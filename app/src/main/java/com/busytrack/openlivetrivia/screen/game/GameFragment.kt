@@ -442,8 +442,4 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
             presenter.requestPlayerList()
         }
     }
-
-    companion object {
-        fun newInstance() = GameFragment()
-    }
 }

@@ -119,6 +119,10 @@ open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Auth
         }
     }
 
+    override fun showMainMenuScreen() {
+        navigate(AuthenticationFragmentDirections.actionAuthenticationFragmentToMainMenuFragment())
+    }
+
     // Authentication Contract
 
     override fun onLoginPressed() {
@@ -167,9 +171,5 @@ open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Auth
         text_view_username_availability.setVisibleSoft(false)
         text_view_username_availability.text = null
         button_register.isEnabled = false
-    }
-
-    companion object {
-        fun newInstance() = AuthenticationFragment()
     }
 }

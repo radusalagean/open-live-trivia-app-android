@@ -10,7 +10,9 @@ interface SettingsMvp {
         fun deleteAccount(): Observable<MessageModel>
     }
 
-    interface View : BaseMvp.View
+    interface View : BaseMvp.View {
+        fun showAuthenticationScreen()
+    }
 
     interface Presenter : BaseMvp.Presenter<View> {
         fun deleteAccount()

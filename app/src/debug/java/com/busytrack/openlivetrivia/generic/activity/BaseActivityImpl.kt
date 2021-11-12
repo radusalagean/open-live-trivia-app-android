@@ -4,8 +4,6 @@ import android.os.Bundle
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.auth.SignInResultContract
-import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
-import com.busytrack.openlivetrivia.generic.fragment.BaseFragmentImpl
 import com.busytrack.openlivetrivia.infobar.InfoBarManager
 import org.mockito.Mockito.mock
 
@@ -28,18 +26,9 @@ class BaseActivityImpl : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base_test)
-        addDefaultFragmentIfNecessary()
-    }
-
-    override fun getDefaultFragment(): BaseFragment {
-        return BaseFragmentImpl()
     }
 
     override fun getFragmentContainerId(): Int {
-        return R.id.fragment_container
-    }
-
-    fun showTestFragment(fragment: BaseFragment) {
-        showFragment(fragment)
+        return R.id.nav_host_fragment
     }
 }

@@ -18,6 +18,8 @@ interface AuthenticationMvp {
     interface View : BaseMvp.View {
         fun showRegisterPage()
         fun setUsernameAvailability(available: Boolean)
+        // Screens
+        fun showMainMenuScreen()
     }
 
     interface Presenter : BaseMvp.Presenter<View> {

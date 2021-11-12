@@ -78,16 +78,17 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
             joinGame()
         }
         button_leaderboard.setOnClickListener {
-            activityContract.showLeaderboardScreen()
+            showLeaderboardScreen()
         }
         button_moderate_reports.setOnClickListener {
-            activityContract.showModerateReportsScreen()
+            showModerateReportsScreen()
         }
         button_settings.setOnClickListener {
-            activityContract.showSettingsScreen()
+            showSettingsScreen()
         }
         button_log_out.setOnClickListener {
             authenticationManager.signOut()
+            showAuthenticationScreen()
         }
         privacy_policy_link.setOnClickListener {
             activityContract.openLinkInBrowser(BuildConfig.APP_PRIVACY_POLICY_LINK)
@@ -162,6 +163,26 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
         }
     }
 
+    override fun showGameScreen() {
+        navigate(MainMenuFragmentDirections.actionMainMenuFragmentToGameFragment())
+    }
+
+    override fun showLeaderboardScreen() {
+        navigate(MainMenuFragmentDirections.actionMainMenuFragmentToLeaderboardFragment())
+    }
+
+    override fun showModerateReportsScreen() {
+        navigate(MainMenuFragmentDirections.actionMainMenuFragmentToModerateReportsFragment())
+    }
+
+    override fun showSettingsScreen() {
+        navigate(MainMenuFragmentDirections.actionMainMenuFragmentToSettingsFragment())
+    }
+
+    override fun showAuthenticationScreen() {
+        navigate(MainMenuFragmentDirections.actionMainMenuFragmentToAuthenticationFragment())
+    }
+
     // Private
 
     private fun joinGame() {
@@ -172,14 +193,10 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
                 R.string.game_dialog_positive_button_rules,
                 R.string.game_dialog_negative_button_rules
             ) { _, _ ->
-                activityContract.showGameScreen()
+                showGameScreen()
             }
         } else {
-            activityContract.showGameScreen()
+            showGameScreen()
         }
-    }
-
-    companion object {
-        fun newInstance() = MainMenuFragment()
     }
 }

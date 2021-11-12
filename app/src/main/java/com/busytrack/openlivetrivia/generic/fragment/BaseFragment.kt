@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp.Presenter
 import timber.log.Timber
@@ -99,14 +101,12 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
         // Empty implementation
     }
 
-    override fun popBackStack() {
-        fragmentManager?.popBackStack()
+    override fun navigate(navDirections: NavDirections) {
+        findNavController().navigate(navDirections)
     }
 
-    override fun removeFragment() {
-        fragmentManager?.findFragmentByTag(javaClass.name)?.let {
-            fragmentManager?.beginTransaction()?.remove(it)?.commit()
-        }
+    override fun popBackStack() {
+        findNavController().popBackStack()
     }
 
     // Abstract methods
@@ -161,13 +161,6 @@ abstract class BaseFragment : Fragment(), BaseMvp.View {
      */
     open fun handleFailedFirebaseSignIn(t: Throwable?) {
         // empty implementation
-    }
-
-    /**
-     * Override to handle the event in specific fragments
-     */
-    open fun handleLogOut() {
-        removeFragment()
     }
 
     /**

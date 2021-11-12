@@ -1,6 +1,7 @@
 package com.busytrack.openlivetrivia.generic.mvp
 
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import com.busytrack.openlivetrivia.generic.viewmodel.BaseViewModel
 
 interface BaseMvp {
@@ -12,8 +13,8 @@ interface BaseMvp {
 
     interface View {
         fun setRefreshingIndicator(refreshing: Boolean)
+        fun navigate(navDirections: NavDirections)
         fun popBackStack()
-        fun removeFragment()
     }
 
     interface Presenter<T : View> {
