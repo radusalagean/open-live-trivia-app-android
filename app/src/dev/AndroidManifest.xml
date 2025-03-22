@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.busytrack.openlivetrivia">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application tools:ignore="GoogleAppIndexingWarning"
         android:usesCleartextTraffic="true" /> <!--Local server doesn't run over HTTPS-->

@@ -29,9 +29,9 @@ class TimedProgressBar(
         private set
     var max = 1
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         val widthUnit = width * progress / max
-        canvas?.drawRect(0f, 0f, widthUnit.toFloat(), height.toFloat(), progressPaint)
+        canvas.drawRect(0f, 0f, widthUnit.toFloat(), height.toFloat(), progressPaint)
     }
 
     private fun startTimer() {

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.databinding.FragmentGameBinding
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.extension.applyText
 import com.busytrack.openlivetrivia.extension.setVisibleHard
@@ -30,17 +31,12 @@ import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_SHORT
 import com.busytrack.openlivetriviainterface.BuildConfig.COST_EXTRA_ANSWER
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.model.*
-import kotlinx.android.synthetic.main.fragment_game.*
-import kotlinx.android.synthetic.main.layout_base_entry.*
-import kotlinx.android.synthetic.main.layout_header_coins.*
-import kotlinx.android.synthetic.main.layout_header_players.*
-import kotlinx.android.synthetic.main.layout_header_user.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAttemptContract,
+open class GameFragment : BaseFragment<FragmentGameBinding>(), GameMvp.View, CoroutineScope, GameAttemptContract,
     PopupMenu.OnMenuItemClickListener, GamePlayerContract
 {
 
@@ -81,7 +77,7 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
 
         override fun onDrawerOpened(drawerView: View) {
             if (playersAdapter?.itemCount == 0) {
-                game_nav_swipe_refresh_layout.isRefreshing = true
+                binding.gameNavSwipeRefreshLayout.isRefreshing = true
             }
             presenter.requestPlayerList()
         }
@@ -92,7 +88,8 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            button_send_attempt.isEnabled = !s.isNullOrBlank() && GameState.SPLIT == presenter.getGameState()
+            binding.buttonSendAttempt.isEnabled = !s.isNullOrBlank() &&
+                    GameState.SPLIT == presenter.getGameState()
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -100,14 +97,6 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
     }
 
     // Lifecycle callbacks
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_game, container, false)
-    }
 
     override fun onStart() {
         super.onStart()
@@ -122,7 +111,7 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
     // Game Attempt contract
 
     override fun onAttemptClicked(attempt: String) {
-        edit_text_attempt.applyText(attempt)
+        binding.editTextAttempt.applyText(attempt)
     }
 
     // Popup menu
@@ -170,63 +159,72 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
     }
 
     override fun updateGameState(gameStateModel: GameStateModel) {
-        text_view_my_coins.setCoins(gameStateModel.userCoins)
-        text_view_online_players.playersCount = gameStateModel.players
-        card_view_clue.visibility = View.VISIBLE
-        text_view_clue_category.text = gameStateModel.category.also {
-            text_view_clue_category.setVisibleHard(it != null)
-        }
-        text_view_clue_coins.setCoins(gameStateModel.currentValue)
-        text_view_clue.text = gameStateModel.clue
-        text_view_answer.text = gameStateModel.answer
-        timed_progress_bar_remaining_time.max = gameStateModel.totalSplitSeconds
-        if (GameState.SPLIT == gameStateModel.gameState) {
-            timed_progress_bar_remaining_time.setProgressAndStat(gameStateModel.elapsedSplitSeconds)
-        }
-        gameStateModel.attempts.lastOrNull()?.let {
-            if (it.correct) {
-                text_view_answer.text = it.correctAnswer
-                text_view_answer.correct()
-            } else if (GameState.TRANSITION == gameStateModel.gameState) {
-                text_view_answer.reveal()
+        binding.layoutHeaderCoins.textViewMyCoins.setCoins(gameStateModel.userCoins)
+        binding.layoutHeaderPlayers.textViewOnlinePlayers.playersCount = gameStateModel.players
+        binding.cardViewClue.visibility = View.VISIBLE
+        binding.layoutBaseEntry.apply {
+            textViewClueCategory.text = gameStateModel.category.also {
+                textViewClueCategory.setVisibleHard(it != null)
             }
-        } ?: if (GameState.TRANSITION == gameStateModel.gameState) {
-            text_view_answer.reveal()
+            textViewClueCoins.setCoins(gameStateModel.currentValue)
+            textViewClue.text = gameStateModel.clue
+            textViewAnswer.text = gameStateModel.answer
+            timedProgressBarRemainingTime.max = gameStateModel.totalSplitSeconds
+            if (GameState.SPLIT == gameStateModel.gameState) {
+                timedProgressBarRemainingTime.setProgressAndStat(gameStateModel.elapsedSplitSeconds)
+            }
+            gameStateModel.attempts.lastOrNull()?.let {
+                if (it.correct) {
+                    textViewAnswer.text = it.correctAnswer
+                    textViewAnswer.correct()
+                } else if (GameState.TRANSITION == gameStateModel.gameState) {
+                    textViewAnswer.reveal()
+                }
+            } ?: run {
+                if (GameState.TRANSITION == gameStateModel.gameState) {
+                    textViewAnswer.reveal()
+                }
+            }
         }
         attemptsAdapter?.apply {
             initializeAttempts(gameStateModel.attempts)
-            recycler_view_attempts.scrollToPosition(itemCount - 1)
+            binding.recyclerViewAttempts.scrollToPosition(itemCount - 1)
         }
-        button_send_attempt.isEnabled = false
+        binding.buttonSendAttempt.isEnabled = false
         setSocketLoadingState(false)
     }
 
     override fun updateRound(roundModel: RoundModel) {
         entryPopupMenu?.dismiss()
         attemptsAdapter?.clearAttempts()
-        card_view_clue.visibility = View.VISIBLE
-        text_view_clue_category.text = roundModel.category.also {
-            text_view_clue_category.setVisibleHard(it != null)
+        binding.cardViewClue.visibility = View.VISIBLE
+        binding.layoutBaseEntry.apply {
+            textViewClueCategory.text = roundModel.category.also {
+                textViewClueCategory.setVisibleHard(it != null)
+            }
+            textViewClueCoins.setCoins(roundModel.currentValue)
+            textViewClue.text = roundModel.clue
+            textViewAnswer.resetState()
+            textViewAnswer.text = roundModel.answer
+            timedProgressBarRemainingTime.resetAndStart()
         }
-        text_view_clue_coins.setCoins(roundModel.currentValue)
-        text_view_clue.text = roundModel.clue
-        text_view_answer.resetState()
-        text_view_answer.text = roundModel.answer
-        timed_progress_bar_remaining_time.resetAndStart()
-        button_send_attempt.isEnabled = !edit_text_attempt.text.isNullOrBlank()
+        binding.buttonSendAttempt.isEnabled =
+            !binding.editTextAttempt.text.isNullOrBlank()
     }
 
     override fun updateSplit(splitModel: SplitModel) {
-        text_view_answer.text = splitModel.answer
-        text_view_clue_coins.updateValue(splitModel.currentValue, COIN_ACCELERATE_SHORT)
-        timed_progress_bar_remaining_time.resetAndStart()
+        binding.layoutBaseEntry.apply {
+            textViewAnswer.text = splitModel.answer
+            textViewClueCoins.updateValue(splitModel.currentValue, COIN_ACCELERATE_SHORT)
+            timedProgressBarRemainingTime.resetAndStart()
+        }
         soundManager.split()
     }
 
     override fun updateAttempt(attemptModel: AttemptModel) {
         attemptsAdapter?.apply {
             addAttempt(attemptModel)
-            recycler_view_attempts.apply {
+            binding.recyclerViewAttempts.apply {
                 if (attemptModel.userId == authenticationManager.getAuthenticatedUser()?.userId ||
                         !canScrollVertically(1)) {
                     scrollToPosition(itemCount - 1)
@@ -235,11 +233,13 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
         }
         soundManager.attempt()
         if (attemptModel.correct) {
-            text_view_clue_coins.drain()
-            text_view_answer.text = attemptModel.correctAnswer
-            text_view_answer.correct()
-            timed_progress_bar_remaining_time.hide()
-            button_send_attempt.isEnabled = false
+            binding.layoutBaseEntry.apply {
+                textViewClueCoins.drain()
+                textViewAnswer.text = attemptModel.correctAnswer
+                textViewAnswer.correct()
+                timedProgressBarRemainingTime.hide()
+            }
+            binding.buttonSendAttempt.isEnabled = false
             if (attemptModel.userId == authenticationManager.getAuthenticatedUser()?.userId) {
                 vibrationManager.won()
                 soundManager.won()
@@ -250,32 +250,34 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
     }
 
     override fun updateReveal(revealModel: RevealModel) {
-        text_view_answer.text = revealModel.answer
-        timed_progress_bar_remaining_time.hide()
-        text_view_clue_coins.drain()
-        text_view_answer.reveal()
-        button_send_attempt.isEnabled = false
+        binding.layoutBaseEntry.apply {
+            textViewAnswer.text = revealModel.answer
+            timedProgressBarRemainingTime.hide()
+            textViewClueCoins.drain()
+            textViewAnswer.reveal()
+        }
+        binding.buttonSendAttempt.isEnabled = false
         soundManager.lost()
     }
 
     override fun updateCoinDiff(coinDiffModel: CoinDiffModel) {
-        text_view_my_coins.computeDiff(
+        binding.layoutHeaderCoins.textViewMyCoins.computeDiff(
             coinDiffModel.coinDiff,
             if (coinDiffModel.coinDiff > COST_EXTRA_ANSWER) COIN_ACCELERATE_LONG else COIN_ACCELERATE_SHORT
         )
     }
 
     override fun updatePeerJoin(presenceModel: PresenceModel) {
-        text_view_online_players.incrementCount()
+        binding.layoutHeaderPlayers.textViewOnlinePlayers.incrementCount()
     }
 
     override fun updatePeerLeft(presenceModel: PresenceModel) {
-        text_view_online_players.decrementCount()
+        binding.layoutHeaderPlayers.textViewOnlinePlayers.decrementCount()
     }
 
     override fun updatePlayerList(playerListModel: PlayerListModel) {
         playersAdapter?.initializePlayers(playerListModel)
-        game_nav_swipe_refresh_layout.isRefreshing = false
+        binding.gameNavSwipeRefreshLayout.isRefreshing = false
     }
 
     override fun onUserRightsChanged() {
@@ -284,19 +286,25 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
 
     // BaseFragment implementation
 
+    override fun inflateLayout(container: ViewGroup?): FragmentGameBinding {
+        return FragmentGameBinding.inflate(
+            layoutInflater, container, false
+        )
+    }
+
     override fun initViews() {
         // Select text views to enable marquee if text is constrained
-        text_view_my_username.isSelected = true
-        text_view_clue_category.isSelected = true
+        binding.layoutHeaderUser.textViewMyUsername.isSelected = true
+        binding.layoutBaseEntry.textViewClueCategory.isSelected = true
         authenticationManager.getAuthenticatedUser()?.let {
-            text_view_my_username.text = it.username
-            Glide.with(image_view_my_profile)
+            binding.layoutHeaderUser.textViewMyUsername.text = it.username
+            Glide.with(binding.layoutHeaderUser.imageViewMyProfile)
                 .load(UserModel.getThumbnailPath(it.userId))
                 .placeholder(R.drawable.ic_account_circle_accent_24dp)
                 .circleCrop()
-                .into(image_view_my_profile)
+                .into(binding.layoutHeaderUser.imageViewMyProfile)
         }
-        recycler_view_attempts.apply {
+        binding.recyclerViewAttempts.apply {
             adapter = GameAttemptsAdapter(
                 this@GameFragment,
                 arrayListOf(),
@@ -306,13 +314,13 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
                 stackFromEnd = true // Show new messages starting from the bottom
             }
         }
-        game_nav_swipe_refresh_layout.apply {
+        binding.gameNavSwipeRefreshLayout.apply {
             setOnRefreshListener {
                 presenter.requestPlayerList()
             }
             setColorSchemeResources(R.color.colorAccent)
         }
-        game_recycler_view_players.apply {
+        binding.gameRecyclerViewPlayers.apply {
             adapter = GamePlayersAdapter(
                 this@GameFragment,
                 arrayListOf()
@@ -322,15 +330,18 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
     }
 
     override fun disposeViews() {
-        text_view_my_username.text = null
-        context?.let { Glide.with(it.applicationContext).clear(image_view_my_profile) }
-        image_view_my_profile.setImageDrawable(null)
-        recycler_view_attempts.apply {
+        binding.layoutHeaderUser.textViewMyUsername.text = null
+        context?.let {
+            Glide.with(it.applicationContext)
+                .clear(binding.layoutHeaderUser.imageViewMyProfile)
+        }
+        binding.layoutHeaderUser.imageViewMyProfile.setImageDrawable(null)
+        binding.recyclerViewAttempts.apply {
             adapter = null
             layoutManager = null
         }
         attemptsAdapter = null
-        game_recycler_view_players.apply {
+        binding.gameRecyclerViewPlayers.apply {
             adapter = null
             layoutManager = null
         }
@@ -338,34 +349,34 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
     }
 
     override fun registerListeners() {
-        game_drawer_layout.addDrawerListener(drawerListener)
-        layout_header_players.setOnClickListener {
-            game_drawer_layout.openDrawer(GravityCompat.START)
+        binding.gameDrawerLayout.addDrawerListener(drawerListener)
+        binding.layoutHeaderPlayers.root.setOnClickListener {
+            binding.gameDrawerLayout.openDrawer(GravityCompat.START)
         }
-        menu_entry.setOnClickListener {
+        binding.layoutBaseEntry.menuEntry.setOnClickListener {
             showEntryMenu()
         }
-        edit_text_attempt.addTextChangedListener(textWatcher)
-        edit_text_attempt.setOnEditorActionListener { v, actionId, event ->
-            if (!button_send_attempt.isEnabled) return@setOnEditorActionListener false
+        binding.editTextAttempt.addTextChangedListener(textWatcher)
+        binding.editTextAttempt.setOnEditorActionListener { v, actionId, event ->
+            if (!binding.buttonSendAttempt.isEnabled) return@setOnEditorActionListener false
             if (actionId == EditorInfo.IME_ACTION_SEND ||
                 (actionId == EditorInfo.IME_NULL && event != null &&
                         event.action == KeyEvent.ACTION_DOWN)) {
-                button_send_attempt.performClick()
+                binding.buttonSendAttempt.performClick()
                 return@setOnEditorActionListener true
             }
             false
         }
-        button_send_attempt.setOnClickListener {
-            presenter.sendAttempt(edit_text_attempt.text.trim().toString())
-            edit_text_attempt.text = null
+        binding.buttonSendAttempt.setOnClickListener {
+            presenter.sendAttempt(binding.editTextAttempt.text.trim().toString())
+            binding.editTextAttempt.text = null
         }
-        recycler_view_attempts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerViewAttempts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 // Show the scroll helper fab of necessary
-                game_fab_scroll_down.apply {
-                    if (recycler_view_attempts.canScrollVertically(1)) {
+                binding.gameFabScrollDown.apply {
+                    if (binding.recyclerViewAttempts.canScrollVertically(1)) {
                         show()
                     } else {
                         hide()
@@ -373,22 +384,24 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
                 }
             }
         })
-        game_fab_scroll_down.setOnClickListener {
+        binding.gameFabScrollDown.setOnClickListener {
             attemptsAdapter?.apply {
-                recycler_view_attempts.smoothScrollToPosition(itemCount - 1)
+                binding.recyclerViewAttempts.smoothScrollToPosition(itemCount - 1)
             }
         }
     }
 
     override fun unregisterListeners() {
-        game_drawer_layout.removeDrawerListener(drawerListener)
-        layout_header_players.setOnClickListener(null)
-        menu_entry.setOnClickListener(null)
-        edit_text_attempt.removeTextChangedListener(textWatcher)
-        edit_text_attempt.setOnEditorActionListener(null)
-        button_send_attempt.setOnClickListener(null)
-        recycler_view_attempts.clearOnScrollListeners()
-        game_fab_scroll_down.setOnClickListener(null)
+        binding.apply {
+            gameDrawerLayout.removeDrawerListener(drawerListener)
+            layoutHeaderPlayers.root.setOnClickListener(null)
+            layoutBaseEntry.menuEntry.setOnClickListener(null)
+            editTextAttempt.removeTextChangedListener(textWatcher)
+            editTextAttempt.setOnEditorActionListener(null)
+            buttonSendAttempt.setOnClickListener(null)
+            recyclerViewAttempts.clearOnScrollListeners()
+            gameFabScrollDown.setOnClickListener(null)
+        }
     }
 
     override fun loadData() {
@@ -401,8 +414,8 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
 
     override fun onBackPressed(): Boolean {
         // Close the Nav Drawer if it's open
-        if (game_drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            game_drawer_layout.closeDrawer(GravityCompat.START)
+        if (binding.gameDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.gameDrawerLayout.closeDrawer(GravityCompat.START)
             return true
         }
         dialogManager.showAlertDialog(
@@ -415,7 +428,7 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
         return true
     }
 
-    override fun getInfoBarContainer(): ViewGroup = game_root_view
+    override fun getInfoBarContainer(): ViewGroup = binding.gameRootView
 
     override fun injectDependencies() {
         (this.context as BaseActivity).activityComponent.inject(this)
@@ -424,13 +437,13 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
     // Private
 
     private fun setSocketLoadingState(loading: Boolean) {
-        game_progress_bar_main.setVisibleSoft(loading)
-        game_content_root_layout.setVisibleSoft(!loading)
+        binding.gameProgressBarMain.setVisibleSoft(loading)
+        binding.gameContentRootLayout.setVisibleSoft(!loading)
     }
 
     private fun showEntryMenu() {
         entryPopupMenu?.dismiss()
-        entryPopupMenu = PopupMenu(context, menu_entry).apply {
+        entryPopupMenu = PopupMenu(context, binding.layoutBaseEntry.menuEntry).apply {
             setOnMenuItemClickListener(this@GameFragment)
             inflate(R.menu.menu_entry)
             show()
@@ -438,7 +451,7 @@ open class GameFragment : BaseFragment(), GameMvp.View, CoroutineScope, GameAtte
     }
 
     private fun refreshPlayerListIfOpen() {
-        if (game_drawer_layout.isDrawerOpen(GravityCompat.START)) {
+        if (binding.gameDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             presenter.requestPlayerList()
         }
     }

@@ -1,10 +1,7 @@
 package com.busytrack.openlivetrivia.generic.fragment
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.FragmentBaseTestBinding
 import com.busytrack.openlivetrivia.generic.activity.BaseActivityImpl
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import org.mockito.Mockito.mock
@@ -16,18 +13,16 @@ import org.mockito.Mockito.mock
  * Note: This class is in the debug variant, and not in the test because it is
  * referenced in [BaseActivityImpl]
  */
-class BaseFragmentImpl : BaseFragment() {
+class BaseFragmentImpl : BaseFragment<FragmentBaseTestBinding>() {
 
     @Suppress("UNCHECKED_CAST")
     var mockPresenter: BaseMvp.Presenter<BaseMvp.View> =
         mock(BaseMvp.Presenter::class.java) as BaseMvp.Presenter<BaseMvp.View>
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_base_test, container, false)
+    override fun inflateLayout(container: ViewGroup?): FragmentBaseTestBinding {
+        return FragmentBaseTestBinding.inflate(
+            layoutInflater, container, false
+        )
     }
 
     override fun initViews() {

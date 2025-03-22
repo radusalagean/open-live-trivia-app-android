@@ -104,7 +104,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     fun getCurrentFragment() =
         supportFragmentManager.findFragmentById(getFragmentContainerId())
             ?.childFragmentManager?.fragments
-            ?.firstOrNull { it is BaseFragment && it.isVisible } as? BaseFragment
+            ?.firstOrNull { it is BaseFragment<*> && it.isVisible } as? BaseFragment<*>
 
     // Activity contract implementation
 

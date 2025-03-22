@@ -34,6 +34,6 @@ internal enum class SocketIncomingEvent(
     val eventName: String
         get() {
             // Socket.io default events are lowercase
-            return if (lowerCaseEvent) name.toLowerCase() else name
+            return if (lowerCaseEvent) name.lowercase() else name
         }
 }

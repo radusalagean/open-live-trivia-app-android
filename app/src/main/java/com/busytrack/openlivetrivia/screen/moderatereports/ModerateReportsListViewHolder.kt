@@ -3,47 +3,49 @@ package com.busytrack.openlivetrivia.screen.moderatereports
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.ItemReportedEntryBinding
 import com.busytrack.openlivetrivia.extension.setVisibleHard
 import com.busytrack.openlivetriviainterface.rest.model.EntryReportModel
-import kotlinx.android.synthetic.main.item_reported_entry.view.*
-import kotlinx.android.synthetic.main.layout_base_entry.view.*
 
 class ModerateReportsListViewHolder(
-    itemView: View
-) : RecyclerView.ViewHolder(itemView) {
+    val binding: ItemReportedEntryBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     private val lastReportedPrefix = itemView.context.getString(R.string.last_reported_prefix)
 
     fun bind(model: EntryReportModel) {
-        with(itemView) {
-            text_view_clue_category.text = model.category?.also {
-                text_view_clue_category.visibility = View.VISIBLE
+        with(binding) {
+            with(layoutBaseEntry) {
+                textViewClueCategory.text = model.category?.also {
+                    textViewClueCategory.visibility = View.VISIBLE
+                }
+                textViewClue.text = model.clue
+                textViewAnswer.text = model.answer
             }
-            text_view_clue_category.text = model.category
-            text_view_clue.text = model.clue
-            text_view_answer.text = model.answer
-            text_view_reporters.reporters = model.reporters.map { it.username }
-            time_text_view_last_reported.setTimestamp(
+            textViewReporters.reporters = model.reporters.map { it.username }
+            timeTextViewLastReported.setTimestamp(
                 model.lastReported.time,
                 lastReportedPrefix
             )
-            button_dismiss_report.setVisibleHard(!model.banned)
-            button_ban_entry.setVisibleHard(!model.banned)
-            button_unban_entry.setVisibleHard(model.banned)
+            buttonDismissReport.setVisibleHard(!model.banned)
+            buttonBanEntry.setVisibleHard(!model.banned)
+            buttonUnbanEntry.setVisibleHard(model.banned)
         }
     }
 
     fun recycle() {
-        with(itemView) {
-            text_view_clue_category.text = null
-            text_view_clue_category.visibility = View.GONE
-            text_view_clue.text = null
-            text_view_answer.text = null
-            text_view_reporters.reporters = null
-            time_text_view_last_reported.clear()
-            button_dismiss_report.setVisibleHard(false)
-            button_ban_entry.setVisibleHard(false)
-            button_unban_entry.setVisibleHard(false)
+        with(binding) {
+            with(layoutBaseEntry) {
+                textViewClueCategory.text = null
+                textViewClueCategory.visibility = View.GONE
+                textViewClue.text = null
+                textViewAnswer.text = null
+            }
+            textViewReporters.reporters = null
+            timeTextViewLastReported.clear()
+            buttonDismissReport.setVisibleHard(false)
+            buttonBanEntry.setVisibleHard(false)
+            buttonUnbanEntry.setVisibleHard(false)
         }
     }
 }

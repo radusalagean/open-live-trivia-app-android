@@ -3,7 +3,9 @@ package com.busytrack.openlivetrivia.screen.settings
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.preference.Preference
+import androidx.viewbinding.ViewBinding
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.FragmentBaseTestBinding
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
@@ -19,6 +21,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsMvp.View {
     lateinit var dialogManager: DialogManager
 
     // BaseFragment implementation
+
+    override fun inflateLayout(container: ViewGroup?): ViewBinding {
+        return FragmentBaseTestBinding.inflate(layoutInflater, container, false)
+    }
 
     override fun initViews() {
 
@@ -41,7 +47,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsMvp.View {
         presenter as BaseMvp.Presenter<T>
 
     override fun getInfoBarContainer(): ViewGroup =
-        view!! as ViewGroup
+        requireView() as ViewGroup
 
     override fun injectDependencies() {
         (this.context as BaseActivity).activityComponent.inject(this)

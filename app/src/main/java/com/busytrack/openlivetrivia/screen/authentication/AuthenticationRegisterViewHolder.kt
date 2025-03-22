@@ -2,14 +2,13 @@ package com.busytrack.openlivetrivia.screen.authentication
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.layout_register.view.*
+import com.busytrack.openlivetrivia.databinding.LayoutRegisterBinding
 
 class AuthenticationRegisterViewHolder(
-    view: View,
+    val binding: LayoutRegisterBinding,
     private val contract: AuthenticationContract
-) : RecyclerView.ViewHolder(view) {
+) : RecyclerView.ViewHolder(binding.root) {
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -22,22 +21,22 @@ class AuthenticationRegisterViewHolder(
     }
 
     fun bind() {
-        itemView.run {
-            edit_text_username.addTextChangedListener(textWatcher)
-            button_register.setOnClickListener {
-                contract.onRegisterPressed(edit_text_username.text.trim().toString())
+        binding.run {
+            editTextUsername.addTextChangedListener(textWatcher)
+            buttonRegister.setOnClickListener {
+                contract.onRegisterPressed(editTextUsername.text.trim().toString())
             }
-            link_select_another_account.setOnClickListener {
+            linkSelectAnotherAccount.setOnClickListener {
                 contract.onChangeAccountPressed()
             }
         }
     }
 
     fun recycle() {
-        itemView.run {
-            edit_text_username.removeTextChangedListener(textWatcher)
-            button_register.setOnClickListener(null)
-            link_select_another_account.setOnClickListener(null)
+        binding.run {
+            editTextUsername.removeTextChangedListener(textWatcher)
+            buttonRegister.setOnClickListener(null)
+            linkSelectAnotherAccount.setOnClickListener(null)
         }
     }
 }

@@ -1,24 +1,28 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'com.google.devtools.ksp'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'androidx.navigation.safeargs.kotlin'
+}
 
 def userHome = System.getProperty("user.home")
 def globalGradleDir = new File(userHome + "/.gradle")
-def keystorePropertiesFile = new File(globalGradleDir.absolutePath + "/keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    namespace "com.busytrack.openlivetrivia"
+    buildFeatures {
+        buildConfig true
+        viewBinding true
+    }
     signingConfigs {
         config {
-            keyAlias keystoreProperties['openLiveTriviaKeyAlias']
-            keyPassword keystoreProperties['openLiveTriviaKeyPassword']
-            storeFile new File(globalGradleDir.absolutePath + "/" + keystoreProperties['openLiveTriviaStoreFile'])
-            storePassword keystoreProperties['openLiveTriviaStorePassword']
+            keyAlias openLiveTriviaKeyAlias
+            keyPassword openLiveTriviaKeyPassword
+            storeFile new File(globalGradleDir, openLiveTriviaStoreFile)
+            storePassword openLiveTriviaStorePassword
         }
     }
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -71,11 +75,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "21"
     }
     lintOptions {
         disable 'InvalidPackage'
@@ -107,9 +111,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
     implementation "androidx.room:room-runtime:$roomVersion"
-    implementation "com.google.firebase:firebase-crashlytics:$firebasecrashlyticsVersion"
-    implementation "com.google.firebase:firebase-analytics:$firebaseanalyticsVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation platform('com.google.firebase:firebase-bom:33.11.0')
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+    ksp "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-rxjava2:$roomVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
@@ -118,9 +124,6 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     implementation "com.facebook.stetho:stetho:$stethoVersion"
     implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
-    implementation "com.google.firebase:firebase-core:$firebasecoreVersion"
-    implementation "com.google.firebase:firebase-auth:$firebaseauthVersion"
-    implementation "com.google.firebase:firebase-analytics:$firebaseanalyticsVersion"
     implementation "com.google.android.gms:play-services-auth:$playservicesauthVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "androidx.legacy:legacy-support-v4:$legacySupportVersion"
@@ -136,12 +139,11 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
-    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+    ksp "com.github.bumptech.glide:compiler:$glideVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
-    implementation "androidx.fragment:fragment:$fragmentVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
-    implementation "androidx.fragment:fragment-testing:$fragmentVersion"
+    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
     implementation ("io.socket:socket.io-client:$socketioVersion") {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'

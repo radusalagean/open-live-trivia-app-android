@@ -1,25 +1,21 @@
 package com.busytrack.openlivetrivia.screen.authentication
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import com.busytrack.openlivetrivia.BuildConfig
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
+import com.busytrack.openlivetrivia.databinding.FragmentAuthenticationBinding
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.extension.setVisibleSoft
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
-import kotlinx.android.synthetic.main.fragment_authentication.*
-import kotlinx.android.synthetic.main.layout_register.*
-import kotlinx.android.synthetic.main.layout_register.view.*
 import javax.inject.Inject
 
-open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, AuthenticationContract {
+open class AuthenticationFragment : BaseFragment<FragmentAuthenticationBinding>(),
+    AuthenticationMvp.View, AuthenticationContract {
     @Inject
     lateinit var presenter: AuthenticationMvp.Presenter
 
@@ -36,13 +32,6 @@ open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Auth
 
     // Lifecycle callbacks
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_authentication, container, false)
-    }
-
     override fun onStart() {
         super.onStart()
         presenter.checkServerCompatibility()
@@ -50,18 +39,24 @@ open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Auth
 
     // BaseFragment implementation
 
+    override fun inflateLayout(container: ViewGroup?): FragmentAuthenticationBinding {
+        return FragmentAuthenticationBinding.inflate(
+            layoutInflater, container, false
+        )
+    }
+
     override fun setRefreshingIndicator(refreshing: Boolean) {
-        progress_bar_main.setVisibleSoft(refreshing)
-        view_pager.setVisibleSoft(!refreshing)
+        binding.progressBarMain.setVisibleSoft(refreshing)
+        binding.viewPager.setVisibleSoft(!refreshing)
     }
 
     override fun initViews() {
-        view_pager.isUserInputEnabled = false
-        view_pager.adapter = pagerAdapter
+        binding.viewPager.isUserInputEnabled = false
+        binding.viewPager.adapter = pagerAdapter
     }
 
     override fun disposeViews() {
-        view_pager.adapter = null
+        binding.viewPager.adapter = null
     }
 
     override fun registerListeners() {
@@ -90,7 +85,7 @@ open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Auth
     override fun <T : BaseMvp.View> getPresenter(): BaseMvp.Presenter<T> =
         presenter as BaseMvp.Presenter<T>
 
-    override fun getInfoBarContainer(): ViewGroup = authentication_root_view
+    override fun getInfoBarContainer(): ViewGroup = binding.authenticationRootView
 
     override fun injectDependencies() {
         (this.context as BaseActivity).activityComponent.inject(this)
@@ -99,12 +94,12 @@ open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Auth
     // Mvp Implementation
 
     override fun showRegisterPage() {
-        view_pager.currentItem = AuthenticationPageType.REGISTER.ordinal
+        binding.viewPager.currentItem = AuthenticationPageType.REGISTER.ordinal
     }
 
     override fun setUsernameAvailability(available: Boolean) {
-        pagerAdapter.registerViewHolder?.itemView?.apply {
-            text_view_username_availability?.apply {
+        pagerAdapter.registerViewHolder?.binding?.apply {
+            textViewUsernameAvailability.apply {
                 setText(if (available) R.string.username_available else R.string.username_unavailable)
                 setTextColor(
                     ResourcesCompat.getColor(
@@ -115,7 +110,7 @@ open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Auth
                 )
                 setVisibleSoft(true)
             }
-            button_register.isEnabled = available
+            buttonRegister.isEnabled = available
         }
     }
 
@@ -160,16 +155,20 @@ open class AuthenticationFragment : BaseFragment(), AuthenticationMvp.View, Auth
     }
 
     override fun onChangeAccountPressed() {
-        edit_text_username.text = null
-        view_pager.currentItem = AuthenticationPageType.LOG_IN.ordinal
+        pagerAdapter.registerViewHolder?.binding?.editTextUsername?.text = null
+        binding.viewPager.currentItem = AuthenticationPageType.LOG_IN.ordinal
         presenter.firebaseLogOut()
     }
 
     // Private implementation
 
     private fun clearUsernameAvailability() {
-        text_view_username_availability.setVisibleSoft(false)
-        text_view_username_availability.text = null
-        button_register.isEnabled = false
+        pagerAdapter.registerViewHolder?.binding?.apply {
+            textViewUsernameAvailability.apply {
+                setVisibleSoft(false)
+                text = null
+            }
+            buttonRegister.isEnabled = false
+        }
     }
 }

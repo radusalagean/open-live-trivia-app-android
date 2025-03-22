@@ -16,6 +16,7 @@
         tools:ignore="ContentDescription"
         tools:srcCompat="@tools:sample/avatars"/>
 
-    <include layout="@layout/layout_attempt"/>
+    <include layout="@layout/layout_attempt"
+        android:id="@+id/attempt_frame_layout"/>
 
 </LinearLayout>

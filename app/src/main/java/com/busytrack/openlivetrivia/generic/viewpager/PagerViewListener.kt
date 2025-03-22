@@ -1,8 +1,8 @@
 package com.busytrack.openlivetrivia.generic.viewpager
 
-import android.view.View
+import androidx.viewbinding.ViewBinding
 
-interface PagerViewListener {
-    fun onViewInflated(view: View)
-    fun onViewDestroyed(view: View)
+interface PagerViewListener<BINDING : ViewBinding> {
+    fun onViewInflated(index: Int, binding: BINDING)
+    fun onViewDestroyed(index: Int)
 }

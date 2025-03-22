@@ -16,7 +16,9 @@
         android:orientation="vertical"
         android:paddingTop="8dp">
 
-        <include layout="@layout/layout_base_entry"/>
+        <include
+            android:id="@+id/layout_base_entry"
+            layout="@layout/layout_base_entry"/>
         
         <com.busytrack.openlivetrivia.view.ReportersTextView
             android:layout_width="match_parent"

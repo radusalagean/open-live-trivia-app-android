@@ -97,7 +97,9 @@
                 tools:visibility="visible"
                 android:layout_marginTop="8dp">
 
-                <include layout="@layout/layout_base_entry"/>
+                <include
+                    android:id="@+id/layout_base_entry"
+                    layout="@layout/layout_base_entry"/>
 
             </androidx.cardview.widget.CardView>
 

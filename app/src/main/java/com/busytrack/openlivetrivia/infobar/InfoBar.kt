@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.ViewInfoBarBinding
 import com.busytrack.openlivetrivia.extension.findSuitableParent
 import com.busytrack.openlivetrivia.view.InfoBarView
 import com.google.android.material.snackbar.BaseTransientBottomBar
-import kotlinx.android.synthetic.main.layout_info_bar.view.*
 
 const val TYPE_ERROR = 1
 const val TYPE_WARN = 2
@@ -36,27 +36,30 @@ class InfoBar(
             )
 
             // We inflate our custom view
-            val customView = LayoutInflater.from(view.context)
-                .inflate(R.layout.view_info_bar, parent, false) as InfoBarView
+            val binding = ViewInfoBarBinding.inflate(
+                LayoutInflater.from(view.context),
+                parent,
+                false
+            )
 
             // Apply background
             val color = when(type) {
                 TYPE_ERROR -> R.color.colorError
                 TYPE_WARN -> R.color.colorWarn
                 TYPE_INFO -> R.color.colorInfo
-                else -> TYPE_INFO
+                else -> R.color.colorInfo
             }
             if (color != 0) {
-                customView.background = customView.resources.getDrawable(color, null)
+                binding.root.setBackgroundColor(color)
             }
 
             // Set text
-            customView.info_bar_text_view.text = string
+            binding.root.binding.infoBarTextView.text = string
 
             // We create and return our InfoBar
             return InfoBar(
                 parent,
-                customView
+                binding.root
             )
         }
     }

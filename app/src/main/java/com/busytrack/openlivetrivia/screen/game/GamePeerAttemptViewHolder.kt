@@ -3,22 +3,26 @@ package com.busytrack.openlivetrivia.screen.game
 import android.view.View
 import com.bumptech.glide.Glide
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.ItemAttemptPeerBinding
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.model.AttemptModel
-import kotlinx.android.synthetic.main.item_attempt_peer.view.*
-import kotlinx.android.synthetic.main.layout_attempt.view.*
 
-class GamePeerAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView) {
+class GamePeerAttemptViewHolder(
+    private val binding: ItemAttemptPeerBinding
+) : GameAttemptViewHolder(
+    layoutAttemptBinding = binding.attemptFrameLayout,
+    itemViewRoot = binding.root
+) {
     fun bind(model: AttemptModel) {
-        with(itemView) {
-            attempt_text_view_username.visibility = View.VISIBLE
-            attempt_text_view_username.text = model.username
-            attempt_text_view_attempt.text = model.message
-            Glide.with(this)
+        with(binding.attemptFrameLayout) {
+            attemptTextViewUsername.visibility = View.VISIBLE
+            attemptTextViewUsername.text = model.username
+            attemptTextViewAttempt.text = model.message
+            Glide.with(binding.attemptImageViewProfile)
                 .load(UserModel.getThumbnailPath(model.userId))
                 .placeholder(R.drawable.ic_account_circle_accent_24dp)
                 .circleCrop()
-                .into(attempt_image_view_profile)
+                .into(binding.attemptImageViewProfile)
         }
         if (model.correct) {
             switchToCorrectAnswerState()
@@ -26,11 +30,12 @@ class GamePeerAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView
     }
 
     fun recycle() {
-        with(itemView) {
-            attempt_text_view_username.text = null
-            attempt_text_view_attempt.text = null
-            Glide.with(this.context.applicationContext).clear(attempt_image_view_profile)
-            attempt_image_view_profile.setImageDrawable(null)
+        with(binding.attemptFrameLayout) {
+            attemptTextViewUsername.text = null
+            attemptTextViewAttempt.text = null
+            Glide.with(root.context.applicationContext)
+                .clear(binding.attemptImageViewProfile)
+            binding.attemptImageViewProfile.setImageDrawable(null)
         }
         switchToDefaultState()
     }

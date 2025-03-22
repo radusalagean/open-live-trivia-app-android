@@ -1,9 +1,14 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    namespace "com.busytrack.openlivetriviainterface"
+    buildFeatures {
+        buildConfig true
+    }
+    compileSdkVersion rootProject.ext.compileSdkVersion // TODO
 
 
     defaultConfig {
@@ -22,12 +27,12 @@ android {
     productFlavors {
         dev {
             dimension "environment"
-            buildConfigField("String", "ROOT_DOMAIN", "\"http://$openLiveTriviaDevServerIp:$openLiveTriviaDevServerPort\"")
+            buildConfigField("String", "ROOT_DOMAIN", "\"http://192.168.0.2:3006\"")
             buildConfigField("boolean", "SOCKET_IO_SECURE_CONNECTION", "false")
         }
         prod {
             dimension "environment"
-            buildConfigField("String", "ROOT_DOMAIN", "\"https://releasetracker.app\"")
+            buildConfigField("String", "ROOT_DOMAIN", "\"https://api.openlivetrivia.com\"")
             buildConfigField("boolean", "SOCKET_IO_SECURE_CONNECTION", "true")
         }
     }
@@ -38,8 +43,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
 

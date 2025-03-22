@@ -3,11 +3,9 @@ package com.busytrack.openlivetrivia.screen.game
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.ItemAttemptOwnBinding
+import com.busytrack.openlivetrivia.databinding.ItemAttemptPeerBinding
 import com.busytrack.openlivetriviainterface.socket.model.AttemptModel
-
-private const val ATTEMPT_TYPE_OWN = 0
-private const val ATTEMPT_TYPE_PEER = 1
 
 class GameAttemptsAdapter(
     private val contract: GameAttemptContract,
@@ -16,12 +14,18 @@ class GameAttemptsAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            if (viewType == ATTEMPT_TYPE_OWN) R.layout.item_attempt_own else R.layout.item_attempt_peer,
-            parent,
-            false
-        )
-        return if (viewType == ATTEMPT_TYPE_OWN) GameOwnAttemptViewHolder(view) else GamePeerAttemptViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return if (viewType == ViewType.ATTEMPT_TYPE_OWN.id) {
+            val binding = ItemAttemptOwnBinding.inflate(
+                layoutInflater, parent, false
+            )
+            GameOwnAttemptViewHolder(binding)
+        } else {
+            val binding = ItemAttemptPeerBinding.inflate(
+                layoutInflater, parent, false
+            )
+            GamePeerAttemptViewHolder(binding)
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -41,7 +45,10 @@ class GameAttemptsAdapter(
     override fun getItemCount() = attempts.size
 
     override fun getItemViewType(position: Int) =
-        if (attempts[position].userId == authenticatedUserId) ATTEMPT_TYPE_OWN else ATTEMPT_TYPE_PEER
+        if (attempts[position].userId == authenticatedUserId)
+            ViewType.ATTEMPT_TYPE_OWN.id
+        else
+            ViewType.ATTEMPT_TYPE_PEER.id
 
     fun addAttempt(model: AttemptModel) {
         attempts.add(model)
@@ -57,5 +64,10 @@ class GameAttemptsAdapter(
     fun clearAttempts() {
         attempts.clear()
         notifyDataSetChanged()
+    }
+
+    enum class ViewType(val id: Int) {
+        ATTEMPT_TYPE_OWN(0),
+        ATTEMPT_TYPE_PEER(1)
     }
 }

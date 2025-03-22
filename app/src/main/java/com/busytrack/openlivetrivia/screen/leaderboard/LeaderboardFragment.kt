@@ -1,11 +1,9 @@
 package com.busytrack.openlivetrivia.screen.leaderboard
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.FragmentLeaderboardBinding
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
@@ -13,10 +11,9 @@ import com.busytrack.openlivetrivia.generic.recyclerview.ListItemDecoration
 import com.busytrack.openlivetrivia.rights.RightsManager
 import com.busytrack.openlivetrivia.view.ScrollAwareRecyclerView
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
-import kotlinx.android.synthetic.main.fragment_leaderboard.*
 import javax.inject.Inject
 
-class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItemContract,
+class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>(), LeaderboardMvp.View, LeaderboardItemContract,
     ScrollAwareRecyclerView.Listener {
 
     @Inject
@@ -28,14 +25,6 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
     private var leaderboardAdapter: LeaderboardAdapter? = null
 
     // Lifecycle callbacks
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaderboard, container, false)
-    }
 
     // Leaderboard Item Contract
 
@@ -69,8 +58,12 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
 
     // BaseFragment implementation
 
+    override fun inflateLayout(container: ViewGroup?): FragmentLeaderboardBinding {
+        return FragmentLeaderboardBinding.inflate(layoutInflater, container, false)
+    }
+
     override fun initViews() {
-        with(leaderboard_recycler_view) {
+        with(binding.leaderboardRecyclerView) {
             layoutManager = LinearLayoutManager(context)
             adapter = LeaderboardAdapter(this@LeaderboardFragment, arrayListOf()).also {
                 leaderboardAdapter = it
@@ -82,11 +75,11 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
                 context.resources.getDimensionPixelSize(R.dimen.screen_vertical_padding)
             ))
         }
-        leaderboard_swipe_refresh_layout.setColorSchemeResources(R.color.colorAccent)
+        binding.leaderboardSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
     }
 
     override fun disposeViews() {
-        with(leaderboard_recycler_view) {
+        with(binding.leaderboardRecyclerView) {
             layoutManager = null
             adapter = null
             removeItemDecorationAt(0)
@@ -95,15 +88,15 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
     }
 
     override fun registerListeners() {
-        leaderboard_swipe_refresh_layout.setOnRefreshListener {
+        binding.leaderboardSwipeRefreshLayout.setOnRefreshListener {
             triggerFullRefresh()
         }
-        leaderboard_recycler_view.listener = this
+        binding.leaderboardRecyclerView.listener = this
     }
 
     override fun unregisterListeners() {
-        leaderboard_swipe_refresh_layout.setOnRefreshListener(null)
-        leaderboard_recycler_view.listener = null
+        binding.leaderboardSwipeRefreshLayout.setOnRefreshListener(null)
+        binding.leaderboardRecyclerView.listener = null
     }
 
     override fun loadData() {
@@ -114,10 +107,10 @@ class LeaderboardFragment : BaseFragment(), LeaderboardMvp.View, LeaderboardItem
     override fun <T : BaseMvp.View> getPresenter(): BaseMvp.Presenter<T> =
         presenter as BaseMvp.Presenter<T>
 
-    override fun getInfoBarContainer(): ViewGroup = leaderboard_swipe_refresh_layout
+    override fun getInfoBarContainer(): ViewGroup = binding.leaderboardSwipeRefreshLayout
 
     override fun setRefreshingIndicator(refreshing: Boolean) {
-        leaderboard_swipe_refresh_layout.isRefreshing = refreshing
+        binding.leaderboardSwipeRefreshLayout.isRefreshing = refreshing
     }
 
     override fun injectDependencies() {

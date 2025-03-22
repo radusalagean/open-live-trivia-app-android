@@ -1,13 +1,12 @@
 package com.busytrack.openlivetrivia.screen.mainmenu
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.busytrack.openlivetrivia.BuildConfig
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.databinding.FragmentMainMenuBinding
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
@@ -19,13 +18,11 @@ import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_LONG
 import com.busytrack.openlivetrivia.view.COIN_DISPLAY_FORMAT
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
-import kotlinx.android.synthetic.main.fragment_main_menu.*
-import kotlinx.android.synthetic.main.layout_header_user.*
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
-class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
+class MainMenuFragment : BaseFragment<FragmentMainMenuBinding>(), MainMenuMvp.View {
     @Inject
     lateinit var presenter: MainMenuMvp.Presenter
 
@@ -46,15 +43,13 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
 
     // Lifecycle callbacks
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_menu, container, false)
-    }
-
     // BaseFragment implementation
+
+    override fun inflateLayout(container: ViewGroup?): FragmentMainMenuBinding {
+        return FragmentMainMenuBinding.inflate(
+            layoutInflater, container, false
+        )
+    }
 
     override fun initViews() {
         authenticationManager.getAuthenticatedUser()?.let {
@@ -63,46 +58,52 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
             // Thus, there won't be any need for progress bars (silent operation)
             updateAccountInfo(it)
         }
-        text_view_version.text = "v${BuildConfig.VERSION_NAME}"
+        binding.textViewVersion.text = "v${BuildConfig.VERSION_NAME}"
     }
 
     override fun disposeViews() {
-        context?.let { Glide.with(it.applicationContext).clear(image_view_my_profile) }
+        context?.let {
+            Glide.with(it.applicationContext).clear(binding.layoutHeaderUser.imageViewMyProfile)
+        }
     }
 
     override fun registerListeners() {
-        image_view_project_link.setOnClickListener {
-            activityContract.openLinkInBrowser(BuildConfig.APP_PROJECT_LINK)
-        }
-        button_play.setOnClickListener {
-            joinGame()
-        }
-        button_leaderboard.setOnClickListener {
-            showLeaderboardScreen()
-        }
-        button_moderate_reports.setOnClickListener {
-            showModerateReportsScreen()
-        }
-        button_settings.setOnClickListener {
-            showSettingsScreen()
-        }
-        button_log_out.setOnClickListener {
-            authenticationManager.signOut()
-            showAuthenticationScreen()
-        }
-        privacy_policy_link.setOnClickListener {
-            activityContract.openLinkInBrowser(BuildConfig.APP_PRIVACY_POLICY_LINK)
+        binding.apply {
+            imageViewProjectLink.setOnClickListener {
+                activityContract.openLinkInBrowser(BuildConfig.APP_PROJECT_LINK)
+            }
+            buttonPlay.setOnClickListener {
+                joinGame()
+            }
+            buttonLeaderboard.setOnClickListener {
+                showLeaderboardScreen()
+            }
+            buttonModerateReports.setOnClickListener {
+                showModerateReportsScreen()
+            }
+            buttonSettings.setOnClickListener {
+                showSettingsScreen()
+            }
+            buttonLogOut.setOnClickListener {
+                authenticationManager.signOut()
+                showAuthenticationScreen()
+            }
+            privacyPolicyLink.setOnClickListener {
+                activityContract.openLinkInBrowser(BuildConfig.APP_PRIVACY_POLICY_LINK)
+            }
         }
     }
 
     override fun unregisterListeners() {
-        image_view_project_link.setOnLongClickListener(null)
-        button_play.setOnClickListener(null)
-        button_leaderboard.setOnClickListener(null)
-        button_moderate_reports.setOnClickListener(null)
-        button_settings.setOnClickListener(null)
-        button_log_out.setOnClickListener(null)
-        privacy_policy_link.setOnClickListener(null)
+        binding.apply {
+            imageViewProjectLink.setOnLongClickListener(null)
+            buttonPlay.setOnClickListener(null)
+            buttonLeaderboard.setOnClickListener(null)
+            buttonModerateReports.setOnClickListener(null)
+            buttonSettings.setOnClickListener(null)
+            buttonLogOut.setOnClickListener(null)
+            privacyPolicyLink.setOnClickListener(null)
+        }
     }
 
     override fun loadData() {
@@ -113,7 +114,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
     override fun <T : BaseMvp.View> getPresenter(): BaseMvp.Presenter<T> =
         presenter as BaseMvp.Presenter<T>
 
-    override fun getInfoBarContainer(): ViewGroup = main_menu_root_layout
+    override fun getInfoBarContainer(): ViewGroup = binding.mainMenuRootLayout
 
     override fun injectDependencies() {
         (this.context as BaseActivity).activityComponent.inject(this)
@@ -123,13 +124,16 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
 
     override fun updateAccountInfo(userModel: UserModel) {
         with(userModel) {
-            text_view_my_username.text = username
-            Glide.with(image_view_my_profile)
-                .load(UserModel.getThumbnailPath(userId))
-                .placeholder(R.drawable.ic_account_circle_accent_24dp)
-                .circleCrop()
-                .into(image_view_my_profile)
-            text_view_coins.apply {
+            binding.layoutHeaderUser.apply {
+                textViewMyUsername.text = username
+                Glide.with(imageViewMyProfile)
+                    .load(UserModel.getThumbnailPath(userId))
+                    .placeholder(R.drawable.ic_account_circle_accent_24dp)
+                    .circleCrop()
+                    .into(imageViewMyProfile)
+            }
+
+            binding.textViewCoins.apply {
                 if (coins == null) {
                     setCoins(userModel.coins!!)
                 } else {
@@ -154,7 +158,7 @@ class MainMenuFragment : BaseFragment(), MainMenuMvp.View {
                     updateValue(userModel.coins!!, COIN_ACCELERATE_LONG)
                 }
             }
-            button_moderate_reports.visibility =
+            binding.buttonModerateReports.visibility =
                 if (userModel.rights!!.ordinal >= UserRightsLevel.MOD.ordinal) { // MOD or higher rights level
                     View.VISIBLE
                 } else {

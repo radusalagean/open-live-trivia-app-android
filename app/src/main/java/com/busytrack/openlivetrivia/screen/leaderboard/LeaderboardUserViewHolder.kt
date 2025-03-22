@@ -1,44 +1,44 @@
 package com.busytrack.openlivetrivia.screen.leaderboard
 
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.ItemUserBinding
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
-import kotlinx.android.synthetic.main.item_user.view.*
 
-class LeaderboardUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class LeaderboardUserViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(user: UserModel, position: Int) {
-        with(itemView) {
+        with(binding) {
             handlePodium(position)
-            Glide.with(context)
+            Glide.with(userImageViewProfile)
                 .load(UserModel.getThumbnailPath(user.userId))
                 .placeholder(R.drawable.ic_account_circle_accent_24dp)
                 .circleCrop()
-                .into(user_image_view_profile)
-            user_text_view_place.text = position.toString()
-            user_text_view_username.text = user.username
-            user_text_view_rights.rightsLevel = user.rights
-            user_text_view_status.setPlaying(
+                .into(userImageViewProfile)
+            userTextViewPlace.text = position.toString()
+            userTextViewUsername.text = user.username
+            userTextViewRights.rightsLevel = user.rights
+            userTextViewStatus.setPlaying(
                 user.playing,
                 if (!user.playing) user.lastSeen!!.time else null
             )
-            user_text_view_coins.setCoins(user.coins!!)
+            userTextViewCoins.setCoins(user.coins!!)
         }
     }
 
     fun recycle() {
-        with(itemView) {
+        with(binding) {
             handlePodium()
-            Glide.with(context.applicationContext).clear(user_image_view_profile)
-            user_image_view_profile.setImageDrawable(null)
-            user_text_view_place.text = null
-            user_text_view_username.text = null
-            user_text_view_rights.rightsLevel = null
-            user_text_view_status.clear()
-            user_text_view_coins.setCoins(0.0)
+            Glide.with(root.context.applicationContext)
+                .clear(userImageViewProfile)
+            userImageViewProfile.setImageDrawable(null)
+            userTextViewPlace.text = null
+            userTextViewUsername.text = null
+            userTextViewRights.rightsLevel = null
+            userTextViewStatus.clear()
+            userTextViewCoins.setCoins(0.0)
         }
     }
 
@@ -49,11 +49,11 @@ class LeaderboardUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
             3 -> R.drawable.text_view_user_coin_indicator_bronze_background
             else -> R.drawable.text_view_user_coin_indicator_background
         }
-        itemView.linear_layout_coins.background = ContextCompat.getDrawable(
+        binding.linearLayoutCoins.background = ContextCompat.getDrawable(
             itemView.context,
             background
         )
-        with(itemView.shimmer_layout_coins) {
+        with(binding.shimmerLayoutCoins) {
             if (position in 1..3) showShimmer(true) else hideShimmer()
         }
     }

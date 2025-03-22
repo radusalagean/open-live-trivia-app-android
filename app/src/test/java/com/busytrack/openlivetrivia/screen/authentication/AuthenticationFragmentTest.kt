@@ -10,7 +10,6 @@ import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.*
-import kotlinx.android.synthetic.main.fragment_authentication.*
 import org.junit.After
 import org.junit.Before
 
@@ -46,14 +45,14 @@ class AuthenticationFragmentTest {
     fun should_updateRefreshIndicator_when_callbackIsReceived() {
         fragmentScenario.onFragment {
             // Check initial state
-            assertThat(it.progress_bar_main.visibility).isNotEqualTo(View.VISIBLE)
+            assertThat(it.binding.progressBarMain.visibility).isNotEqualTo(View.VISIBLE)
 
             // Set indicator to true
             it.setRefreshingIndicator(true)
 
             // Verify current state
-            assertThat(it.view_pager.visibility).isEqualTo(View.INVISIBLE)
-            assertThat(it.progress_bar_main.visibility).isEqualTo(View.VISIBLE)
+            assertThat(it.binding.viewPager.visibility).isEqualTo(View.INVISIBLE)
+            assertThat(it.binding.progressBarMain.visibility).isEqualTo(View.VISIBLE)
         }
     }
 
@@ -82,7 +81,7 @@ class AuthenticationFragmentTest {
     @Test
     fun should_startWithLoginPage_when_fragmentIsStarted() {
         fragmentScenario.onFragment {
-            assertThat(it.view_pager.currentItem).isEqualTo(AuthenticationPageType.LOG_IN.ordinal)
+            assertThat(it.binding.viewPager.currentItem).isEqualTo(AuthenticationPageType.LOG_IN.ordinal)
         }
     }
 

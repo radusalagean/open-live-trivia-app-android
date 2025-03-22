@@ -1,10 +1,9 @@
 package com.busytrack.openlivetrivia.screen.moderatereports
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.FragmentModerateReportsBinding
+import com.busytrack.openlivetrivia.databinding.LayoutTabModerateReportsBinding
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
@@ -12,12 +11,11 @@ import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.generic.viewpager.PagerViewListener
 import com.busytrack.openlivetriviainterface.rest.model.EntryReportModel
-import kotlinx.android.synthetic.main.fragment_moderate_reports.*
 import javax.inject.Inject
 
-class ModerateReportsFragment : BaseFragment(),
+class ModerateReportsFragment : BaseFragment<FragmentModerateReportsBinding>(),
     ModerateReportsMvp.View,
-    PagerViewListener,
+    PagerViewListener<LayoutTabModerateReportsBinding>,
     ModerateReportsItemContract {
 
     @Inject
@@ -56,27 +54,23 @@ class ModerateReportsFragment : BaseFragment(),
 
     // Fragment lifecycle
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_moderate_reports, container, false)
-    }
-
     // Pager View Listener
 
-    override fun onViewInflated(view: View) {
-        when(view.id) {
-            R.id.swipe_refresh_reported_entries -> reportedEntriesTab.onViewInflated(view)
-            R.id.swipe_refresh_banned_entries -> bannedEntriesTab.onViewInflated(view)
+    override fun onViewInflated(index: Int, binding: LayoutTabModerateReportsBinding) {
+        when(index) {
+            ModerateReportsPagerAdapter.INDEX_TAB_REPORTED_ENTRIES ->
+                reportedEntriesTab.onViewInflated(index, binding)
+            ModerateReportsPagerAdapter.INDEX_TAB_BANNED_ENTRIES ->
+                bannedEntriesTab.onViewInflated(index, binding)
         }
     }
 
-    override fun onViewDestroyed(view: View) {
-        when(view.id) {
-            R.id.swipe_refresh_reported_entries -> reportedEntriesTab.onViewDestroyed(view)
-            R.id.swipe_refresh_banned_entries -> bannedEntriesTab.onViewDestroyed(view)
+    override fun onViewDestroyed(index: Int) {
+        when(index) {
+            ModerateReportsPagerAdapter.INDEX_TAB_REPORTED_ENTRIES ->
+                reportedEntriesTab.onViewDestroyed(index)
+            ModerateReportsPagerAdapter.INDEX_TAB_BANNED_ENTRIES ->
+                bannedEntriesTab.onViewDestroyed(index)
         }
     }
 
@@ -114,14 +108,20 @@ class ModerateReportsFragment : BaseFragment(),
 
     // BaseFragment implementation
 
+    override fun inflateLayout(container: ViewGroup?): FragmentModerateReportsBinding {
+        return FragmentModerateReportsBinding.inflate(
+            layoutInflater, container, false
+        )
+    }
+
     override fun initViews() {
-        moderate_reports_view_pager.adapter = ModerateReportsPagerAdapter(context!!, this)
-        moderate_reports_tab_layout.setupWithViewPager(moderate_reports_view_pager)
+        binding.moderateReportsViewPager.adapter = ModerateReportsPagerAdapter(requireContext(), this)
+        binding.moderateReportsTabLayout.setupWithViewPager(binding.moderateReportsViewPager)
     }
 
     override fun disposeViews() {
-        moderate_reports_view_pager.adapter = null
-        moderate_reports_tab_layout.setupWithViewPager(null)
+        binding.moderateReportsViewPager.adapter = null
+        binding.moderateReportsTabLayout.setupWithViewPager(null)
     }
 
     override fun registerListeners() {
@@ -139,7 +139,7 @@ class ModerateReportsFragment : BaseFragment(),
     override fun <T : BaseMvp.View> getPresenter(): BaseMvp.Presenter<T> =
         presenter as BaseMvp.Presenter<T>
 
-    override fun getInfoBarContainer(): ViewGroup = moderate_reports_root_view
+    override fun getInfoBarContainer(): ViewGroup = binding.moderateReportsRootView
 
     override fun injectDependencies() {
         (this.context as BaseActivity).activityComponent.inject(this)

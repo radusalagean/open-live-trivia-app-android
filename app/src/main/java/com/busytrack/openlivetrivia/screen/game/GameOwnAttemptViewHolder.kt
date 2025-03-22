@@ -1,15 +1,19 @@
 package com.busytrack.openlivetrivia.screen.game
 
-import android.view.View
+import com.busytrack.openlivetrivia.databinding.ItemAttemptOwnBinding
 import com.busytrack.openlivetriviainterface.socket.model.AttemptModel
-import kotlinx.android.synthetic.main.layout_attempt.view.*
 
-class GameOwnAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView) {
+class GameOwnAttemptViewHolder(
+    private val binding: ItemAttemptOwnBinding
+) : GameAttemptViewHolder(
+    layoutAttemptBinding = binding.attemptFrameLayout,
+    itemViewRoot = binding.root
+) {
     fun bind(model: AttemptModel, contract: GameAttemptContract) {
         itemView.setOnClickListener {
             contract.onAttemptClicked(model.message)
         }
-        itemView.attempt_text_view_attempt.text = model.message
+        binding.attemptFrameLayout.attemptTextViewAttempt.text = model.message
         if (model.correct) {
             switchToCorrectAnswerState()
         }
@@ -17,7 +21,7 @@ class GameOwnAttemptViewHolder(itemView: View) : GameAttemptViewHolder(itemView)
 
     fun recycle() {
         itemView.setOnClickListener(null)
-        itemView.attempt_text_view_attempt.text = null
+        binding.attemptFrameLayout.attemptTextViewAttempt.text = null
         switchToDefaultState()
     }
 }

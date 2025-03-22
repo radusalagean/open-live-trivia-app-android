@@ -1,7 +1,7 @@
 package com.busytrack.openlivetrivia.screen.moderatereports
 
-import android.view.View
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.LayoutTabModerateReportsBinding
 import com.busytrack.openlivetrivia.generic.recyclerview.ListItemDecoration
 import com.busytrack.openlivetrivia.generic.viewpager.PagerViewListener
 import com.busytrack.openlivetrivia.view.ScrollAwareRecyclerView
@@ -10,9 +10,10 @@ import com.busytrack.openlivetriviainterface.rest.model.EntryReportModel
 abstract class ModerateReportsBaseTab(
     listItemContract: ModerateReportsItemContract,
     protected val tabContract: ModerateReportsTabContract
-) : PagerViewListener {
+) : PagerViewListener<LayoutTabModerateReportsBinding> {
 
-    protected var rootView: View? = null
+    private var _binding: LayoutTabModerateReportsBinding? = null
+    protected val binding get() = _binding!!
     protected var adapter = ModerateReportsListAdapter(contract = listItemContract)
     var refreshing: Boolean = false
         set(value) {
@@ -30,6 +31,14 @@ abstract class ModerateReportsBaseTab(
 
     private fun setLoadMoreIndicatorState(loading: Boolean) {
         adapter.apply { if (loading) showLoadingPlaceholder() else hideLoadingPlaceholder() }
+    }
+
+    protected fun setBinding(binding: LayoutTabModerateReportsBinding) {
+        _binding = binding
+    }
+
+    protected fun clearBinding() {
+        _binding = null
     }
 
     abstract fun syncState()

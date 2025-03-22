@@ -6,26 +6,32 @@ import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.busytrack.openlivetrivia.R
-import kotlinx.android.synthetic.main.layout_attempt.view.*
+import com.busytrack.openlivetrivia.databinding.LayoutAttemptBinding
 
-abstract class GameAttemptViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private var defaultBackground: Drawable = itemView.attempt_frame_layout.background
-    private var defaultUsernameTextColor: ColorStateList = itemView.attempt_text_view_username.textColors
-    private var defaultAttemptTextColor: ColorStateList = itemView.attempt_text_view_attempt.textColors
+abstract class GameAttemptViewHolder(
+    val layoutAttemptBinding: LayoutAttemptBinding,
+    itemViewRoot: View
+) : RecyclerView.ViewHolder(itemViewRoot) {
+    private var defaultBackground: Drawable = layoutAttemptBinding
+        .attemptFrameLayout.background
+    private var defaultUsernameTextColor: ColorStateList = layoutAttemptBinding
+        .attemptTextViewUsername.textColors
+    private var defaultAttemptTextColor: ColorStateList = layoutAttemptBinding
+        .attemptTextViewAttempt.textColors
 
     protected fun switchToCorrectAnswerState() {
-        itemView.apply {
-            attempt_frame_layout.background = ResourcesCompat.getDrawable(
+        layoutAttemptBinding.apply {
+            attemptFrameLayout.background = ResourcesCompat.getDrawable(
                 itemView.resources,
                 R.drawable.layout_correct_attempt_background,
                 null
             )
-            attempt_text_view_username.setTextColor(ResourcesCompat.getColor(
-                resources,
+            attemptTextViewUsername.setTextColor(ResourcesCompat.getColor(
+                itemView.resources,
                 R.color.colorWhite,
                 null
             ))
-            attempt_text_view_attempt.setTextColor(ResourcesCompat.getColor(
+            attemptTextViewAttempt.setTextColor(ResourcesCompat.getColor(
                 itemView.resources,
                 R.color.colorWhite,
                 null
@@ -34,8 +40,10 @@ abstract class GameAttemptViewHolder(itemView: View) : RecyclerView.ViewHolder(i
     }
 
     protected fun switchToDefaultState() {
-        itemView.attempt_frame_layout.background = defaultBackground
-        itemView.attempt_text_view_username.setTextColor(defaultUsernameTextColor)
-        itemView.attempt_text_view_attempt.setTextColor(defaultAttemptTextColor)
+        layoutAttemptBinding.apply {
+            attemptFrameLayout.background = defaultBackground
+            attemptTextViewUsername.setTextColor(defaultUsernameTextColor)
+            attemptTextViewAttempt.setTextColor(defaultAttemptTextColor)
+        }
     }
 }

@@ -3,7 +3,8 @@ package com.busytrack.openlivetrivia.screen.leaderboard
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.ItemUserBinding
+import com.busytrack.openlivetrivia.databinding.ItemUserLoadingBinding
 import com.busytrack.openlivetrivia.generic.recyclerview.DynamicLoadAdapter
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
 import timber.log.Timber
@@ -20,17 +21,24 @@ class LeaderboardAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         Timber.d("onCreateViewHolder($viewType)")
-        val view = LayoutInflater.from(parent.context).inflate(
-            viewType, parent, false)
-        return when(viewType) {
-            R.layout.item_user -> LeaderboardUserViewHolder(view).also {
-                it.itemView.setOnLongClickListener { _ ->
-                    leaderboardItemContract.onUserLongClicked(users[it.adapterPosition]!!)
-                    true
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val viewHolder = when (viewType) {
+            ViewType.LOADING.id -> {
+                val binding = ItemUserLoadingBinding.inflate(layoutInflater, parent, false)
+                object : RecyclerView.ViewHolder(binding.root){}
+            }
+            ViewType.USER.id -> {
+                val binding = ItemUserBinding.inflate(layoutInflater, parent, false)
+                LeaderboardUserViewHolder(binding).also {
+                    it.itemView.setOnLongClickListener { _ ->
+                        leaderboardItemContract.onUserLongClicked(users[it.adapterPosition]!!)
+                        true
+                    }
                 }
             }
-            else -> object : RecyclerView.ViewHolder(view){}
+            else -> null
         }
+        return requireNotNull(viewHolder)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -54,8 +62,8 @@ class LeaderboardAdapter(
 
     override fun getItemViewType(position: Int) =
         when(users[position]) {
-            is UserModel -> R.layout.item_user
-            else -> R.layout.item_user_loading
+            is UserModel -> ViewType.USER.id
+            else -> ViewType.LOADING.id
         }
 
     // DynamicLoadAdapter
@@ -79,5 +87,10 @@ class LeaderboardAdapter(
     override fun clearList() {
         users.clear()
         notifyDataSetChanged()
+    }
+
+    enum class ViewType(val id: Int) {
+        LOADING(0),
+        USER(1)
     }
 }

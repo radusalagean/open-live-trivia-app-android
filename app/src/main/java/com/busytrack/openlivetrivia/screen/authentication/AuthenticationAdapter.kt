@@ -3,6 +3,8 @@ package com.busytrack.openlivetrivia.screen.authentication
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.busytrack.openlivetrivia.databinding.LayoutLogInBinding
+import com.busytrack.openlivetrivia.databinding.LayoutRegisterBinding
 
 class AuthenticationAdapter(
     private val contract: AuthenticationContract
@@ -16,12 +18,15 @@ class AuthenticationAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val pageType = AuthenticationPageType.values()[viewType]
-        return LayoutInflater.from(parent.context).inflate(pageType.layoutId, parent, false).let {
-            when(pageType) {
-                AuthenticationPageType.LOG_IN ->
-                    AuthenticationLoginViewHolder(it, contract).also { loginViewHolder = it }
-                AuthenticationPageType.REGISTER ->
-                    AuthenticationRegisterViewHolder(it, contract).also { registerViewHolder = it }
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return when(pageType) {
+            AuthenticationPageType.LOG_IN -> {
+                val binding = LayoutLogInBinding.inflate(layoutInflater, parent, false)
+                AuthenticationLoginViewHolder(binding, contract).also { loginViewHolder = it }
+            }
+            AuthenticationPageType.REGISTER -> {
+                val binding = LayoutRegisterBinding.inflate(layoutInflater, parent, false)
+                AuthenticationRegisterViewHolder(binding, contract).also { registerViewHolder = it }
             }
         }
     }

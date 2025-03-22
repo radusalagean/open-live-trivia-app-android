@@ -1,41 +1,41 @@
 package com.busytrack.openlivetrivia.screen.game
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.ItemUserCompactBinding
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
-import kotlinx.android.synthetic.main.item_user_compact.view.*
 
-class GamePlayerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class GamePlayerViewHolder(val binding: ItemUserCompactBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(user: UserModel, contract: GamePlayerContract) {
-        with(itemView) {
-            user_parent_layout.setOnLongClickListener {
+        with(binding) {
+            userParentLayout.setOnLongClickListener {
                 contract.onPlayerLongClicked(user)
                 true
             }
-            Glide.with(context)
+            Glide.with(userImageViewProfile)
                 .load(UserModel.getThumbnailPath(user.userId))
                 .placeholder(R.drawable.ic_account_circle_accent_24dp)
                 .circleCrop()
-                .into(user_image_view_profile)
-            user_text_view_username.text = user.username
-            user_text_view_rights.rightsLevel = user.rights
-            user_text_view_status.setPlaying(true)
-            user_text_view_coins.setCoins(user.coins!!)
+                .into(userImageViewProfile)
+            userTextViewUsername.text = user.username
+            userTextViewRights.rightsLevel = user.rights
+            userTextViewStatus.setPlaying(true)
+            userTextViewCoins.setCoins(user.coins!!)
         }
     }
 
     fun recycle() {
-        with(itemView) {
-            user_parent_layout.setOnLongClickListener(null)
-            Glide.with(this.context.applicationContext).clear(user_image_view_profile)
-            user_image_view_profile.setImageDrawable(null)
-            user_text_view_username.text = null
-            user_text_view_rights.rightsLevel = null
-            user_text_view_status.clear()
-            user_text_view_coins.setCoins(0.0)
+        with(binding) {
+            userParentLayout.setOnLongClickListener(null)
+            Glide.with(root.context.applicationContext)
+                .clear(userImageViewProfile)
+            userImageViewProfile.setImageDrawable(null)
+            userTextViewUsername.text = null
+            userTextViewRights.rightsLevel = null
+            userTextViewStatus.clear()
+            userTextViewCoins.setCoins(0.0)
         }
     }
 }

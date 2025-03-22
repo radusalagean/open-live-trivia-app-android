@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.databinding.ItemReportedEntryBinding
+import com.busytrack.openlivetrivia.databinding.ItemReportedEntryLoadingBinding
 import com.busytrack.openlivetrivia.generic.recyclerview.DynamicLoadAdapter
 import com.busytrack.openlivetriviainterface.rest.model.EntryReportModel
-import kotlinx.android.synthetic.main.item_reported_entry.view.*
-import kotlinx.android.synthetic.main.layout_base_entry.view.*
 
 class ModerateReportsListAdapter(
     private val reports: ArrayList<EntryReportModel?> = arrayListOf(),
@@ -21,26 +20,35 @@ class ModerateReportsListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return LayoutInflater.from(parent.context).inflate(viewType, parent, false).let {
-            when(viewType) {
-                R.layout.item_reported_entry -> {
-                    ModerateReportsListViewHolder(it).apply {
-                        // Hide game-specific views
-                        itemView.group_game_specific_views.visibility = View.GONE
-                        itemView.button_ban_entry.setOnClickListener {
-                            contract.onBanClicked(reports[adapterPosition]!!)
-                        }
-                        itemView.button_unban_entry.setOnClickListener {
-                            contract.onUnbanClicked(reports[adapterPosition]!!)
-                        }
-                        itemView.button_dismiss_report.setOnClickListener {
-                            contract.onDismissClicked(reports[adapterPosition]!!)
-                        }
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val viewHolder = when (viewType) {
+            ViewType.LOADING.id -> {
+                val binding = ItemReportedEntryLoadingBinding.inflate(
+                    layoutInflater, parent, false
+                )
+                object : RecyclerView.ViewHolder(binding.root){}
+            }
+            ViewType.REPORTED_ENTRY.id -> {
+                val binding = ItemReportedEntryBinding.inflate(
+                    layoutInflater, parent, false
+                )
+                ModerateReportsListViewHolder(binding).apply {
+                    // Hide game-specific views
+                    binding.layoutBaseEntry.groupGameSpecificViews.visibility = View.GONE
+                    binding.buttonBanEntry.setOnClickListener {
+                        contract.onBanClicked(reports[adapterPosition]!!)
+                    }
+                    binding.buttonUnbanEntry.setOnClickListener {
+                        contract.onUnbanClicked(reports[adapterPosition]!!)
+                    }
+                    binding.buttonDismissReport.setOnClickListener {
+                        contract.onDismissClicked(reports[adapterPosition]!!)
                     }
                 }
-                else -> object : RecyclerView.ViewHolder(it){}
             }
+            else -> null
         }
+        return requireNotNull(viewHolder)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -59,8 +67,8 @@ class ModerateReportsListAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when(reports[position]) {
-            is EntryReportModel -> R.layout.item_reported_entry
-            else -> R.layout.item_reported_entry_loading
+            is EntryReportModel -> ViewType.REPORTED_ENTRY.id
+            else -> ViewType.LOADING.id
         }
     }
 
@@ -88,5 +96,10 @@ class ModerateReportsListAdapter(
     override fun clearList() {
         reports.clear()
         notifyDataSetChanged()
+    }
+
+    enum class ViewType(val id: Int) {
+        LOADING(0),
+        REPORTED_ENTRY(1)
     }
 }

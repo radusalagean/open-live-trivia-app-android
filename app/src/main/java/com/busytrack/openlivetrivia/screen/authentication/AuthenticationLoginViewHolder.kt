@@ -1,20 +1,19 @@
 package com.busytrack.openlivetrivia.screen.authentication
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.layout_log_in.view.*
+import com.busytrack.openlivetrivia.databinding.LayoutLogInBinding
 
 class AuthenticationLoginViewHolder(
-    view: View,
+    val binding: LayoutLogInBinding,
     private val contract: AuthenticationContract
-) : RecyclerView.ViewHolder(view) {
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind() {
         with(itemView) {
-            button_log_in.setOnClickListener {
+            binding.buttonLogIn.setOnClickListener {
                 contract.onLoginPressed()
             }
-            privacy_policy_link.setOnClickListener {
+            binding.privacyPolicyLink.setOnClickListener {
                 contract.onPrivacyPolicyLinkPressed()
             }
         }
@@ -22,8 +21,8 @@ class AuthenticationLoginViewHolder(
 
     fun recycle() {
         with(itemView) {
-            button_log_in.setOnLongClickListener(null)
-            privacy_policy_link.setOnClickListener(null)
+            binding.buttonLogIn.setOnLongClickListener(null)
+            binding.privacyPolicyLink.setOnClickListener(null)
         }
     }
 }
