@@ -65,7 +65,12 @@ class AuthenticationPresenter(
     }
 
     override fun firebaseLogIn() {
-        authenticationManager.signIn()
+        authenticationManager.signIn(
+            onError = { message ->
+                activityContract.showErrorMessage(R.string.general_error_message, message)
+                refreshing = false
+            }
+        )
         refreshing = true
     }
 

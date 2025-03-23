@@ -1,25 +1,67 @@
 package com.busytrack.openlivetrivia.auth
 
-import android.content.Intent
+import android.content.Context
+import androidx.credentials.ClearCredentialStateRequest
+import androidx.credentials.Credential
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.ClearCredentialException
+import androidx.credentials.exceptions.GetCredentialException
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.coroutines.CoroutineContext
 
 class AuthenticationManager(
+    private val activityContext: Context,
     private val sharedPreferencesRepository: SharedPreferencesRepository,
-    private val googleSignInClient: GoogleSignInClient,
-    private val firebaseAuth: FirebaseAuth,
-    private val activityContract: ActivityContract
-) {
+    val firebaseAuth: FirebaseAuth,
+    private val activityContract: ActivityContract,
+    private val googleIdOption: GetGoogleIdOption,
+    private val credentialManager: CredentialManager
+) : CoroutineScope {
 
-    fun signIn() {
-        activityContract.triggerGoogleSignIn(googleSignInClient.signInIntent)
+    private val job = SupervisorJob()
+
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
+
+    fun signIn(
+        onError: (message: String) -> Unit
+    ) {
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+        launch {
+            try {
+                // Launch Credential Manager UI
+                val result = credentialManager.getCredential(
+                    context = activityContext,
+                    request = request
+                )
+
+                // Extract credential from the result returned by Credential Manager
+                handleSignIn(result.credential)
+            } catch (e: GetCredentialException) {
+                onError("Couldn't retrieve user's credentials: ${e.localizedMessage}")
+            }
+        }
+    }
+
+    private fun handleSignIn(credential: Credential) {
+        // Create Google ID Token
+        val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+
+        // Sign in to Firebase with using the token
+        activityContract.firebaseAuthWithGoogle(googleIdTokenCredential.idToken)
     }
 
     /**
@@ -27,24 +69,16 @@ class AuthenticationManager(
      */
     fun signOut(silent: Boolean = false) {
         firebaseAuth.signOut()
-        googleSignInClient.signOut()
-        googleSignInClient.revokeAccess()
+        launch {
+            try {
+                val clearRequest = ClearCredentialStateRequest()
+                credentialManager.clearCredentialState(clearRequest)
+            } catch (e: ClearCredentialException) {
+                Timber.e("Couldn't clear user credentials: ${e.localizedMessage}")
+            }
+        }
         sharedPreferencesRepository.clearAuthenticatedAccount()
         if (!silent) activityContract.showLogOutMessage()
-    }
-
-    fun handleGoogleSignInSuccess(data: Intent?) {
-        // Google log in was successful, authenticate with Firebase
-        try {
-            val accountTask = GoogleSignIn.getSignedInAccountFromIntent(data)
-            authenticateWithFirebase(accountTask.result)
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
-    }
-
-    fun handleGoogleSignInFailure(resultCode: Int) {
-        activityContract.handleFailedFirebaseLogIn(Exception("Result code: $resultCode"))
     }
 
     fun setAuthenticatedUser(userModel: UserModel) {
@@ -52,16 +86,4 @@ class AuthenticationManager(
     }
 
     fun getAuthenticatedUser() = sharedPreferencesRepository.getAuthenticatedAccount()
-
-    private fun authenticateWithFirebase(account: GoogleSignInAccount?) {
-        val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-        firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    activityContract.handleSuccessfulFirebaseLogIn()
-                } else {
-                    activityContract.handleFailedFirebaseLogIn(it.exception)
-                }
-            }
-    }
 }

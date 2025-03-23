@@ -115,6 +115,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
+    implementation("androidx.credentials:credentials:$androidxCredentials")
+    implementation("androidx.credentials:credentials-play-services-auth:$androidxCredentials")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     ksp "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-rxjava2:$roomVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"

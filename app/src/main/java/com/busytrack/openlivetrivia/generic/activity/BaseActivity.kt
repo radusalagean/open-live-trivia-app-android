@@ -4,18 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
-import com.busytrack.openlivetrivia.auth.SignInResult
-import com.busytrack.openlivetrivia.auth.SignInResultContract
 import com.busytrack.openlivetrivia.di.activity.ActivityComponent
 import com.busytrack.openlivetrivia.di.activity.ActivityModule
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.infobar.*
 import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.firebase.auth.GoogleAuthProvider
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import timber.log.Timber
 
@@ -24,9 +22,6 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     abstract var authenticationManager: AuthenticationManager
     abstract var infoBarManager: InfoBarManager
-    abstract var signInResultContract: SignInResultContract
-
-    private lateinit var signInResultLauncher: ActivityResultLauncher<Intent>
 
     // Dagger2 Activity Component lazy initialization
     val activityComponent: ActivityComponent by lazy {
@@ -39,7 +34,6 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.tag(logTag).v("-A-> onCreate($savedInstanceState)")
         injectDependencies()
-        registerForActivityResults()
         super.onCreate(savedInstanceState)
     }
 
@@ -120,8 +114,16 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
         enqueueMessage(TYPE_ERROR, message, *args)
     }
 
-    override fun triggerGoogleSignIn(intent: Intent) {
-        signInResultLauncher.launch(intent)
+    override fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        authenticationManager.firebaseAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    handleSuccessfulFirebaseLogIn()
+                } else {
+                    handleFailedFirebaseLogIn(task.exception)
+                }
+            }
     }
 
     override fun handleSuccessfulFirebaseLogIn() {
@@ -180,17 +182,6 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
         val string = if (args.isEmpty()) getString(message) else getString(message, *args)
         getCurrentFragment()?.let {
             infoBarManager.enqueueMessage(InfoBarConfiguration(string, type))
-        }
-    }
-
-    private fun registerForActivityResults() {
-        signInResultLauncher = registerForActivityResult(signInResultContract) {
-            when (it) {
-                is SignInResult.Success ->
-                    authenticationManager.handleGoogleSignInSuccess(it.intent)
-                is SignInResult.Failure ->
-                    authenticationManager.handleGoogleSignInFailure(it.resultCode)
-            }
         }
     }
 }

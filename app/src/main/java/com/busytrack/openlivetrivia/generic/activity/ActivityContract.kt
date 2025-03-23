@@ -1,6 +1,5 @@
 package com.busytrack.openlivetrivia.generic.activity
 
-import android.content.Intent
 import androidx.annotation.IdRes
 import com.busytrack.openlivetrivia.infobar.InfoBar
 import com.busytrack.openlivetrivia.infobar.TYPE_ERROR
@@ -28,9 +27,9 @@ interface ActivityContract {
     fun showErrorMessage(message: Int, vararg args: Any? = emptyArray())
 
     /**
-     * Start the Google Sign In flow
+     * Firebase Auth flow
      */
-    fun triggerGoogleSignIn(intent: Intent)
+    fun firebaseAuthWithGoogle(idToken: String)
 
     /**
      * Get the main container for Fragments from a specific Activity
