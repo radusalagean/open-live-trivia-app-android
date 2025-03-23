@@ -5,10 +5,8 @@ import java.io.File
 object NetworkTestUtil {
 
     /**
-     * Helper function which will load JSON from
-     * the path specified
+     * Helper function which will load JSON
      *
-     * @param path : Path of JSON file
      * @return json : JSON from file at given path
      */
     fun getJson(jsonFileName : String) : String {

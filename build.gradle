@@ -7,7 +7,6 @@ buildscript {
     ext.navigationVersion = '2.8.9'
     dependencies {
         classpath "com.android.tools.build:gradle:$rootProject.ext.gradlebuildtoolsVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$rootProject.ext.kotlinVersion"
         classpath "com.google.gms:google-services:$rootProject.ext.googleservicesVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
         // NOTE: Do not place your application dependencies here; they belong
@@ -26,15 +25,11 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin' version '2.8.9' apply false
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
 ext {
     // Sdk versions
-    minSdkVersion = 23
-    targetSdkVersion = 31 // TODO
-    compileSdkVersion = 35
+    minSdk = 23
+    targetSdk = 31 // TODO
+    compileSdk = 35
 
     // App versioning
     versionCode = 2 // TODO Update

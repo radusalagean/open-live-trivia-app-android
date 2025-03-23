@@ -23,9 +23,9 @@ class BaseApiModule {
     @ApplicationScope
     fun provideLoggingInterceptor(): Interceptor? {
         return if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
+            HttpLoggingInterceptor { message ->
                 Timber.tag(OKHTTP_TAG).d(message)
-            }).setLevel(HttpLoggingInterceptor.Level.BODY)
+            }.setLevel(HttpLoggingInterceptor.Level.BODY)
         } else {
             null
         }

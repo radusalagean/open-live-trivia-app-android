@@ -1,6 +1,5 @@
 package com.busytrack.openlivetrivia.screen.game
 
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*

@@ -24,7 +24,7 @@ class SocketHub(
 
     init {
         // Register socket events
-        SocketIncomingEvent.values().forEach { event ->
+        SocketIncomingEvent.entries.forEach { event ->
             socket.on(event.eventName) { args ->
                 onEventReceived(event, *args)
             }

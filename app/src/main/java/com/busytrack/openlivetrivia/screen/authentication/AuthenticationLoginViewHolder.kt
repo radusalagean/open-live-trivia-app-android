@@ -9,20 +9,20 @@ class AuthenticationLoginViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind() {
-        with(itemView) {
-            binding.buttonLogIn.setOnClickListener {
+        with(binding) {
+            buttonLogIn.setOnClickListener {
                 contract.onLoginPressed()
             }
-            binding.privacyPolicyLink.setOnClickListener {
+            privacyPolicyLink.setOnClickListener {
                 contract.onPrivacyPolicyLinkPressed()
             }
         }
     }
 
     fun recycle() {
-        with(itemView) {
-            binding.buttonLogIn.setOnLongClickListener(null)
-            binding.privacyPolicyLink.setOnClickListener(null)
+        with(binding) {
+            buttonLogIn.setOnLongClickListener(null)
+            privacyPolicyLink.setOnClickListener(null)
         }
     }
 }

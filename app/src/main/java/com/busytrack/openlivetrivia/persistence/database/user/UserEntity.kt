@@ -33,7 +33,7 @@ data class UserEntity(
             UserModel(
                 u.userId,
                 u.username,
-                UserRightsLevel.values()[u.rights],
+                UserRightsLevel.entries[u.rights],
                 u.coins,
                 Date(u.lastSeen),
                 false,

@@ -41,7 +41,7 @@ class SharedPreferencesRepository(
         return UserModel(
             userId,
             sharedPreferences.getString(PREF_ACCOUNT_USERNAME, null)!!,
-            UserRightsLevel.values()[sharedPreferences.getInt(PREF_ACCOUNT_RIGHTS, 0)],
+            UserRightsLevel.entries[sharedPreferences.getInt(PREF_ACCOUNT_RIGHTS, 0)],
             sharedPreferences.getString(PREF_ACCOUNT_COINS, null)!!.toDouble(),
             null,
             false,

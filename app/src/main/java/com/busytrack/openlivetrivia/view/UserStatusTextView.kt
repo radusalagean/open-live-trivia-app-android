@@ -1,6 +1,7 @@
 package com.busytrack.openlivetrivia.view
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import androidx.core.content.res.ResourcesCompat
 import com.busytrack.openlivetrivia.R
@@ -10,7 +11,7 @@ class UserStatusTextView(
     attributeSet: AttributeSet? = null
 ) : TimeTextView(context, attributeSet) {
 
-    val defaultTextColor = textColors
+    val defaultTextColor: ColorStateList = textColors
 
     fun setPlaying(playing: Boolean, lastSeenTimestamp: Long? = null) {
         if (playing) {

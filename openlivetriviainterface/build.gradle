@@ -8,12 +8,12 @@ android {
     buildFeatures {
         buildConfig true
     }
-    compileSdkVersion rootProject.ext.compileSdkVersion // TODO
+    compileSdk rootProject.ext.compileSdk
 
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdk
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "SOCKET_IO_PATH", "\"/open-live-trivia-api/socket.io\"")
         buildConfigField("String", "API_PATH", "\"/open-live-trivia-api/v1/\"")
@@ -23,7 +23,7 @@ android {
         buildConfigField("double", "COST_EXTRA_ANSWER", "1.0")
         buildConfigField("int", "PER_PAGE", "20")
     }
-    flavorDimensions "environment"
+    flavorDimensions = ["environment"]
     productFlavors {
         dev {
             dimension "environment"

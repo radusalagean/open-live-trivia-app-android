@@ -25,11 +25,11 @@ android {
             storePassword openLiveTriviaStorePassword
         }
     }
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdk rootProject.ext.compileSdk
     defaultConfig {
         applicationId "com.busytrack.openlivetrivia"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdk
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -57,7 +57,7 @@ android {
             java.srcDir sharedTestDir
         }
     }
-    flavorDimensions "environment"
+    flavorDimensions = ["environment"]
     productFlavors {
         dev {
             dimension "environment"
@@ -66,8 +66,8 @@ android {
             dimension "environment"
         }
     }
-    applicationVariants.all { variant ->
-        variant.outputs.all {
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
             def version = variant.versionName
             def buildType = variant.buildType.name
             def flavor = variant.productFlavors[0].name

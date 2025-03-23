@@ -17,7 +17,7 @@ class AuthenticationAdapter(
         private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val pageType = AuthenticationPageType.values()[viewType]
+        val pageType = AuthenticationPageType.entries[viewType]
         val layoutInflater = LayoutInflater.from(parent.context)
         return when(pageType) {
             AuthenticationPageType.LOG_IN -> {
@@ -45,7 +45,7 @@ class AuthenticationAdapter(
         }
     }
 
-    override fun getItemCount() = AuthenticationPageType.values().size
+    override fun getItemCount() = AuthenticationPageType.entries.size
 
     override fun getItemViewType(position: Int) = position
 }

@@ -8,7 +8,7 @@ import android.os.Build
 /**
  * https://stackoverflow.com/a/51640906/11631823
  */
-fun Context.unwrap(): Context? {
+fun Context.unwrap(): Context {
     var context: Context = this
     while(context !is Activity && context is ContextWrapper) {
         context = context.baseContext
@@ -19,4 +19,4 @@ fun Context.unwrap(): Context? {
 /**
  * Returns true if the current session is a Robolectric test one, false otherwise
  */
-fun Context.isRobolectricUnitTest() = "robolectric" == Build.FINGERPRINT
+fun isRobolectricUnitTest() = "robolectric" == Build.FINGERPRINT

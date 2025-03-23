@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import androidx.core.content.ContextCompat
 import timber.log.Timber
 
 /**
@@ -17,7 +18,12 @@ abstract class BaseBroadcastReceiver : BroadcastReceiver() {
     abstract fun getIntentFilter(): IntentFilter
 
     fun register(context: Context) {
-        context.registerReceiver(this, getIntentFilter())
+        ContextCompat.registerReceiver(
+            context,
+            this,
+            getIntentFilter(),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
     }
 
     fun unregister(context: Context) {
