@@ -16,7 +16,7 @@ abstract class BasePagerAdapter<BINDING : ViewBinding>(
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val binding = inflateLayout(container)
-        container.addView(binding.root) // TODO Test
+        container.addView(binding.root)
         pagerViewListener.onViewInflated(position, binding)
         return binding.root
     }

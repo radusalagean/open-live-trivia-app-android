@@ -4,11 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-
-        <!--THESE ARE FOR TRANSLLUCENT UI-->
-        <!--<item name="android:windowContentOverlay">@null</item>-->
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
-        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
         <!--Override default UI styles-->
         <!--<item name="android:buttonStyle">@style/button_regular</item>-->

@@ -2,6 +2,9 @@ package com.busytrack.openlivetrivia.screen.settings
 
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.preference.Preference
 import androidx.viewbinding.ViewBinding
 import com.busytrack.openlivetrivia.R
@@ -34,6 +37,19 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsMvp.View {
     }
 
     override fun registerListeners() {
+        ViewCompat.setOnApplyWindowInsetsListener(requireView()) { v, windowInsets ->
+            val insets = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or
+                        WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+                topMargin = insets.top
+            }
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     override fun unregisterListeners() {

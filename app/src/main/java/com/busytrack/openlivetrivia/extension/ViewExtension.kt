@@ -75,3 +75,29 @@ fun View.getAllChildren(): ArrayList<View> {
     }
     return result
 }
+
+/**
+ * https://stackoverflow.com/a/61909205
+ *
+ * Call this everytime when using [ViewCompat.setOnApplyWindowInsetsListener]
+ * to ensure that insets are always received.
+ */
+fun View.requestApplyInsetsWhenAttached() {
+    // https://chris.banes.dev/2019/04/12/insets-listeners-to-layouts/
+
+    if (isAttachedToWindow) {
+        // We're already attached, just request as normal
+        requestApplyInsets()
+
+    } else {
+        // We're not attached to the hierarchy, add a listener to request when we are
+        addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {
+                v.removeOnAttachStateChangeListener(this)
+                v.requestApplyInsets()
+            }
+
+            override fun onViewDetachedFromWindow(v: View) = Unit
+        })
+    }
+}

@@ -2,6 +2,9 @@ package com.busytrack.openlivetrivia.screen.mainmenu
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.bumptech.glide.Glide
 import com.busytrack.openlivetrivia.BuildConfig
 import com.busytrack.openlivetrivia.R
@@ -69,6 +72,19 @@ class MainMenuFragment : BaseFragment<FragmentMainMenuBinding>(), MainMenuMvp.Vi
 
     override fun registerListeners() {
         binding.apply {
+            ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
+                val insets = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() or
+                            WindowInsetsCompat.Type.displayCutout()
+                )
+                v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    leftMargin = insets.left
+                    bottomMargin = insets.bottom
+                    rightMargin = insets.right
+                    topMargin = insets.top
+                }
+                WindowInsetsCompat.CONSUMED
+            }
             imageViewProjectLink.setOnClickListener {
                 activityContract.openLinkInBrowser(BuildConfig.APP_PROJECT_LINK)
             }

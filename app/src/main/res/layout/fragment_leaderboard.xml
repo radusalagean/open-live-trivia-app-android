@@ -8,13 +8,16 @@
     android:layout_height="match_parent"
     android:paddingStart="@dimen/screen_horizontal_padding"
     android:paddingEnd="@dimen/screen_horizontal_padding"
-    tools:context=".screen.leaderboard.LeaderboardFragment">
+    tools:context=".screen.leaderboard.LeaderboardFragment"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <com.busytrack.openlivetrivia.view.ScrollAwareRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/leaderboard_recycler_view"
         tools:listitem="@layout/item_user_compact"
+        android:clipToPadding="false"
         android:overScrollMode="never"/>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

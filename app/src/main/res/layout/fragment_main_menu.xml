@@ -39,103 +39,123 @@
         app:layout_constrainedWidth="true"
         app:layout_constraintHorizontal_bias="1"/>
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:id="@+id/image_view_logo"
-        android:src="@drawable/app_logo_raw"
-        android:layout_marginTop="48dp"
-        app:layout_constraintTop_toTopOf="parent"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="ContentDescription"/>
+        app:layout_constraintTop_toBottomOf="@id/layout_header_user"
+        app:layout_constraintBottom_toTopOf="@id/text_view_version"
+        android:clipToPadding="false"
+        android:clipChildren="false">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/linear_layout_coins"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_view_logo"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
-        android:background="@drawable/text_view_main_menu_coin_indicator">
-
-        <com.busytrack.openlivetrivia.view.CoinView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="8dp"/>
-
-        <com.busytrack.openlivetrivia.view.CoinsTextView
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/text_view_coins"
-            fontPath="fonts/ShareTechMono-Regular.ttf"
-            android:textSize="24sp"
-            android:textColor="@color/colorBlack"
-            tools:text="100.00"
-            android:includeFontPadding="false"/>
+            android:clipToPadding="false"
+            android:clipChildren="false">
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:id="@+id/image_view_logo"
+                android:src="@drawable/app_logo_raw"
+                android:layout_marginTop="48dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="ContentDescription"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_play"
-        style="@style/button_regular"
-        android:text="@string/play_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_layout_coins"
-        android:layout_marginTop="24dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/linear_layout_coins"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_view_logo"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                android:background="@drawable/text_view_main_menu_coin_indicator">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_leaderboard"
-        style="@style/button_regular"
-        android:text="@string/leaderboard_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_play"
-        android:layout_marginTop="12dp"/>
+                <com.busytrack.openlivetrivia.view.CoinView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_moderate_reports"
-        style="@style/button_regular"
-        android:text="@string/moderate_reports_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_leaderboard"
-        android:layout_marginTop="12dp"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+                <com.busytrack.openlivetrivia.view.CoinsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_view_coins"
+                    fontPath="fonts/ShareTechMono-Regular.ttf"
+                    android:textSize="24sp"
+                    android:textColor="@color/colorBlack"
+                    tools:text="100.00"
+                    android:includeFontPadding="false"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_settings"
-        style="@style/button_regular"
-        android:text="@string/settings_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_moderate_reports"
-        android:layout_marginTop="12dp"
-        tools:visibility="visible"/>
+            </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_log_out"
-        style="@style/button_negative"
-        android:text="@string/log_out_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_settings"
-        android:layout_marginTop="12dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_play"
+                style="@style/button_regular"
+                android:text="@string/play_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_layout_coins"
+                android:layout_marginTop="24dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_leaderboard"
+                style="@style/button_regular"
+                android:text="@string/leaderboard_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_play"
+                android:layout_marginTop="12dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_moderate_reports"
+                style="@style/button_regular"
+                android:text="@string/moderate_reports_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_leaderboard"
+                android:layout_marginTop="12dp"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_settings"
+                style="@style/button_regular"
+                android:text="@string/settings_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_moderate_reports"
+                android:layout_marginTop="12dp"
+                tools:visibility="visible"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_log_out"
+                style="@style/button_negative"
+                android:text="@string/log_out_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_settings"
+                android:layout_marginTop="12dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <TextView
         android:layout_width="wrap_content"

@@ -27,8 +27,8 @@ plugins {
 
 ext {
     // Sdk versions
-    minSdk = 23
-    targetSdk = 31 // TODO
+    minSdk = 26
+    targetSdk = 35
     compileSdk = 35
 
     // App versioning

@@ -17,6 +17,7 @@
         android:id="@+id/recycler_view_moderate_entries"
         tools:listitem="@layout/item_reported_entry"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:clipToPadding="false"
         android:overScrollMode="never"/>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

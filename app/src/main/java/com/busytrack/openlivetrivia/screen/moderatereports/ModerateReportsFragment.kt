@@ -1,6 +1,9 @@
 package com.busytrack.openlivetrivia.screen.moderatereports
 
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.databinding.FragmentModerateReportsBinding
 import com.busytrack.openlivetrivia.databinding.LayoutTabModerateReportsBinding
@@ -27,7 +30,7 @@ class ModerateReportsFragment : BaseFragment<FragmentModerateReportsBinding>(),
     @Inject
     lateinit var dialogManager: DialogManager
 
-    private var reportedEntriesTab = ModerateReportsReportedEntriesTab(
+    private var reportedEntriesTab = ModerateReportsTab(
         this,
         object : ModerateReportsTabContract {
             override fun onRefreshTriggered() {
@@ -39,7 +42,7 @@ class ModerateReportsFragment : BaseFragment<FragmentModerateReportsBinding>(),
             }
         }
     )
-    private var bannedEntriesTab = ModerateReportsBannedEntriesTab(
+    private var bannedEntriesTab = ModerateReportsTab(
         this,
         object : ModerateReportsTabContract {
             override fun onRefreshTriggered() {
@@ -125,6 +128,16 @@ class ModerateReportsFragment : BaseFragment<FragmentModerateReportsBinding>(),
     }
 
     override fun registerListeners() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.moderateReportsTabLayout) { v, windowInsets ->
+            val insets = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or
+                        WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = insets.top
+            }
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     override fun unregisterListeners() {

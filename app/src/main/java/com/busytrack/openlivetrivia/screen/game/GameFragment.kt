@@ -6,6 +6,9 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupMenu
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -348,6 +351,19 @@ open class GameFragment : BaseFragment<FragmentGameBinding>(), GameMvp.View, Cor
     }
 
     override fun registerListeners() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
+            val insets = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or
+                        WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+                topMargin = insets.top
+            }
+            WindowInsetsCompat.CONSUMED
+        }
         binding.gameDrawerLayout.addDrawerListener(drawerListener)
         binding.layoutHeaderPlayers.root.setOnClickListener {
             binding.gameDrawerLayout.openDrawer(GravityCompat.START)

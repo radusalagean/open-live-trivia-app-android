@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:fullBackupContent="false">
+        android:fullBackupContent="false"
+        android:resizeableActivity="false">
         <activity android:name=".activity.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"

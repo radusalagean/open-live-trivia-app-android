@@ -1,6 +1,11 @@
 package com.busytrack.openlivetrivia.screen.leaderboard
 
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.databinding.FragmentLeaderboardBinding
@@ -88,6 +93,34 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>(), Leaderbo
     }
 
     override fun registerListeners() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.leaderboardSwipeRefreshLayout) { v, windowInsets ->
+            val insets = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or
+                        WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updateLayoutParams<MarginLayoutParams> {
+                topMargin = insets.top
+            }
+            windowInsets.inset(
+                0,
+                insets.top,
+                0,
+                0
+            )
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.leaderboardRecyclerView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or
+                        WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updatePadding(
+                top = insets.top,
+                bottom = insets.bottom,
+                left = insets.left,
+                right = insets.right
+            )
+            WindowInsetsCompat.CONSUMED
+        }
         binding.leaderboardSwipeRefreshLayout.setOnRefreshListener {
             triggerFullRefresh()
         }
