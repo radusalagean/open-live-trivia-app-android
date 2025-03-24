@@ -34,7 +34,6 @@ class ModerateReportsTab(
     override fun onViewInflated(index: Int, binding: LayoutTabModerateReportsBinding) {
         setBinding(binding)
         binding.apply {
-            recyclerViewModerateEntries.setBackgroundColor(0xFF0000)
             ViewCompat.setOnApplyWindowInsetsListener(recyclerViewModerateEntries) { v, windowInsets ->
                 val insets = windowInsets.getInsets(
                     WindowInsetsCompat.Type.systemBars() or
