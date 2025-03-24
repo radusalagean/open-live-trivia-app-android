@@ -23,6 +23,7 @@
 
     <style name="edit_text" parent="@android:style/Widget.EditText">
         <item name="android:background">@drawable/edit_text_background</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="image_button" parent="@android:style/Widget.ImageButton">
