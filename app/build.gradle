@@ -39,7 +39,7 @@ android {
         buildConfigField("String", "APP_PROJECT_LINK",
                 "\"https://github.com/radusalagean/open-live-trivia-app-android\"")
         buildConfigField("String", "APP_PRIVACY_POLICY_LINK",
-                "\"https://releasetracker.app/open_live_trivia_privacy_policy.html\"")
+                "\"http://policy.openlivetrivia.com\"")
     }
     buildTypes {
         release {
