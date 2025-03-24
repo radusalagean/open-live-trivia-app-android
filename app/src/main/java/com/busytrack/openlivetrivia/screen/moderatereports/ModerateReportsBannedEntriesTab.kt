@@ -22,15 +22,15 @@ class ModerateReportsBannedEntriesTab(
     }
 
     override fun onViewDestroyed(index: Int) {
-        binding.recyclerViewModerateEntries.adapter = null
+        binding?.recyclerViewModerateEntries?.adapter = null
         clearBinding()
     }
 
     override fun setRefreshIndicatorState(refreshing: Boolean) {
-        binding.swipeRefreshModerateEntries.isRefreshing = refreshing
+        binding?.swipeRefreshModerateEntries?.isRefreshing = refreshing
     }
 
     override fun syncState() {
-        binding.swipeRefreshModerateEntries.isRefreshing = refreshing
+        binding?.swipeRefreshModerateEntries?.isRefreshing = refreshing
     }
 }

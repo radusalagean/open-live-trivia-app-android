@@ -22,7 +22,7 @@ class ModerateReportsReportedEntriesTab(
     }
 
     override fun onViewDestroyed(index: Int) {
-        binding.apply {
+        binding?.apply {
             recyclerViewModerateEntries.adapter = null
             recyclerViewModerateEntries.removeItemDecorationAt(0)
         }
@@ -30,10 +30,10 @@ class ModerateReportsReportedEntriesTab(
     }
 
     override fun setRefreshIndicatorState(refreshing: Boolean) {
-        binding.swipeRefreshModerateEntries.isRefreshing = refreshing
+        binding?.swipeRefreshModerateEntries?.isRefreshing = refreshing
     }
 
     override fun syncState() {
-        binding.swipeRefreshModerateEntries.isRefreshing = refreshing
+        binding?.swipeRefreshModerateEntries?.isRefreshing = refreshing
     }
 }

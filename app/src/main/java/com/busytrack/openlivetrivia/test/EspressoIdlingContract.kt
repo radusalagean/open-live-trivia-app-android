@@ -50,7 +50,7 @@ interface EspressoIdlingContract {
         if (current == 0) {
             // The app should be idle now
             resourceCallback?.onTransitionToIdle()
-        } else check(current < 0) {
+        } else check(current >= 0) {
             "blockingEventCounter went below 0"
         }
     }

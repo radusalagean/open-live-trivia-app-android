@@ -13,7 +13,7 @@ abstract class ModerateReportsBaseTab(
 ) : PagerViewListener<LayoutTabModerateReportsBinding> {
 
     private var _binding: LayoutTabModerateReportsBinding? = null
-    protected val binding get() = _binding!!
+    protected val binding get() = _binding
     protected var adapter = ModerateReportsListAdapter(contract = listItemContract)
     var refreshing: Boolean = false
         set(value) {
