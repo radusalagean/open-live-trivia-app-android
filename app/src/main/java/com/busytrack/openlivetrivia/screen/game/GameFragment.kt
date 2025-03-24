@@ -1,19 +1,23 @@
 package com.busytrack.openlivetrivia.screen.game
 
+import TranslateDeferringInsetsAnimationCallback
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.KeyEvent
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupMenu
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.databinding.FragmentGameBinding
@@ -25,6 +29,7 @@ import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
+import com.busytrack.openlivetrivia.generic.view.RootViewDeferringInsetsCallback
 import com.busytrack.openlivetrivia.rights.RightsManager
 import com.busytrack.openlivetrivia.sound.SoundManager
 import com.busytrack.openlivetrivia.vibration.VibrationManager
@@ -32,7 +37,15 @@ import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_LONG
 import com.busytrack.openlivetrivia.view.COIN_ACCELERATE_SHORT
 import com.busytrack.openlivetriviainterface.BuildConfig.COST_EXTRA_ANSWER
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
-import com.busytrack.openlivetriviainterface.socket.model.*
+import com.busytrack.openlivetriviainterface.socket.model.AttemptModel
+import com.busytrack.openlivetriviainterface.socket.model.CoinDiffModel
+import com.busytrack.openlivetriviainterface.socket.model.GameState
+import com.busytrack.openlivetriviainterface.socket.model.GameStateModel
+import com.busytrack.openlivetriviainterface.socket.model.PlayerListModel
+import com.busytrack.openlivetriviainterface.socket.model.PresenceModel
+import com.busytrack.openlivetriviainterface.socket.model.RevealModel
+import com.busytrack.openlivetriviainterface.socket.model.RoundModel
+import com.busytrack.openlivetriviainterface.socket.model.SplitModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
@@ -364,6 +377,31 @@ open class GameFragment : BaseFragment<FragmentGameBinding>(), GameMvp.View, Cor
             }
             WindowInsetsCompat.CONSUMED
         }
+        val deferringInsetsListener = RootViewDeferringInsetsCallback(
+            persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
+            deferredInsetTypes = WindowInsetsCompat.Type.ime()
+        )
+        ViewCompat.setWindowInsetsAnimationCallback(binding.root, deferringInsetsListener)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root, deferringInsetsListener)
+
+        ViewCompat.setWindowInsetsAnimationCallback(
+            binding.linearLayoutAttemptInput,
+            TranslateDeferringInsetsAnimationCallback(
+                view = binding.linearLayoutAttemptInput,
+                persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
+                deferredInsetTypes = WindowInsetsCompat.Type.ime(),
+                dispatchMode = WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE,
+            ),
+        )
+        ViewCompat.setWindowInsetsAnimationCallback(
+            binding.recyclerViewAttempts,
+            TranslateDeferringInsetsAnimationCallback(
+                view = binding.recyclerViewAttempts,
+                persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
+                deferredInsetTypes = WindowInsetsCompat.Type.ime(),
+            ),
+        )
+
         binding.gameDrawerLayout.addDrawerListener(drawerListener)
         binding.layoutHeaderPlayers.root.setOnClickListener {
             binding.gameDrawerLayout.openDrawer(GravityCompat.START)
