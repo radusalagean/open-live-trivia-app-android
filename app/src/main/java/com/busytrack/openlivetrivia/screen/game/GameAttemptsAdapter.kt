@@ -13,6 +13,10 @@ class GameAttemptsAdapter(
     private val authenticatedUserId: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    init {
+        setHasStableIds(true)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return if (viewType == ViewType.ATTEMPT_TYPE_OWN.id) {
@@ -40,6 +44,10 @@ class GameAttemptsAdapter(
             is GameOwnAttemptViewHolder -> holder.recycle()
             is GamePeerAttemptViewHolder -> holder.recycle()
         }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return attempts[position].id
     }
 
     override fun getItemCount() = attempts.size
