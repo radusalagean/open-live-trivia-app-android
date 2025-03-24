@@ -151,14 +151,7 @@ open class AuthenticationFragment : BaseFragment<FragmentAuthenticationBinding>(
     }
 
     override fun onRegisterPressed(username: String) {
-        dialogManager.showAlertDialog(
-            R.string.dialog_title_register_disclaimer,
-            R.string.dialog_message_register_disclaimer,
-            R.string.dialog_positive_register_disclaimer,
-            R.string.dialog_negative_register_disclaimer
-        ) { _, _ ->
-            presenter.register(username)
-        }
+        presenter.register(username)
     }
 
     override fun onUsernameChanged(username: String) {

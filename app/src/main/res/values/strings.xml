@@ -17,10 +17,6 @@
     <string name="dialog_title_incompatible_version">Incompatible version</string>
     <string name="dialog_message_incompatible_version">The current app version is not compatible with the server anymore. Please update to the latest version.</string>
     <string name="message_app_update_available">Warning: Please update the app to the latest version for improved experience</string>
-    <string name="dialog_title_register_disclaimer">Disclaimer</string>
-    <string name="dialog_message_register_disclaimer">This game was built for demonstrative purposes. It is free and open source. The server infrastructure was not built / configured for large scale usage. By registering, you accept the risk of losing any profile information or progress you made in the game, without prior notice.</string>
-    <string name="dialog_positive_register_disclaimer">Sounds good</string>
-    <string name="dialog_negative_register_disclaimer">No, thanks</string>
 
     <!--Main Menu-->
     <string name="play_button">Play</string>

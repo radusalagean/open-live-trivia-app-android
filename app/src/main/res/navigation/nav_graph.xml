@@ -72,7 +72,6 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.busytrack.openlivetrivia.screen.settings.SettingsFragment">
-<!--        TODO Add transitions-->
         <action
             android:id="@+id/action_settingsFragment_to_authenticationFragment"
             app:destination="@id/authenticationFragment"
