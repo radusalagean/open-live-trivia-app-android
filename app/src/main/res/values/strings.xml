@@ -43,7 +43,7 @@
 \t- Every player has 3 free attempts available to submit the correct answer\n
 \t- Additional attempts will cost 1 point\n
 \t- The answers are case insensitive\n
-\t- Every 15 seconds, a new random character is revealed from the answer (defined as a split)\n
+\t- Every 5 seconds, a new random character is revealed from the answer (defined as a split)\n
 \t- Entries range from 10 to 100 points in value (based on their difficulty)\n
 \t- Their value decreases as more characters are revealed\n
 \t- The first player to submit the correct answer wins the prize and the round is over\n
