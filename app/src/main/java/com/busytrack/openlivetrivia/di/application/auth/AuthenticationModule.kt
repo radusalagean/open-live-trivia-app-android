@@ -26,7 +26,7 @@ class AuthenticationModule {
     fun provideGetGoogleIdOption(): GetGoogleIdOption =
         GetGoogleIdOption.Builder()
             .setServerClientId(BuildConfig.FIREBASE_SERVER_CLIENT_ID)
-            .setFilterByAuthorizedAccounts(true)
+            .setFilterByAuthorizedAccounts(false)
             .build()
 
     @Provides
