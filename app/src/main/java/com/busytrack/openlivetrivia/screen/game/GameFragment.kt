@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupMenu
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnLayout
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,6 +52,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
+import kotlin.math.roundToInt
 
 open class GameFragment : BaseFragment<FragmentGameBinding>(), GameMvp.View, CoroutineScope, GameAttemptContract,
     PopupMenu.OnMenuItemClickListener, GamePlayerContract
@@ -402,6 +405,10 @@ open class GameFragment : BaseFragment<FragmentGameBinding>(), GameMvp.View, Cor
             ),
         )
 
+        binding.gameContentRootLayout.doOnLayout {
+            constrainClueTextHeight()
+        }
+
         binding.gameDrawerLayout.addDrawerListener(drawerListener)
         binding.layoutHeaderPlayers.root.setOnClickListener {
             binding.gameDrawerLayout.openDrawer(GravityCompat.START)
@@ -506,6 +513,13 @@ open class GameFragment : BaseFragment<FragmentGameBinding>(), GameMvp.View, Cor
     private fun refreshPlayerListIfOpen() {
         if (binding.gameDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             presenter.requestPlayerList()
+        }
+    }
+
+    private fun constrainClueTextHeight() {
+        val parentHeight = binding.gameContentRootLayout.height
+        binding.layoutBaseEntry.scrollViewClue.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            this.matchConstraintMaxHeight = (parentHeight * 0.15f).roundToInt()
         }
     }
 }

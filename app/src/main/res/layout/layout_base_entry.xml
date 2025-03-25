@@ -68,22 +68,32 @@
         android:contentDescription="@string/game_entry_menu_report_entry"
         android:background="?selectableItemBackgroundBorderless"/>
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_view_clue"
-        app:layout_constraintTop_toBottomOf="@id/text_view_clue_category"
+        android:id="@+id/scroll_view_clue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-        android:layout_marginTop="12dp"/>
+        app:layout_constraintTop_toBottomOf="@id/text_view_clue_category"
+        android:layout_marginTop="12dp"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="20dp"
+        android:fadeScrollbars="false">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view_clue"
+            tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+
+    </ScrollView>
 
     <com.busytrack.openlivetrivia.view.AnswerTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view_answer"
         fontPath="fonts/CutiveMono-Regular.ttf"
-        app:layout_constraintTop_toBottomOf="@id/text_view_clue"
+        app:layout_constraintTop_toBottomOf="@id/scroll_view_clue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/timed_progress_bar_remaining_time"

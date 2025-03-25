@@ -32,9 +32,9 @@
             android:paddingEnd="@dimen/screen_horizontal_padding"
             android:keepScreenOn="true"
             android:clipToPadding="false"
+            android:clipChildren="false"
             tools:ignore="MissingPrefix"
             android:visibility="gone"
-            android:clipChildren="false"
             tools:visibility="visible">
 
             <!--Players Header-->
@@ -115,7 +115,19 @@
                 app:layout_constraintBottom_toTopOf="@id/linear_layout_attempt_input"
                 android:layout_marginBottom="8dp"
                 android:overScrollMode="never"
+                android:clipToPadding="true"
+                android:paddingBottom="1dp"
                 tools:listitem="@layout/item_attempt_peer"/>
+
+            <!--Background mask-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/card_view_clue"
+                android:background="?android:attr/windowBackground"/>
 
             <!--Scroll to Bottom Button-->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
