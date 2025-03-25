@@ -8,5 +8,5 @@ data class AttemptModel(
     @SerializedName("username") val username: String,
     @SerializedName("message") val message: String,
     @SerializedName("correct") val correct: Boolean,
-    @SerializedName("correctAnswer") val correctAnswer: String
+    @SerializedName("correctAnswer") val correctAnswer: String?
 )

@@ -175,11 +175,12 @@ class SocketHubTest {
                 players = 1,
                 attempts = listOf(
                     AttemptModel(
+                        id = 1,
                         userId = "5d1f2052a93b8d38b87750d3",
                         username = "Radu",
                         message = "test attempt",
                         correct = false,
-                        correctAnswer = ""
+                        correctAnswer = null
                     )
                 )
             )
@@ -220,11 +221,12 @@ class SocketHubTest {
         // Is the callback reached?
         verify(socketEventListener).onPeerAttempt(
             AttemptModel(
+                id = 1,
                 userId = "5d1f2052a93b8d38b87750d3",
                 username = "Radu",
                 message = "test attempt",
                 correct = false,
-                correctAnswer = ""
+                correctAnswer = null
             )
         )
     }
