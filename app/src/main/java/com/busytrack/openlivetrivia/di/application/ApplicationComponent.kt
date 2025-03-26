@@ -4,6 +4,7 @@ import com.busytrack.openlivetrivia.di.activity.ActivityComponent
 import com.busytrack.openlivetrivia.di.activity.ActivityModule
 import com.busytrack.openlivetrivia.di.application.auth.AuthenticationModule
 import com.busytrack.openlivetrivia.di.application.auth.AuthorizationModule
+import com.busytrack.openlivetrivia.di.application.eventbus.EventBusModule
 import com.busytrack.openlivetrivia.di.application.network.NetworkModule
 import com.busytrack.openlivetrivia.di.application.network.OpenLiveTriviaApiModule
 import com.busytrack.openlivetrivia.di.application.persistence.PersistenceModule
@@ -22,7 +23,8 @@ import dagger.Component
     SocketModule::class,
     NetworkModule::class,
     PersistenceModule::class,
-    SchedulerModule::class
+    SchedulerModule::class,
+    EventBusModule::class
 ])
 interface ApplicationComponent {
     fun newActivityComponent(activityModule: ActivityModule): ActivityComponent

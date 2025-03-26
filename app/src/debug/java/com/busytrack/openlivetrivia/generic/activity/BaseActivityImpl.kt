@@ -3,6 +3,7 @@ package com.busytrack.openlivetrivia.generic.activity
 import android.os.Bundle
 import com.busytrack.openlivetrivia.R
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
+import com.busytrack.openlivetrivia.generic.eventbus.EventBus
 import com.busytrack.openlivetrivia.infobar.InfoBarManager
 import org.mockito.Mockito.mock
 
@@ -19,6 +20,8 @@ class BaseActivityImpl : BaseActivity() {
         mock(AuthenticationManager::class.java)
     override var infoBarManager: InfoBarManager =
         mock(InfoBarManager::class.java)
+    override var eventBus: EventBus =
+        mock(EventBus::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

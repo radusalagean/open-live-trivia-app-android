@@ -101,7 +101,7 @@ class MainMenuFragment : BaseFragment<FragmentMainMenuBinding>(), MainMenuMvp.Vi
                 showSettingsScreen()
             }
             buttonLogOut.setOnClickListener {
-                authenticationManager.signOut()
+                authenticationManager.signOut(activityContract = activityContract)
                 showAuthenticationScreen()
             }
             privacyPolicyLink.setOnClickListener {

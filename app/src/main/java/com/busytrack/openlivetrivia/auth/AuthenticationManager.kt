@@ -22,10 +22,8 @@ import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 class AuthenticationManager(
-    private val activityContext: Context,
     private val sharedPreferencesRepository: SharedPreferencesRepository,
     val firebaseAuth: FirebaseAuth,
-    private val activityContract: ActivityContract,
     private val googleIdOption: GetGoogleIdOption,
     private val credentialManager: CredentialManager
 ) : CoroutineScope {
@@ -36,6 +34,8 @@ class AuthenticationManager(
         get() = job + Dispatchers.Main
 
     fun signIn(
+        activityContext: Context,
+        activityContract: ActivityContract,
         onError: (message: String) -> Unit
     ) {
         val request = GetCredentialRequest.Builder()
@@ -43,14 +43,13 @@ class AuthenticationManager(
             .build()
         launch {
             try {
-                // Launch Credential Manager UI
                 val result = credentialManager.getCredential(
                     context = activityContext,
                     request = request
                 )
 
-                // Extract credential from the result returned by Credential Manager
-                handleSignIn(result.credential)
+                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(result.credential.data)
+                activityContract.firebaseAuthWithGoogle(googleIdTokenCredential.idToken)
             } catch (e: GetCredentialException) {
                 var message = e.localizedMessage
                 if (e is NoCredentialException) {
@@ -61,18 +60,10 @@ class AuthenticationManager(
         }
     }
 
-    private fun handleSignIn(credential: Credential) {
-        // Create Google ID Token
-        val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-
-        // Sign in to Firebase with using the token
-        activityContract.firebaseAuthWithGoogle(googleIdTokenCredential.idToken)
-    }
-
     /**
      * [silent] don't show log out message
      */
-    fun signOut(silent: Boolean = false) {
+    fun signOut(silent: Boolean = false, activityContract: ActivityContract? = null) {
         firebaseAuth.signOut()
         launch {
             try {
@@ -83,7 +74,7 @@ class AuthenticationManager(
             }
         }
         sharedPreferencesRepository.clearAuthenticatedAccount()
-        if (!silent) activityContract.showLogOutMessage()
+        if (!silent) activityContract?.showLogOutMessage()
     }
 
     fun setAuthenticatedUser(userModel: UserModel) {

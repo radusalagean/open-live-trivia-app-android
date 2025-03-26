@@ -1,5 +1,6 @@
 package com.busytrack.openlivetrivia.screen.authentication
 
+import android.content.Context
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetriviainterface.rest.model.OutgoingRegisterModel
 import com.busytrack.openlivetriviainterface.rest.model.SystemInfoModel
@@ -24,7 +25,7 @@ interface AuthenticationMvp {
 
     interface Presenter : BaseMvp.Presenter<View> {
         fun checkServerCompatibility()
-        fun firebaseLogIn()
+        fun firebaseLogIn(activityContext: Context)
         fun firebaseLogOut()
         fun login()
         fun register(username: String)

@@ -1,6 +1,7 @@
 package com.busytrack.openlivetrivia.di.application.network
 
 import com.busytrack.openlivetrivia.generic.scheduler.BaseSchedulerProvider
+import com.busytrack.openlivetrivia.network.authenticator.OpenLiveTriviaAuthenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -22,7 +23,8 @@ interface ApiModuleContract<T> {
     fun provideClient(
         loggingInterceptor: Interceptor?,
         stethoInterceptor: Interceptor?,
-        headerInterceptor: Interceptor
+        headerInterceptor: Interceptor,
+        openLiveTriviaAuthenticator: OpenLiveTriviaAuthenticator
     ): OkHttpClient
 
     /**

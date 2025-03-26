@@ -1,7 +1,7 @@
 package com.busytrack.openlivetrivia.network.interceptor
 
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
-import com.busytrack.openlivetrivia.network.HEADER_KEY_AUTHORIZATION
+import com.google.common.net.HttpHeaders.AUTHORIZATION
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -12,7 +12,7 @@ class HeaderInterceptor(private val authorizationManager: AuthorizationManager) 
                 authorizationManager.getIdToken()?.let { idToken ->
                     //Timber.w("idToken: $idToken")
                     // Add the Firebase IdToken to all REST requests
-                    addHeader(HEADER_KEY_AUTHORIZATION, idToken)
+                    addHeader(AUTHORIZATION, idToken)
                 }
             }
         }.build())

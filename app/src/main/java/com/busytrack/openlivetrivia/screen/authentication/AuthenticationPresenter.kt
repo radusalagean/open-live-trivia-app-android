@@ -1,5 +1,6 @@
 package com.busytrack.openlivetrivia.screen.authentication
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import com.busytrack.openlivetrivia.BuildConfig
 import com.busytrack.openlivetrivia.R
@@ -64,8 +65,10 @@ class AuthenticationPresenter(
             }))
     }
 
-    override fun firebaseLogIn() {
+    override fun firebaseLogIn(activityContext: Context) {
         authenticationManager.signIn(
+            activityContext = activityContext,
+            activityContract = activityContract,
             onError = { message ->
                 activityContract.showErrorMessage(R.string.general_error_message, message)
                 refreshing = false
@@ -75,7 +78,7 @@ class AuthenticationPresenter(
     }
 
     override fun firebaseLogOut() {
-        authenticationManager.signOut(true)
+        authenticationManager.signOut(silent = true)
     }
 
     override fun login() {

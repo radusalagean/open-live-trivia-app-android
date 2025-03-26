@@ -10,6 +10,7 @@ import com.busytrack.openlivetrivia.application.OpenLiveTriviaApp
 import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.di.activity.ActivityComponent
 import com.busytrack.openlivetrivia.di.activity.ActivityModule
+import com.busytrack.openlivetrivia.generic.eventbus.EventBus
 import com.busytrack.openlivetrivia.generic.fragment.BaseFragment
 import com.busytrack.openlivetrivia.infobar.*
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -22,6 +23,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityContract, InfoBarCont
 
     abstract var authenticationManager: AuthenticationManager
     abstract var infoBarManager: InfoBarManager
+    abstract var eventBus: EventBus
 
     // Dagger2 Activity Component lazy initialization
     val activityComponent: ActivityComponent by lazy {

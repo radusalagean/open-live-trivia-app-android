@@ -26,7 +26,7 @@ class SettingsPresenter(
             .observeOn(schedulerProvider.main())
             .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
                 override fun onNext(t: MessageModel) {
-                    authenticationManager.signOut()
+                    authenticationManager.signOut(activityContract = activityContract)
                     activityContract.showInfoMessage(R.string.message_account_deleted)
                     view?.showAuthenticationScreen()
                 }

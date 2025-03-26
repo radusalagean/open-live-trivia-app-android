@@ -1,7 +1,6 @@
 package com.busytrack.openlivetrivia.di.activity
 
 import com.busytrack.openlivetrivia.activity.MainActivity
-import com.busytrack.openlivetrivia.di.activity.auth.AuthenticationModule
 import com.busytrack.openlivetrivia.di.activity.dialog.DialogModule
 import com.busytrack.openlivetrivia.di.activity.infobar.InfoBarModule
 import com.busytrack.openlivetrivia.di.activity.mvp.MvpModule
@@ -20,7 +19,6 @@ import dagger.Subcomponent
 @ActivityScope
 @Subcomponent(modules = [
     ActivityModule::class,
-    AuthenticationModule::class,
     MvpModule::class,
     DialogModule::class,
     RightsModule::class,

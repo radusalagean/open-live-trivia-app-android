@@ -12,7 +12,11 @@ class AuthorizationManager(
     /**
      * Synchronous call!
      */
-    fun getIdToken(): String? = firebaseAuth.currentUser?.let {
-        Tasks.await(it.getIdToken(false))?.token
+    fun getIdToken(forceRefresh: Boolean = false): String? = try {
+        firebaseAuth.currentUser?.let {
+            Tasks.await(it.getIdToken(forceRefresh))?.token
+        }
+    } catch (e: Exception) {
+        null
     }
 }

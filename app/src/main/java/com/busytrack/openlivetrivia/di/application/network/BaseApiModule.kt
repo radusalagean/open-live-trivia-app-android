@@ -1,12 +1,15 @@
 package com.busytrack.openlivetrivia.di.application.network
 
 import com.busytrack.openlivetrivia.BuildConfig
+import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.auth.AuthorizationManager
 import com.busytrack.openlivetrivia.di.application.ApplicationScope
+import com.busytrack.openlivetrivia.generic.eventbus.EventBus
 import com.busytrack.openlivetrivia.network.NAMED_HEADER_INTERCEPTOR
 import com.busytrack.openlivetrivia.network.NAMED_LOGGING_INTERCEPTOR
 import com.busytrack.openlivetrivia.network.NAMED_STETHO_INTERCEPTOR
 import com.busytrack.openlivetrivia.network.OKHTTP_TAG
+import com.busytrack.openlivetrivia.network.authenticator.OpenLiveTriviaAuthenticator
 import com.busytrack.openlivetrivia.network.interceptor.HeaderInterceptor
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
@@ -42,4 +45,16 @@ class BaseApiModule {
     @ApplicationScope
     fun provideHeaderInterceptor(authorizationManager: AuthorizationManager): Interceptor =
         HeaderInterceptor(authorizationManager)
+
+    @Provides
+    @ApplicationScope
+    fun provideOpenLiveTriviaAuthenticator(
+        authenticationManager: AuthenticationManager,
+        authorizationManager: AuthorizationManager,
+        eventBus: EventBus
+    ) = OpenLiveTriviaAuthenticator(
+        authenticationManager = authenticationManager,
+        authorizationManager = authorizationManager,
+        eventBus = eventBus
+    )
 }

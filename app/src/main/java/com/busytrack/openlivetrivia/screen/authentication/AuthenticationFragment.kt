@@ -142,7 +142,7 @@ open class AuthenticationFragment : BaseFragment<FragmentAuthenticationBinding>(
             presenter.login()
         } else {
             // Open the account selection dialog
-            presenter.firebaseLogIn()
+            presenter.firebaseLogIn(requireContext())
         }
     }
 
