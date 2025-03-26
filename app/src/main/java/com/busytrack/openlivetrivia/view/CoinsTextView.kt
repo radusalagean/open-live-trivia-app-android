@@ -34,30 +34,20 @@ class CoinsTextView(
     }
 
     fun computeDiff(diff: Double, millis: Long) {
-        assertCoinsInitialized()
-        coins!!.let {
-            coins = it.plus(diff)
-            animateDiff(it, coins!!, millis)
-        }
+        val initialCoins = coins ?: return
+        coins = initialCoins.plus(diff)
+        animateDiff(initialCoins, coins!!, millis)
     }
 
     fun updateValue(newValue: Double, millis: Long) {
         //Timber.w("updateValue($newValue, $millis)")
-        assertCoinsInitialized()
-        coins!!.let {
-            coins = newValue
-            animateDiff(it, newValue, millis)
-        }
+        val initialCoins = coins ?: return
+        coins = newValue
+        animateDiff(initialCoins, newValue, millis)
     }
 
     fun drain() {
         updateValue(0.0, COIN_ACCELERATE_LONG)
-    }
-
-    private fun assertCoinsInitialized() {
-        checkNotNull(coins) {
-            "Unable to compute diff of uninitialized base value. Assign 'coins' with a value first"
-        }
     }
 
     private fun animateDiff(oldValue: Double, newValue: Double, millis: Long) {
