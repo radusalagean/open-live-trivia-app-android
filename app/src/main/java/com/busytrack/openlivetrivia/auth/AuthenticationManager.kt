@@ -7,6 +7,7 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.ClearCredentialException
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import com.busytrack.openlivetrivia.generic.activity.ActivityContract
 import com.busytrack.openlivetrivia.persistence.sharedprefs.SharedPreferencesRepository
 import com.busytrack.openlivetriviainterface.rest.model.UserModel
@@ -51,7 +52,11 @@ class AuthenticationManager(
                 // Extract credential from the result returned by Credential Manager
                 handleSignIn(result.credential)
             } catch (e: GetCredentialException) {
-                onError("Couldn't retrieve user's credentials: ${e.localizedMessage}")
+                var message = e.localizedMessage
+                if (e is NoCredentialException) {
+                    message = "Please make sure you are signed into your device with a Google account first."
+                }
+                onError("Couldn't retrieve user's credentials: $message")
             }
         }
     }
