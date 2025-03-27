@@ -6,13 +6,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.preference.Preference
+import androidx.preference.PreferenceGroup
 import androidx.viewbinding.ViewBinding
 import com.busytrack.openlivetrivia.R
+import com.busytrack.openlivetrivia.auth.AuthenticationManager
 import com.busytrack.openlivetrivia.databinding.FragmentBaseTestBinding
 import com.busytrack.openlivetrivia.dialog.DialogManager
 import com.busytrack.openlivetrivia.generic.activity.BaseActivity
 import com.busytrack.openlivetrivia.generic.mvp.BaseMvp
 import com.busytrack.openlivetrivia.generic.settings.PreferenceFragmentCompat
+import com.busytrack.openlivetriviainterface.socket.model.UserRightsLevel
 import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsMvp.View {
@@ -23,6 +26,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsMvp.View {
     @Inject
     lateinit var dialogManager: DialogManager
 
+    @Inject
+    lateinit var authenticationManager: AuthenticationManager
+
+
     // BaseFragment implementation
 
     override fun inflateLayout(container: ViewGroup?): ViewBinding {
@@ -30,7 +37,17 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsMvp.View {
     }
 
     override fun initViews() {
-
+        findPreference<PreferenceGroup>(getString(R.string.pref_category_key_danger_zone))?.let { prefGroup ->
+            prefGroup.findPreference<Preference>(
+                getString(R.string.pref_key_disconnect_everyone)
+            )?.let { pref ->
+                authenticationManager.getAuthenticatedUser()?.takeUnless { user ->
+                    user.rights == UserRightsLevel.ADMIN
+                }?.let {
+                    prefGroup.removePreference(pref)
+                }
+            }
+        }
     }
 
     override fun disposeViews() {
@@ -82,15 +99,27 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsMvp.View {
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        if (preference?.key == getString(R.string.pref_key_delete_account)) {
-            dialogManager.showAlertDialog(
-                titleResId = R.string.dialog_delete_account_title,
-                messageResId = R.string.dialog_delete_account_message,
-                positiveButtonClickListener = { _, _ ->
-                    presenter.deleteAccount()
-                }
-            )
-            return true
+        when (preference?.key) {
+            getString(R.string.pref_key_delete_account) -> {
+                dialogManager.showAlertDialog(
+                    titleResId = R.string.dialog_delete_account_title,
+                    messageResId = R.string.dialog_delete_account_message,
+                    positiveButtonClickListener = { _, _ ->
+                        presenter.deleteAccount()
+                    }
+                )
+                return true
+            }
+            getString(R.string.pref_key_disconnect_everyone) -> {
+                dialogManager.showAlertDialog(
+                    titleResId = R.string.dialog_disconnect_everyone_title,
+                    messageResId = R.string.dialog_disconnect_everyone_message,
+                    positiveButtonClickListener = { _, _ ->
+                        presenter.disconnectEveryone()
+                    }
+                )
+                return true
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }

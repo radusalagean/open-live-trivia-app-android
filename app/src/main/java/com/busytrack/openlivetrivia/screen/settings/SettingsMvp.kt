@@ -8,6 +8,7 @@ interface SettingsMvp {
 
     interface Model : BaseMvp.Model<SettingsViewModel> {
         fun deleteAccount(): Observable<MessageModel>
+        fun disconnectEveryone(): Observable<MessageModel>
     }
 
     interface View : BaseMvp.View {
@@ -16,5 +17,6 @@ interface SettingsMvp {
 
     interface Presenter : BaseMvp.Presenter<View> {
         fun deleteAccount()
+        fun disconnectEveryone()
     }
 }

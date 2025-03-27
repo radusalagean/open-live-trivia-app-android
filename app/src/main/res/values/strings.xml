@@ -112,14 +112,22 @@ Hint: you can disable this dialog in the Settings screen</string>
     <string name="pref_screen_winning_vibration">Winning vibration</string>
     <string name="pref_screen_category_danger_zone">Danger zone</string>
     <string name="pref_screen_delete_account">Delete account</string>
+    <string name="pref_screen_disconnect_everyone">Disconnect everyone</string>
 
     <!--Preference - Delete Account-->
     <string name="dialog_delete_account_title">WARNING</string>
     <string name="dialog_delete_account_message">This action is permanent, you will lose your account data, including your earned points and the username you are now using will be made available for registration to anyone. Continue?</string>
     <string name="message_account_deleted">Account deleted</string>
 
+    <!--Preference - Disconnect Everyone-->
+    <string name="dialog_disconnect_everyone_title">Are you sure</string>
+    <string name="dialog_disconnect_everyone_message">All currently playing users will be disconnected from the game. Continue?</string>
+    <string name="message_disconnect_everyone_success">Success: %s</string>
+
     <!--Preference keys-->
+    <string name="pref_category_key_danger_zone" translatable="false">pref_category_danger_zone</string>
     <string name="pref_key_delete_account" translatable="false">pref_delete_account</string>
+    <string name="pref_key_disconnect_everyone" translatable="false">pref_disconnect_everyone</string>
 
     <!--Privacy Policy-->
     <string name="privacy_policy"><u>Privacy Policy</u></string>

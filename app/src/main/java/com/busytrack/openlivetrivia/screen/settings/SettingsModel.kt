@@ -11,4 +11,7 @@ class SettingsModel(
 
     override fun deleteAccount(): Observable<MessageModel> =
         networkRepository.deleteUser()
+
+    override fun disconnectEveryone(): Observable<MessageModel> =
+        networkRepository.disconnectEveryone()
 }

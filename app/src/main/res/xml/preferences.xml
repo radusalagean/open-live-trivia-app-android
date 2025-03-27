@@ -27,8 +27,11 @@
             android:title="@string/pref_screen_winning_vibration"
             android:defaultValue="true"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_screen_category_danger_zone">
+    <PreferenceCategory android:title="@string/pref_screen_category_danger_zone"
+        android:key="@string/pref_category_key_danger_zone">
         <Preference android:key="@string/pref_key_delete_account"
             android:title="@string/pref_screen_delete_account"/>
+        <Preference android:key="@string/pref_key_disconnect_everyone"
+            android:title="@string/pref_screen_disconnect_everyone"/>
     </PreferenceCategory>
 </PreferenceScreen>

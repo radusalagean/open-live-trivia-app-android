@@ -38,6 +38,21 @@ class SettingsPresenter(
             }))
     }
 
+    override fun disconnectEveryone() {
+        disposer.add(model.disconnectEveryone()
+            .observeOn(schedulerProvider.main())
+            .subscribeWith(object : ReactiveObserver<MessageModel>(this) {
+                override fun onNext(t: MessageModel) {
+                    activityContract.showInfoMessage(R.string.message_disconnect_everyone_success, t.message)
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    activityContract.showErrorMessage(R.string.general_error_message, e.message)
+                }
+            }))
+    }
+
     // EspressoGlobalIdlingResource implementation
 
     override var idlingResourceInitialized: Boolean = true
