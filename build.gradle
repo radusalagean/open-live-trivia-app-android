@@ -32,8 +32,8 @@ ext {
     compileSdk = 35
 
     // App versioning
-    versionCode = 2 // TODO Update
-    versionName = '1.0.1' // TODO Update
+    versionCode = 3
+    versionName = '1.1.0'
 
     // App dependencies
     appCompatVersion = '1.7.0'
