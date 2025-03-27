@@ -15,9 +15,9 @@ android {
         minSdk rootProject.ext.minSdk
         targetSdk rootProject.ext.targetSdk
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "SOCKET_IO_PATH", "\"/open-live-trivia-api/socket.io\"")
-        buildConfigField("String", "API_PATH", "\"/open-live-trivia-api/v1/\"")
-        buildConfigField("String", "PUBLIC_FOLDER_PATH", "\"/open-live-trivia-api-static\"")
+        buildConfigField("String", "SOCKET_IO_PATH", "\"/api/socket.io\"")
+        buildConfigField("String", "API_PATH", "\"/api/v1/\"")
+        buildConfigField("String", "PUBLIC_FOLDER_PATH", "\"/public\"")
         buildConfigField("String", "USER_THUMBNAILS_PATH", "\"/user-thumbnails/\"")
         buildConfigField("String", "USER_THUMBNAILS_EXTENSION", "\".png\"")
         buildConfigField("double", "COST_EXTRA_ANSWER", "1.0")
